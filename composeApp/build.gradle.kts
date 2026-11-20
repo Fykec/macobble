@@ -1,4 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import java.io.File
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -65,6 +67,37 @@ kotlin {
     }
     tasks.named("podInstall") {
         finalizedBy("fixXcodeProject")
+    }
+
+    // macOS doesn't use the Firebase pods at all (they're stubbed via :macos-stubs), so no pod
+    // install is run for macOS and the pod cinterops compile empty klibs from a dummy def.
+    afterEvaluate {
+        tasks.matching {
+            (it.name == "podInstallSyntheticMacos" || it.name == "podGenMacos" ||
+                it.name.startsWith("podBuild") || it.name.startsWith("podSetupBuild")) && it.name.contains("Macos")
+        }.configureEach {
+            enabled = false
+        }
+        val prepareSettings = tasks.register("prepareMacosCinteropSettings") {
+            doLast {
+                val dir = layout.buildDirectory.dir("cocoapods/buildSettings").get().asFile
+                dir.mkdirs()
+                listOf("FirebaseCore", "GoogleSignIn").forEach { pod ->
+                    File(dir, "build-settings-macos-$pod.properties").writeText(
+                        "BUILD_DIR=/tmp\nCONFIGURATION=Release\nCONFIGURATION_BUILD_DIR=/tmp\nPODS_TARGET_SRCROOT=/tmp\n"
+                    )
+                }
+            }
+        }
+        tasks.matching { it.name.startsWith("cinterop") && it.name.contains("Macos") }.configureEach {
+            dependsOn(prepareSettings)
+        }
+        val dummyDef = layout.projectDirectory.file("src/macosMain/cinterop/dummy.def")
+        listOf("cinteropFirebaseCoreMacosArm64", "cinteropGoogleSignInMacosArm64").forEach { name ->
+            tasks.named<org.jetbrains.kotlin.gradle.tasks.CInteropProcess>(name) {
+                definitionFile.set(dummyDef)
+            }
+        }
     }
 
     cocoapods {
@@ -154,8 +187,22 @@ kotlin {
             }
         }
     }
+
+    macosArm64()
     
     sourceSets {
+        applyDefaultHierarchyTemplate()
+
+        // Code that depends on :experimental (ring). Android and iOS include it; macOS doesn't.
+        val ringMain = create("ringMain") {
+            dependsOn(commonMain.get())
+            dependencies {
+                implementation(project(":experimental"))
+            }
+        }
+        (androidMain.get() as KotlinSourceSet).dependsOn(ringMain)
+        (iosMain.get() as KotlinSourceSet).dependsOn(ringMain)
+
         all {
             languageSettings {
                 optIn("kotlin.uuid.ExperimentalUuidApi")
@@ -189,6 +236,9 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
             implementation(libs.crashkios)
+        }
+        macosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -228,7 +278,6 @@ kotlin {
             implementation(libs.coroutines)
             implementation(project(":pebble"))
             implementation(project(":util"))
-            implementation(project(":experimental"))
             implementation(libs.kmpnotifier)
             implementation(libs.kmpio)
             implementation(project(":libpebble3"))

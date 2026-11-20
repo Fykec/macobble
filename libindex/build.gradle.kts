@@ -50,6 +50,8 @@ kotlin {
 // https://developer.android.com/kotlin/multiplatform/migrate
     val xcfName = "coreapp-libindex"
 
+    macosArm64()
+
     iosArm64 {
         binaries.framework {
             baseName = xcfName
@@ -123,6 +125,10 @@ kotlin {
                 implementation(libs.ktor.client.darwin)
             }
         }
+
+        macosMain.dependencies {
+            implementation(project(":macos-stubs"))
+        }
     }
 
 }
@@ -131,4 +137,5 @@ dependencies {
     add("kspAndroid", libs.room.compiler)
     add("kspIosArm64", libs.room.compiler)
     add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspMacosArm64", libs.room.compiler)
 }

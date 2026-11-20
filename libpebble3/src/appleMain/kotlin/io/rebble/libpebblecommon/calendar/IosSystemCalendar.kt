@@ -40,8 +40,9 @@ import platform.EventKit.EKParticipantStatus.EKParticipantStatusTentative
 import platform.Foundation.NSError
 import platform.Foundation.NSNotificationCenter
 import platform.Foundation.NSOperationQueue
-import platform.UIKit.UIDevice
 import kotlin.time.Instant
+
+internal expect fun EKEventStore.requestEventsAccess(completion: (Boolean, NSError?) -> Unit)
 
 class IosSystemCalendar(
     private val libPebbleCoroutineScope: LibPebbleCoroutineScope,
@@ -61,17 +62,11 @@ class IosSystemCalendar(
                 _eventStore = es
                 deferred.complete(es)
             } else {
-                logger.e { "error getting ios calendar access: $error" }
+                logger.e { "error getting calendar access: $error" }
                 deferred.complete(null)
             }
         }
-        val majorVersion =
-            UIDevice.currentDevice.systemVersion.split(".").firstOrNull()?.toIntOrNull() ?: 0
-        if (majorVersion >= 17) {
-            es.requestFullAccessToEventsWithCompletion(completionHandler)
-        } else {
-            es.requestAccessToEntityType(EKEntityType.EKEntityTypeEvent, completionHandler)
-        }
+        es.requestEventsAccess(completionHandler)
         return deferred.await()
     }
 

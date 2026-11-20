@@ -7,6 +7,7 @@ if (file("local.properties").exists()) {
 
 pluginManagement {
     repositories {
+        maven { url = uri("https://maven.aliyun.com/repository/public") }
         google()
         mavenCentral()
         gradlePluginPortal()
@@ -19,9 +20,11 @@ dependencyResolutionManagement {
         if (properties.getProperty("USE_MAVEN_LOCAL") == "true") {
             mavenLocal()
         }
-        google()
-        mavenCentral()
         maven(url = "https://jitpack.io")
+        mavenCentral()
+        google()
+        maven { url = uri("https://maven.aliyun.com/repository/public") }
+        maven { url = uri("https://maven.aliyun.com/repository/google") }
         mavenLocal()
     }
 }
@@ -45,3 +48,4 @@ include(":cactus-native")
 include(":libindex")
 include(":experimental")
 include(":krisp-stubs")
+include(":macos-stubs")

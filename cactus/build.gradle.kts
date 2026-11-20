@@ -30,6 +30,8 @@ kotlin {
 
     val iosLibDir = project.file("src/commonMain/resources/ios/lib")
 
+    macosArm64()
+
     listOf(iosArm64(), iosSimulatorArm64()).forEach { target ->
         val libSubdir = when (target.name) {
             "iosArm64" -> "ios-arm64"

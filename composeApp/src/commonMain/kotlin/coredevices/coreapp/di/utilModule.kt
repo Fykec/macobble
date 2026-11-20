@@ -12,10 +12,7 @@ import coredevices.api.EngDashOtaApi
 import coredevices.api.EngDashOtaApiImpl
 import coredevices.api.WisprFlowAuth
 import coredevices.coreapp.CommonAppDelegate
-import coredevices.coreapp.plugins.AppstorePluginStore
-import coredevices.pebble.config.ConfigPageClosedListener
-import coredevices.ring.agent.builtin_servlets.bugreport.BugReporter
-import coredevices.ring.agent.integrations.providers.DefaultDestinationPrompter
+import coredevices.coreapp.ringAppLifecycle
 import coredevices.pebble.health.HealthSyncTracker
 import coredevices.pebble.health.PlatformHealthSync
 import coredevices.coreapp.push.PushMessaging
@@ -29,7 +26,6 @@ import coredevices.database.SyncTaskDao
 import coredevices.database.getCoreRoomDatabase
 import coredevices.firestore.UsersDao
 import coredevices.firestore.UsersDaoImpl
-import coredevices.ring.agent.pebble_plugin.PluginStore
 import coredevices.util.AppResumed
 import coredevices.util.CoreConfig
 import coredevices.util.CoreConfigFlow
@@ -76,8 +72,8 @@ val utilModule = module {
 
     singleOf(::FileLogWriter)
     singleOf(::BugReportProcessor)
-    single { BugReporter(get<BugReportProcessor>()::newVoiceBugReport) }
     singleOf(::NextBugReportContext)
+    single { ringAppLifecycle() }
     singleOf(::CommonAppDelegate) bind CoreBackgroundSync::class
     singleOf(::PushMessaging)
     singleOf(::CoreDeepLinkHandler)
@@ -105,8 +101,6 @@ val utilModule = module {
     single { CoreConfigFlow(get<CoreConfigHolder>().config) }
     single { ModelManager(get(), get(), getOrNull()) }
     singleOf(::OAuthRedirectHandler)
-    singleOf(::AppstorePluginStore) bind PluginStore::class
-    single { ConfigPageClosedListener(get<DefaultDestinationPrompter>()::configPageClosed) }
     singleOf(::WisprFlowAuth)
     single {
         CactusTranscriptionService(

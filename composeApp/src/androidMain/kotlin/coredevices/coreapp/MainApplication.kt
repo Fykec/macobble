@@ -38,6 +38,7 @@ import coredevices.analytics.CoreAnalytics
 import coredevices.coreapp.di.androidDefaultModule
 import coredevices.coreapp.di.apiModule
 import coredevices.coreapp.di.utilModule
+import coredevices.coreapp.di.utilRingModule
 import coredevices.coreapp.util.FileLogWriter
 import coredevices.coreapp.util.initLogging
 import coredevices.coreapp.util.registerBluetoothPairingDebugLogger
@@ -95,6 +96,7 @@ class MainApplication : Application(), SingletonImageLoader.Factory, Configurati
                 experimentalModule,
                 apiModule,
                 utilModule,
+                utilRingModule,
                 watchModule,
             )
         }

@@ -19,21 +19,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
 import co.touchlab.kermit.Logger
-import coredevices.ring.ui.navigation.RingRoute
 import coredevices.coreapp.ui.SpeechModelDownloadDialog
 import coredevices.coreapp.ui.screens.BugReportScreen
 import coredevices.coreapp.ui.screens.BugReportsListScreen
 import coredevices.coreapp.ui.screens.OnboardingScreen
-import coredevices.coreapp.ui.screens.ringonboarding.RingOnboardingScreen
 import coredevices.coreapp.ui.screens.ViewBugReportScreen
 import coredevices.coreapp.ui.screens.WatchOnboardingScreen
 import coredevices.pebble.PebbleDeepLinkHandler
 import coredevices.pebble.ui.PebbleRoutes
 import coredevices.pebble.ui.addPebbleRoutes
 import coredevices.pebble.ui.toNavBarRoute
-import coredevices.ring.ui.navigation.addRingRoutes
-import coredevices.ring.ui.screens.IndexScreen
-import coredevices.ring.ui.theme.IndexThemeHost
 import coredevices.ui.GenericWebViewScreen
 import coredevices.util.BugReportContext
 import coredevices.util.CommonBuildKonfig
@@ -121,17 +116,14 @@ fun AppNavHost(navController: NavHostController, startDestination: Any) {
         }
     }
     NavHost(navController, startDestination = startDestination) {
-        addRingRoutes(coreNav)
+        ringNavGraph(coreNav)
         addPebbleRoutes(
             coreNav,
-            indexScreen = { topBarParams, navBarNav, scopedCoreNav ->
-                // Use the inner-scoped CoreNav so inner navigations stay inside the bottom-nav.
-                IndexScreen(scopedCoreNav, topBarParams)
-            },
+            indexScreen = ringIndexScreen(coreNav),
             addExperimentalRoutes = { scopedCoreNav ->
-                addRingRoutes(scopedCoreNav)
+                ringNavGraph(scopedCoreNav)
             },
-            isInnerScopedRoute = { it is RingRoute },
+            isInnerScopedRoute = { isRingRoute(it) },
         )
         dialog<CommonRoutes.SpeechModelDownloadDialog> {
             SpeechModelDownloadDialog(onDismiss = { coreNav.goBack() })
@@ -206,13 +198,7 @@ fun AppNavHost(navController: NavHostController, startDestination: Any) {
                     coreNav = coreNav,
                 )
             }
-            composable<CommonRoutes.RingOnboardingRoute> {
-                IndexThemeHost {
-                    RingOnboardingScreen(
-                        coreNav = coreNav,
-                    )
-                }
-            }
+            ringOnboardingRoute(coreNav)
         }
     }
 }

@@ -33,6 +33,20 @@ val podInstallLock = gradle.sharedServices.registerIfAbsent("podInstallLock", Po
     maxParallelUsages.set(1)
 }
 
+// group:module coordinates replaced by :macos-stubs on macOS
+val MACOS_STUBBED_MODULES = listOf(
+    "dev.gitlive:firebase-common",
+    "dev.gitlive:firebase-auth",
+    "dev.gitlive:firebase-firestore",
+    "dev.gitlive:firebase-crashlytics",
+    "com.viktormykhailiv:health-kmp",
+    "io.github.mirzemehdi:kmpnotifier",
+    "io.github.kevinnzou:compose-webview-multiplatform",
+    "dev.jordond.compass:geocoder-mobile",
+    "dev.jordond.compass:autocomplete-mobile",
+    "io.github.coredevices.haversine:haversine",
+)
+
 subprojects {
     tasks.matching { it.name.startsWith("podInstallSynthetic") }.configureEach {
         usesService(podInstallLock)
@@ -48,6 +62,20 @@ subprojects {
                     .replace("deployment_target_major == 12 ", "deployment_target_major == 15 ")
                     .replace("#{12}", "#{15}")
             )
+        }
+    }
+
+    // Libraries with no macOS artifacts are swapped for no-op stubs on macOS only, so
+    // commonMain keeps using their real APIs. See :macos-stubs.
+    if (name != "macos-stubs") {
+        configurations.configureEach {
+            if (name.contains("macos", ignoreCase = true)) {
+                resolutionStrategy.dependencySubstitution {
+                    MACOS_STUBBED_MODULES.forEach { stubbed ->
+                        substitute(module(stubbed)).using(project(":macos-stubs"))
+                    }
+                }
+            }
         }
     }
 }

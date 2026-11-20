@@ -4,7 +4,6 @@ import co.touchlab.kermit.Logger
 import com.mmk.kmpnotifier.notification.NotifierManager
 import com.russhwolf.settings.Settings
 import coredevices.CoreBackgroundSync
-import coredevices.ExperimentalDevices
 import coredevices.analytics.AnalyticsBackend
 import coredevices.analytics.CoreAnalytics
 import coredevices.analytics.PROP_FIREBASE_UID
@@ -62,7 +61,7 @@ class CommonAppDelegate(
     private val pebbleAppDelegate: PebbleAppDelegate,
     private val appUpdate: AppUpdate,
     private val weatherFetcher: WeatherFetcher,
-    private val experimentalDevices: ExperimentalDevices,
+    private val ringAppLifecycle: RingAppLifecycle,
     private val coreConfigHolder: CoreConfigHolder,
     private val appContext: AppContext,
     private val usersDao: UsersDao,
@@ -179,7 +178,7 @@ class CommonAppDelegate(
         GlobalScope.launch(Dispatchers.Default) {
             weatherFetcher.init()
             withContext(Dispatchers.Main) {
-                experimentalDevices.init()
+                ringAppLifecycle.init()
             }
         }
         firestoreLocker.init()
@@ -202,7 +201,7 @@ class CommonAppDelegate(
             return
         }
         // Use the background runtime window even if the sync intervals below haven't elapsed
-        experimentalDevices.onBackgroundSync()
+        ringAppLifecycle.onBackgroundSync()
         val now = Clock.System.now()
         val config = coreConfigHolder.config.value
         val lastFullSync =

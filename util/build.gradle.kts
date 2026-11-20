@@ -73,6 +73,8 @@ kotlin {
         }
     }
 
+    macosArm64()
+
 // Source set declarations.
 // Declaring a target automatically creates a source set with the same name. By default, the
 // Kotlin Gradle Plugin creates additional source sets that depend on each other, since it is
@@ -110,7 +112,6 @@ kotlin {
                 implementation(libs.ktor.client.encoding)
                 implementation(libs.ktor.client.serialization.json)
                 implementation(libs.ktor.client.logging)
-                implementation(libs.webview)
                 implementation(libs.uri)
                 implementation(compose.components.uiToolingPreview)
                 implementation(project(":cactus"))
@@ -143,12 +144,14 @@ kotlin {
                 implementation(libs.play.update.ktx)
                 implementation(libs.mixpanel.android)
                 implementation(libs.androidx.work)
+                implementation(libs.webview)
             }
         }
 
         iosMain {
             dependencies {
                 implementation(libs.ktor.client.darwin)
+                implementation(libs.webview)
             }
         }
     }
@@ -159,6 +162,7 @@ dependencies {
     add("kspAndroid", libs.room.compiler)
     add("kspIosArm64", libs.room.compiler)
     add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspMacosArm64", libs.room.compiler)
 }
 
 val headSha by lazy {

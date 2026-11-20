@@ -1,0 +1,3 @@
+package com.mmk.kmpnotifier.notification.configuration
+
+public sealed class NotificationPlatformConfiguration

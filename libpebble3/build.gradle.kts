@@ -79,6 +79,8 @@ kotlin {
         }
     }
 
+    macosArm64()
+
     sourceSets {
         all {
             languageSettings {
@@ -181,6 +183,9 @@ afterEvaluate {
         tasks.named("kspKotlinIosSimulatorArm64") {
             dependsOn("kspCommonMainKotlinMetadata")
         }
+        tasks.named("kspKotlinMacosArm64") {
+            dependsOn("kspCommonMainKotlinMetadata")
+        }
     }
 }
 
@@ -192,6 +197,7 @@ dependencies {
     if (enableIosTarget) {
         add("kspIosArm64", libs.room.compiler)
         add("kspIosSimulatorArm64", libs.room.compiler)
+        add("kspMacosArm64", libs.room.compiler)
     }
 }
 

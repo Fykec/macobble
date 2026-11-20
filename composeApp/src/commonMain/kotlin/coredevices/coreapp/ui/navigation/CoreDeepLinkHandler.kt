@@ -5,7 +5,6 @@ import CoreRoute
 import androidx.navigation.NavUri
 import co.touchlab.kermit.Logger
 import com.eygraber.uri.Uri
-import coredevices.ring.ui.navigation.RingRoutes
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
@@ -27,11 +26,8 @@ class CoreDeepLinkHandler {
     internal fun routeFor(uri: Uri): CoreRoute? {
         if (uri.scheme != SCHEME || uri.host != HOST) return null
         val id = uri.getQueryParameter(ID_PARAM)?.takeIf { it.isNotBlank() }
-        return when (uri.pathSegments.firstOrNull()) {
-            RingRoutes.OBJECT_DEEP_LINK_PATH -> id?.let { RingRoutes.ObjectDetails(it) }
-            RingRoutes.RECORDING_DEEP_LINK_PATH -> id?.toLongOrNull()?.let { RingRoutes.RecordingDetails(it) }
-            RingRoutes.SETTINGS_DEEP_LINK_PATH -> RingRoutes.Settings
-            RingRoutes.TIMERS_ALARMS_DEEP_LINK_PATH -> RingRoutes.TimersAndAlarms
+        val path = uri.pathSegments.firstOrNull() ?: return null
+        return ringDeepLinkRoute(path, id) ?: when (path) {
             CommonRoutes.SPEECH_MODEL_DOWNLOAD_DEEP_LINK_PATH -> CommonRoutes.SpeechModelDownloadDialog
             else -> null
         }
@@ -44,8 +40,8 @@ class CoreDeepLinkHandler {
     companion object {
         private val logger = Logger.withTag("CoreDeepLinkHandler")
         private const val SCHEME = "pebblecore"
-        private const val HOST = RingRoutes.OBJECT_DEEP_LINK_HOST
-        private const val ID_PARAM = RingRoutes.OBJECT_DEEP_LINK_ID_PARAM
+        private val HOST = ringDeepLinkHost
+        private val ID_PARAM = ringDeepLinkIdParam
         private const val VIEW_BUG_REPORT_PATH = "view-bug-report"
         private const val CONVERSATION_ID_QUERY_PARAM = "conversationId"
 

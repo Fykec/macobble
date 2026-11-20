@@ -20,6 +20,8 @@ kotlin {
 
     jvm()
 
+    macosArm64()
+
     val xcfName = "libpebble-annotations"
 
     iosArm64 {

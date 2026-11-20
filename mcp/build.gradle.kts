@@ -42,6 +42,8 @@ kotlin {
         }
     }
 
+    macosArm64()
+
     sourceSets {
         all {
             languageSettings {

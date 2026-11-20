@@ -8,7 +8,6 @@ import com.oldguy.common.io.ZipEntry
 import com.oldguy.common.io.ZipFile
 import com.russhwolf.settings.Settings
 import coredevices.CoreBackgroundSync
-import coredevices.ExperimentalDevices
 import coredevices.coreapp.api.BugApi
 import coredevices.coreapp.util.FileLogWriter
 import coredevices.coreapp.util.generateDeviceSummary
@@ -17,7 +16,6 @@ import coredevices.pebble.PebbleAppDelegate
 import coredevices.pebble.ui.SettingsKeys.KEY_ENABLE_FIREBASE_UPLOADS
 import coredevices.pebble.ui.SettingsKeys.KEY_ENABLE_MEMFAULT_UPLOADS
 import coredevices.pebble.ui.SettingsKeys.KEY_ENABLE_MIXPANEL_UPLOADS
-import coredevices.ring.util.trace.TraceSessionExporter
 import coredevices.util.CompanionDevice
 import coredevices.util.CoreConfigFlow
 import coredevices.util.PermissionRequester
@@ -130,7 +128,6 @@ expect fun stopForegroundService()
 
 class BugReportProcessor(
     private val logWriter: FileLogWriter,
-    private val experimentalDevices: ExperimentalDevices,
     private val bugApi: BugApi,
     private val pebbleAppDelegate: PebbleAppDelegate,
     private val clock: Clock,
@@ -301,7 +298,7 @@ class BugReportProcessor(
         attachments: List<DocumentAttachment>,
         params: BugReportGenerationParams? = null,
     ): String {
-        val deviceSummary = generateDeviceSummary(experimentalDevices)
+        val deviceSummary = generateDeviceSummary()
         val pkjsSummary = getPKJSSummary()
         val sttSummary = getSTTSummary()
         val pebbleContext = pebbleScreenContext()
@@ -369,8 +366,8 @@ class BugReportProcessor(
                         googleIdToken = userIdToken,
                         sourceIsExperimentalDevice = params.includeExperimentalDebugInfo,
                         indexRebootLogs = if (params.includeExperimentalDebugInfo) {
-                            experimentalDevices.rebootLog().map {
-                                BugApi.IndexRebootLog(timestamp = it.timestamp.toString(), reason = it.reason)
+                            ringRebootLogs().map { (timestamp, reason) ->
+                                BugApi.IndexRebootLog(timestamp = timestamp, reason = reason)
                             }
                         } else null,
                     )
@@ -561,14 +558,14 @@ class BugReportProcessor(
         // Add recording if requested
         if (params.sendRecording && params.expOutputPath != null) {
             withContext(Dispatchers.IO) {
-                attachments.addAll(experimentalDevices.exportOutput(params.expOutputPath))
+                attachments.addAll(exportRingOutput(params.expOutputPath))
             }
         }
 
         // Add the last few recordings + their data for Index bug reports
         if (params.sendRecentRecordings) {
             try {
-                attachments.addAll(experimentalDevices.exportRecentRecordings())
+                attachments.addAll(exportRecentRingRecordings(10))
             } catch (e: Exception) {
                 logger.e(e) { "Failed to gather recent recordings" }
             }
@@ -600,7 +597,7 @@ class BugReportProcessor(
                         )
                     )
                 }
-                experimentalDevices.badCollectionsDir()?.let {
+                ringBadCollectionsDir()?.let {
                     SystemFileSystem.list(it)
                         .sortedByDescending { it.name }
                         .take(4)
@@ -620,20 +617,15 @@ class BugReportProcessor(
             }
 
             try {
-                val exporter = KoinPlatform.getKoin().getOrNull<TraceSessionExporter>()
-                if (exporter != null) {
-                    val sessions = exporter.exportLastNSessions(20)
-                    if (sessions.isNotEmpty()) {
-                        val traceBytes = Json.encodeToString(sessions).encodeToByteArray()
-                        attachments.add(
-                            DocumentAttachment(
-                                fileName = "ring_trace_sessions.json",
-                                mimeType = "application/json",
-                                source = sourceFromByteArray(traceBytes),
-                                size = traceBytes.size.toLong(),
-                            )
+                exportRingTraceSessionsJson()?.let { traceBytes ->
+                    attachments.add(
+                        DocumentAttachment(
+                            fileName = "ring_trace_sessions.json",
+                            mimeType = "application/json",
+                            source = sourceFromByteArray(traceBytes),
+                            size = traceBytes.size.toLong(),
                         )
-                    }
+                    )
                 }
             } catch (e: Exception) {
                 logger.e(e) { "Failed to collect ring trace sessions" }

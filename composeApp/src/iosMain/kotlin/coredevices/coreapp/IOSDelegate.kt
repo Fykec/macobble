@@ -21,6 +21,7 @@ import coredevices.analytics.CoreAnalytics
 import coredevices.coreapp.di.apiModule
 import coredevices.coreapp.di.iosDefaultModule
 import coredevices.coreapp.di.utilModule
+import coredevices.coreapp.di.utilRingModule
 import coredevices.coreapp.ui.navigation.CoreDeepLinkHandler
 import coredevices.coreapp.util.FileLogWriter
 import coredevices.coreapp.util.initLogging
@@ -189,6 +190,7 @@ object IOSDelegate : KoinComponent {
                 experimentalModule,
                 apiModule,
                 utilModule,
+                utilRingModule,
                 watchModule,
                 analyticsBackendModule,
             )

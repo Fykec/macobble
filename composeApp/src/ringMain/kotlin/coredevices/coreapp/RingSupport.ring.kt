@@ -9,7 +9,7 @@ import org.koin.core.component.get
 actual fun ringAppLifecycle(): RingAppLifecycle = object : RingAppLifecycle, KoinComponent {
     private val experimentalDevices: ExperimentalDevices by lazy { get() }
 
-    override fun init() {
+    override suspend fun init() {
         experimentalDevices.init()
     }
 

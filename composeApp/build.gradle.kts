@@ -78,9 +78,11 @@ kotlin {
         }.configureEach {
             enabled = false
         }
+        val macosBuildSettingsDir = layout.buildDirectory.dir("cocoapods/buildSettings").get().asFile
         val prepareSettings = tasks.register("prepareMacosCinteropSettings") {
+            val dir = macosBuildSettingsDir
+            outputs.dir(dir)
             doLast {
-                val dir = layout.buildDirectory.dir("cocoapods/buildSettings").get().asFile
                 dir.mkdirs()
                 listOf("FirebaseCore", "GoogleSignIn").forEach { pod ->
                     File(dir, "build-settings-macos-$pod.properties").writeText(

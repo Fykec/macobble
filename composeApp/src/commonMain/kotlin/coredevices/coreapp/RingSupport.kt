@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
  * macOS has no Ring support; its actuals are no-ops.
  */
 interface RingAppLifecycle {
-    fun init()
+    suspend fun init()
     fun onBackgroundSync()
 }
 

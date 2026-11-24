@@ -383,4 +383,7 @@
     <string name="you_need_to_sign_in_to">你需要登录后才能联系开发者。</string>
     <string name="your_complication_slots_will_be_replaced">你的复杂功能位置将被替换为默认读数。</string>
     <string name="your_device_may_struggle_with_larger">此设备可能无法流畅运行较大的模型，将改用精度较低的模型。</string>
+    <string name="other_pebbleos_apps_warning">检测到已安装其他 PebbleOS 配套应用。请卸载它们（%1$s）以避免连接问题。</string>
+    <string name="connect_crash_hint">如果每次点击“连接”都导致应用崩溃，请尝试在设置中勾选“停用配套设备管理器”</string>
+    <string name="other_pebble_apps_warning">如果手机上还安装了其他 Pebble 应用，请卸载它们——在卸载前将无法连接手表。</string>
 </resources>

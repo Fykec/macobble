@@ -123,6 +123,9 @@ import com.russhwolf.settings.Settings
 import com.russhwolf.settings.serialization.decodeValue
 import com.russhwolf.settings.serialization.encodeValue
 import coreapp.pebble.generated.resources.Res
+import coreapp.pebble.generated.resources.other_pebble_apps_warning
+import coreapp.pebble.generated.resources.connect_crash_hint
+import coreapp.pebble.generated.resources.other_pebbleos_apps_warning
 import coreapp.pebble.generated.resources.devices
 import coredevices.analytics.CoreAnalytics
 import coredevices.firestore.UsersDao
@@ -577,8 +580,7 @@ fun WatchesScreen(navBarNav: NavBarNav, topBarParams: TopBarParams) {
                     ) {
                         val otherAppNames = otherPebbleAppsInstalled.joinToString { it.name }
                         Text(
-                            text = "One or more other PebbleOS companions apps are installed. Please " +
-                                    "uninstall them ($otherAppNames) to avoid connectivity problems.",
+                            text = stringResource(Res.string.other_pebbleos_apps_warning, otherAppNames),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onErrorContainer,
                             modifier = Modifier.padding(15.dp)
@@ -595,8 +597,7 @@ fun WatchesScreen(navBarNav: NavBarNav, topBarParams: TopBarParams) {
                         )
                     ) {
                         Text(
-                            text = "If the app crashes every time you press Connect, try checking" +
-                                    " \"Disable Companion Device Manager\" in Settings",
+                            text = stringResource(Res.string.connect_crash_hint),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onErrorContainer,
                             modifier = Modifier.padding(15.dp)
@@ -645,8 +646,7 @@ fun WatchesScreen(navBarNav: NavBarNav, topBarParams: TopBarParams) {
                                 )
                             ) {
                                 Text(
-                                    text = "If you have any other Pebble apps installed on your phone, please uninstall them - " +
-                                            "connection to the watch will not work while they are installed.",
+                                    text = stringResource(Res.string.other_pebble_apps_warning),
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onErrorContainer,
                                     modifier = Modifier.padding(15.dp)

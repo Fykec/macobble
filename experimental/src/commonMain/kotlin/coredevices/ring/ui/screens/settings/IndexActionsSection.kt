@@ -136,6 +136,8 @@ import coreapp.ring.generated.resources.plugin
 import coreapp.ring.generated.resources.settings
 import coreapp.ring.generated.resources.where_notes_save
 import coreapp.ring.generated.resources.where_reminders_save
+import coreapp.ring.generated.resources.browse_plugins_in_the_store
+import coreapp.ring.generated.resources.you_can_add_plugins_from_settings
 
 /** Actions are only reachable through an Index agent, so they are off when no gesture routes to one. */
 internal fun nothingRoutesToIndexAgent(routes: Map<RingGesture, GestureDestination>): Boolean =
@@ -419,7 +421,7 @@ internal fun IndexActionsSection(
             SectionActionRow(
                 icon = Icons.Default.Power,
                 title = stringResource(RingRes.string.add_plugin_integration),
-                subtitle = "Browse plugins in the store",
+                subtitle = stringResource(RingRes.string.browse_plugins_in_the_store),
                 enabled = true,
                 onClick = onGetMorePlugins,
             )
@@ -427,7 +429,7 @@ internal fun IndexActionsSection(
             SectionActionRow(
                 icon = Icons.Default.Power,
                 title = stringResource(RingRes.string.add_plugin_integration),
-                subtitle = "You can add plugins from settings later",
+                subtitle = stringResource(RingRes.string.you_can_add_plugins_from_settings),
                 enabled = false,
                 onClick = {},
             )

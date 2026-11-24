@@ -19,6 +19,7 @@ import coreapp.ring.generated.resources.Res as RingRes
 import coreapp.ring.generated.resources.learning_your_usage
 import coreapp.ring.generated.resources.index_01_battery_life_estimate
 import coreapp.ring.generated.resources.not_enough_data_yet
+import coreapp.ring.generated.resources.use_your_index_and_we_ll
 
 /** "Index 01 Battery Life Estimate"; absent while loading or when no Index 01 is known (Index also runs with just a Pebble). */
 @Composable
@@ -39,7 +40,7 @@ private fun BatteryLifeRows(state: RingBatteryLifeState) {
         RingBatteryLifeState.NoRing -> Unit
         RingBatteryLifeState.NoData -> SettingsRow(
             title = stringResource(RingRes.string.not_enough_data_yet),
-            subtitle = "Use your Index and we'll estimate how long its battery will last.",
+            subtitle = stringResource(RingRes.string.use_your_index_and_we_ll),
         )
         is RingBatteryLifeState.Learning -> LearningRow(s)
         is RingBatteryLifeState.Estimated -> SettingsRow(

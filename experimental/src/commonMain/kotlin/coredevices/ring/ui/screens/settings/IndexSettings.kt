@@ -121,6 +121,14 @@ import coreapp.ring.generated.resources.speech_recognition
 import coreapp.ring.generated.resources.timers_alarms
 import coreapp.ring.generated.resources.use_pendingintent_scan
 import coreapp.ring.generated.resources.validate_agent_choices
+import coreapp.ring.generated.resources.available_on_ios_only
+import coreapp.ring.generated.resources.dismiss_recording_action_notifications_after_5
+import coreapp.ring.generated.resources.record_diagnostic_information_from_your_index
+import coreapp.ring.generated.resources.sync_manage_or_delete_cloud_backup
+import coreapp.ring.generated.resources.turn_on_if_pebble_is_also
+import coreapp.ring.generated.resources.view_and_cancel_timers_and_alarms
+import coreapp.ring.generated.resources.view_your_index_notes_and_reminders
+import coreapp.ring.generated.resources.when_online_asks_for_your_confirmation
 
 @Composable
 private fun RelinkDestinationsCard(destinations: List<LegacyDestination>) {
@@ -467,7 +475,7 @@ fun IndexSettings(coreNav: CoreNav) {
                 item {
                     SettingsRow(
                         title = stringResource(RingRes.string.timers_alarms),
-                        subtitle = "View and cancel timers and alarms set by your Index",
+                        subtitle = stringResource(RingRes.string.view_and_cancel_timers_and_alarms),
                         onClick = { coreNav.navigateTo(RingRoutes.TimersAndAlarms) },
                     )
                 }
@@ -476,7 +484,7 @@ fun IndexSettings(coreNav: CoreNav) {
                 val uriHandler = LocalUriHandler.current
                 SettingsRow(
                     title = stringResource(RingRes.string.index_on_the_web_experimental),
-                    subtitle = "View your Index notes and reminders in a browser at index.rePebble.com",
+                    subtitle = stringResource(RingRes.string.view_your_index_notes_and_reminders),
                     onClick = { uriHandler.openUrlSafely("https://index.rePebble.com") },
                 ) {
                     Icon(
@@ -490,7 +498,7 @@ fun IndexSettings(coreNav: CoreNav) {
             item {
                 SettingsRow(
                     title = stringResource(RingRes.string.backup),
-                    subtitle = "Sync, manage, or delete cloud backup",
+                    subtitle = stringResource(RingRes.string.sync_manage_or_delete_cloud_backup),
                     onClick = { showBackupDialog = true },
                 )
             }
@@ -504,7 +512,7 @@ fun IndexSettings(coreNav: CoreNav) {
             item {
                 SettingsRow(
                     title = stringResource(RingRes.string.auto_dismiss_notifications),
-                    subtitle = "Dismiss recording action notifications after 5 minutes",
+                    subtitle = stringResource(RingRes.string.dismiss_recording_action_notifications_after_5),
                     onClick = viewModel::toggleAutoDismissActionNotifications,
                 ) {
                     Switch(
@@ -516,7 +524,7 @@ fun IndexSettings(coreNav: CoreNav) {
             item {
                 SettingsRow(
                     title = stringResource(RingRes.string.validate_agent_choices),
-                    subtitle = "When online, asks for your confirmation before taking actions you may not have intended",
+                    subtitle = stringResource(RingRes.string.when_online_asks_for_your_confirmation),
                     onClick = viewModel::toggleActionValidation,
                 ) {
                     Switch(
@@ -534,7 +542,7 @@ fun IndexSettings(coreNav: CoreNav) {
             item {
                 SettingsRow(
                     title = stringResource(RingRes.string.diagnostics),
-                    subtitle = "Record diagnostic information from your Index 01, only needed if support asks.",
+                    subtitle = stringResource(RingRes.string.record_diagnostic_information_from_your_index),
                     enabled = ringPaired && diagnosticsState != DiagnosticsState.Running,
                     onClick = {
                         if (diagnosticsState != DiagnosticsState.Idle) viewModel.resetDiagnostics()
@@ -547,7 +555,7 @@ fun IndexSettings(coreNav: CoreNav) {
                 item {
                     SettingsRow(
                         title = stringResource(RingRes.string.disable_bluetooth_sync),
-                        subtitle = "Turn on if Pebble is also installed on another profile of this phone. Index can't sync when two profiles connect to the ring at once.",
+                        subtitle = stringResource(RingRes.string.turn_on_if_pebble_is_also),
                         onClick = {
                             coreConfigHolder.update(coreConfig.copy(disableRingBluetoothSync = !coreConfig.disableRingBluetoothSync))
                         },
@@ -629,7 +637,7 @@ fun IndexSettings(coreNav: CoreNav) {
                 item {
                     SettingsRow(
                         title = stringResource(RingRes.string.restart_pre_emptive_transfer),
-                        subtitle = "Available on iOS only".takeIf { platform.isAndroid },
+                        subtitle = stringResource(RingRes.string.available_on_ios_only).takeIf { platform.isAndroid },
                         enabled = !platform.isAndroid,
                         onClick = viewModel::restartPreemptiveTransfer,
                     )

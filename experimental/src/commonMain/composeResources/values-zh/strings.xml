@@ -352,4 +352,18 @@
     <string name="you_asked">你的提问</string>
     <string name="you_can_add_more_from_settings">之后可以在设置中添加更多</string>
     <string name="you_re_all_done">全部完成！</string>
+    <string name="add_them_to_another_list_before">请先将它们添加到其他列表，再删除此列表。</string>
+    <string name="available_on_ios_only">仅在 iOS 上可用</string>
+    <string name="browse_plugins_in_the_store">在商店中浏览插件</string>
+    <string name="dismiss_recording_action_notifications_after_5">5 分钟后自动消除录音操作通知</string>
+    <string name="no_longer_installed">已不再安装</string>
+    <string name="record_diagnostic_information_from_your_index">记录 Index 01 的诊断信息，仅在客服要求时需要。</string>
+    <string name="remove_every_subitem_in_this_list">移除此列表中的所有子项。</string>
+    <string name="sync_manage_or_delete_cloud_backup">同步、管理或删除云端备份</string>
+    <string name="turn_on_if_pebble_is_also">如果此手机的另一个配置文件也安装了 Pebble，请开启。当两个配置文件同时连接戒指时，Index 无法同步。</string>
+    <string name="use_your_index_and_we_ll">使用 Index，我们会估算它的续航时间。</string>
+    <string name="view_and_cancel_timers_and_alarms">查看并取消由 Index 设置的计时器和闹钟</string>
+    <string name="view_your_index_notes_and_reminders">在浏览器中打开 index.rePebble.com 查看 Index 笔记和提醒</string>
+    <string name="when_online_asks_for_your_confirmation">联网时，在执行可能非你本意的操作前会先向你确认</string>
+    <string name="you_can_add_plugins_from_settings">之后可以在设置中添加插件</string>
 </resources>

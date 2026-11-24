@@ -147,6 +147,8 @@ import coreapp.ring.generated.resources.delete_all_subitems
 import coreapp.ring.generated.resources.move_subitems
 import coreapp.ring.generated.resources.note
 import coreapp.ring.generated.resources.open
+import coreapp.ring.generated.resources.add_them_to_another_list_before
+import coreapp.ring.generated.resources.remove_every_subitem_in_this_list
 
 // List kind detail (children rows, sort/search, done section) — split
 // out of ObjectDetail.kt for review-friendliness.
@@ -694,7 +696,7 @@ private fun DeleteListDialog(
                         ChoiceRow(
                             selected = selectedAction == DeleteListAction.MoveItems,
                             title = stringResource(RingRes.string.move_subitems),
-                            subtitle = "Add them to another list before deleting this one.",
+                            subtitle = stringResource(RingRes.string.add_them_to_another_list_before),
                             onClick = { onAction(DeleteListAction.MoveItems) },
                         )
                         if (selectedAction == DeleteListAction.MoveItems) {
@@ -752,7 +754,7 @@ private fun DeleteListDialog(
                     ChoiceRow(
                         selected = selectedAction == DeleteListAction.DeleteItems,
                         title = stringResource(RingRes.string.delete_all_subitems),
-                        subtitle = "Remove every subitem in this list.",
+                        subtitle = stringResource(RingRes.string.remove_every_subitem_in_this_list),
                         onClick = { onAction(DeleteListAction.DeleteItems) },
                     )
                 }

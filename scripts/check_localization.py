@@ -33,7 +33,7 @@ EXCLUDED_PATHS = (
 
 UI_STRING_PATTERN = re.compile(
     r'(?:Text\(\s*"'
-    r"|(?:text|title|label|contentDescription|placeholder|supportingText|message)\s*=\s*\")"
+    r"|(?<![A-Za-z])(?:text|title|subtitle|subtext|label|contentDescription|placeholder|supportingText|message)\s*=\s*\")"
 )
 STRING_LITERAL = re.compile(r'"((?:[^"\\]|\\.)*)"')
 

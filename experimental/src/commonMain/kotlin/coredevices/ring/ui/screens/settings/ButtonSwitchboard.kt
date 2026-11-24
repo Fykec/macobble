@@ -91,6 +91,7 @@ import coreapp.ring.generated.resources.also_send_to_webhook
 import coreapp.ring.generated.resources.configure
 import coreapp.ring.generated.resources.other_agents
 import coreapp.ring.generated.resources.webhook_settings
+import coreapp.ring.generated.resources.no_longer_installed
 
 private val DOT = 9.dp
 private val TILE_WIDTH = 168.dp
@@ -663,7 +664,7 @@ private fun OtherAgentsGroup(
             missing?.let {
                 OtherAgentChoiceRow(
                     title = it.tileLabel(agentTitles),
-                    subtitle = "No longer installed",
+                    subtitle = stringResource(RingRes.string.no_longer_installed),
                     selected = true,
                     onClick = {},
                     onConnect = null,

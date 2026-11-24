@@ -79,6 +79,7 @@ import coreapp.pebble.generated.resources.type_to_search_for_locations
 import coreapp.pebble.generated.resources.current_location
 import coreapp.pebble.generated.resources.fixed_location
 import coreapp.pebble.generated.resources.manual_coordinates
+import coreapp.pebble.generated.resources.remove_location_title
 
 private const val MAX_WEATHER_LOCATIONS = 5
 private val logger = Logger.withTag("WeatherScreen")
@@ -459,6 +460,6 @@ private fun DeleteLocationConfirmDialog(
             TextButton(onClick = onConfirm) { Text(stringResource(PebbleRes.string.remove)) }
         },
     ) {
-        Text("Are you sure you want to remove \"$locationName\"?")
+        Text(stringResource(PebbleRes.string.remove_location_title, locationName))
     }
 }

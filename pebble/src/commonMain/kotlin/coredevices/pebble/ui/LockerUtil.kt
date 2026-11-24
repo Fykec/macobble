@@ -113,6 +113,7 @@ import coreapp.pebble.generated.resources.not_compatible_with_this_watch
 import coreapp.pebble.generated.resources.not_natively_compatible_with_this_watch
 import coreapp.pebble.generated.resources.selected
 import coreapp.pebble.generated.resources.settings
+import coreapp.pebble.generated.resources.made_for_x
 
 private val logger = Logger.withTag("LockerUtil")
 
@@ -982,13 +983,13 @@ fun AppsFilterRow(
                         sharedLockerViewModel.showScaled.value =
                             !sharedLockerViewModel.showScaled.value
                     },
-                    label = { Text("Made for $shortName") },
+                    label = { Text(stringResource(PebbleRes.string.made_for_x, shortName)) },
                     modifier = Modifier.padding(horizontal = 4.dp),
                     leadingIcon = if (!sharedLockerViewModel.showScaled.value) {
                         {
                             Icon(
                                 imageVector = Icons.Filled.Done,
-                                contentDescription = "Made for $shortName",
+                                contentDescription = stringResource(PebbleRes.string.made_for_x, shortName),
                                 modifier = Modifier.size(FilterChipDefaults.IconSize)
                             )
                         }

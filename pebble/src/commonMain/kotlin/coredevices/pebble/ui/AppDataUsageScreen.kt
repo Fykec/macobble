@@ -50,6 +50,7 @@ import org.koin.compose.koinInject
 import org.jetbrains.compose.resources.stringResource
 import coreapp.pebble.generated.resources.Res as PebbleRes
 import coreapp.pebble.generated.resources.ok
+import coreapp.pebble.generated.resources.about_x
 
 private const val LEGACY_INFO = "This app was made before apps had to declare which websites they use, so it can " +
     "reach any website and its data usage can't be split up by website."
@@ -187,7 +188,7 @@ private fun UsageDetailRow(
             Text(label, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
             if (info != null) {
                 IconButton(onClick = { showInfo = true }, modifier = Modifier.size(32.dp)) {
-                    Icon(Icons.Outlined.Info, contentDescription = "About $label", modifier = Modifier.size(18.dp))
+                    Icon(Icons.Outlined.Info, contentDescription = stringResource(PebbleRes.string.about_x, label), modifier = Modifier.size(18.dp))
                 }
             }
         }

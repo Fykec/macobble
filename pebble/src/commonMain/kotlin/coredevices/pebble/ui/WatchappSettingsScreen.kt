@@ -104,6 +104,8 @@ import coreapp.pebble.generated.resources.cancel
 import coreapp.pebble.generated.resources.open
 import coreapp.pebble.generated.resources.open_in_browser
 import coreapp.pebble.generated.resources.these_settings_can_t_be_opened
+import coreapp.pebble.generated.resources.wants_to_open_page
+import coreapp.pebble.generated.resources.configuring_app
 
 private const val URL_DATA_PREFIX = "data:text/html;charset=utf-8,"
 
@@ -274,7 +276,7 @@ fun WatchappSettingsScreen(
                 title = { Text(stringResource(PebbleRes.string.open_in_browser)) },
                 text = {
                     Column(Modifier.heightIn(max = 240.dp).verticalScroll(rememberScrollState())) {
-                        Text("$title wants to open a page on")
+                        Text(stringResource(PebbleRes.string.wants_to_open_page, title))
                         Text(request.host, style = MaterialTheme.typography.titleMedium)
                         Text(request.url, style = MaterialTheme.typography.bodySmall)
                     }
@@ -364,7 +366,7 @@ fun WatchappSettingsScreen(
                     title = {
                         Column {
                             Text(stringResource(PebbleRes.string.app_settings))
-                            Text("Configuring $title", style = MaterialTheme.typography.labelMedium)
+                            Text(stringResource(PebbleRes.string.configuring_app, title), style = MaterialTheme.typography.labelMedium)
                         }
                     },
                     navigationIcon = {

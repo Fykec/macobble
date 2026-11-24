@@ -75,6 +75,7 @@ import coreapp.pebble.generated.resources.select
 import coreapp.pebble.generated.resources.select_vibration_pattern
 import coreapp.pebble.generated.resources.tap_custom_pattern
 import coreapp.pebble.generated.resources.test
+import coreapp.pebble.generated.resources.delete_vibration_pattern_title
 
 private val logger = Logger.withTag("Vibrations")
 
@@ -127,7 +128,7 @@ fun VibePatternPickerDialog(
             AlertDialog(
                 onDismissRequest = { patternToDelete = null },
                 title = { Text(stringResource(PebbleRes.string.delete_pattern)) },
-                text = { Text("Are you sure you want to delete the vibration pattern \"${pattern.name}\"?") },
+                text = { Text(stringResource(PebbleRes.string.delete_vibration_pattern_title, pattern.name)) },
                 confirmButton = {
                     TextButton(onClick = {
                         libPebble.deleteCustomPattern(pattern.name)

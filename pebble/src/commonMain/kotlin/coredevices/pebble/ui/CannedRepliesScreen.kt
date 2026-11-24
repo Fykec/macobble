@@ -56,6 +56,7 @@ import coreapp.pebble.generated.resources.you_have_unsaved_changes_to_your
 import coreapp.pebble.generated.resources.custom_replies_appear_in_the_canned
 import coreapp.pebble.generated.resources.remove
 import coreapp.pebble.generated.resources.reorder
+import coreapp.pebble.generated.resources.reply_n
 
 private const val MAX_RESPONSES = 8
 private const val MAX_RESPONSE_LENGTH = 30
@@ -215,7 +216,7 @@ fun CannedRepliesScreen(nav: NavBarNav, topBarParams: TopBarParams) {
                                 .weight(1f)
                                 .focusRequester(focusRequester),
                             singleLine = true,
-                            label = { Text("Reply ${index + 1}") },
+                            label = { Text(stringResource(PebbleRes.string.reply_n, index + 1)) },
                         )
                         IconButton(onClick = {
                             responses.removeAt(index)

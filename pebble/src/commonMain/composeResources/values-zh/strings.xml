@@ -421,4 +421,14 @@
     <string name="fab_add_watch_body">适用于任何通过低功耗蓝牙连接的现代 Pebble：\n\nPebble Time 2、Core 2 Duo、Pebble Round 2 和 Pebble 2。</string>
     <string name="fab_add_classic_watch_title">添加经典手表</string>
     <string name="fab_add_classic_watch_body">适用于通过经典蓝牙连接的旧款 Pebble：\n\n初代 Pebble、Pebble Steel、Pebble Time、Pebble Time Steel 和 Pebble Time Round。</string>
+    <string name="wants_to_open_page">%1$s 想要打开网页</string>
+    <string name="configuring_app">正在配置 %1$s</string>
+    <string name="made_for_x">专为 %1$s 打造</string>
+    <string name="delete_vibration_pattern_title">确定要删除振动方式“%1$s”吗？</string>
+    <string name="replace_app_title">替换 %1$s？</string>
+    <string name="install_app_title">安装 %1$s？</string>
+    <string name="install_permissions_subtitle">现在决定，或等 %1$s 首次使用时再决定。</string>
+    <string name="why_x">为什么是 %1$s</string>
+    <string name="remove_location_title">确定要移除“%1$s”吗？</string>
+    <string name="reply_n">回复 %1$s</string>
 </resources>

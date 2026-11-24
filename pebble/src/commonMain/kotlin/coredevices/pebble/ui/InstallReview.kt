@@ -110,12 +110,16 @@ import coreapp.pebble.generated.resources.permissions
 import coreapp.pebble.generated.resources.replace
 import coreapp.pebble.generated.resources.required
 import coreapp.pebble.generated.resources.review
+import coreapp.pebble.generated.resources.replace_app_title
+import coreapp.pebble.generated.resources.install_app_title
+import coreapp.pebble.generated.resources.install_permissions_subtitle
+import coreapp.pebble.generated.resources.why_x
 
 @Composable
 fun ReplaceAppDialog(replaced: ReplacedApp, onAnswer: (replace: Boolean) -> Unit) {
     AlertDialog(
         onDismissRequest = { onAnswer(false) },
-        title = { Text("Replace ${replaced.title}?") },
+        title = { Text(stringResource(PebbleRes.string.replace_app_title, replaced.title)) },
         text = {
             Text(
                 "${replaced.title} is installed from ${replaced.installedFrom}. This copy is from " +
@@ -143,7 +147,7 @@ fun InstallReviewDialog(review: InstallReview, onAnswer: (Map<String, Boolean>?)
         // The default width leaves a permission row too little room.
         properties = DialogProperties(usePlatformDefaultWidth = false),
         modifier = Modifier.padding(horizontal = 16.dp),
-        title = { Text("Install ${review.appName}?") },
+        title = { Text(stringResource(PebbleRes.string.install_app_title, review.appName)) },
         text = {
             Column(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -188,7 +192,7 @@ fun InstallReviewDialog(review: InstallReview, onAnswer: (Map<String, Boolean>?)
                         if (optional.isNotEmpty()) AllowAll("Allow all required", required)
                     }
                     if (optional.isNotEmpty()) {
-                        Group("Optional", optional, automatic = false, subtitle = "Decide now, or when ${review.appName} first uses them.")
+                        Group("Optional", optional, automatic = false, subtitle = stringResource(PebbleRes.string.install_permissions_subtitle, review.appName))
                     }
                 } else if (toReview.isNotEmpty()) {
                     Group("It wants to", toReview, automatic = false)
@@ -368,7 +372,7 @@ internal fun ReasonInfoButton(title: String, reason: String, modifier: Modifier 
 private fun ReasonIcon(title: String, modifier: Modifier) {
     Icon(
         Icons.AutoMirrored.Outlined.HelpOutline,
-        contentDescription = "Why $title",
+        contentDescription = stringResource(PebbleRes.string.why_x, title),
         tint = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = modifier,
     )

@@ -143,7 +143,9 @@ def check_inline_strings() -> bool:
             count = 0
             offset = 0
             for line in text.splitlines(keepends=True):
-                if UI_STRING_PATTERN.search(line):
+                # `not-localized` marks a literal that must stay English: store names used as
+                # identifiers, or text the watch renders in its own language.
+                if UI_STRING_PATTERN.search(line) and "not-localized" not in line:
                     position = offset + line.index('"') if '"' in line else offset
                     in_preview = any(start <= position <= end for start, end in skip_ranges)
                     literal_match = STRING_LITERAL.search(line)

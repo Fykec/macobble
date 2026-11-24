@@ -15,14 +15,14 @@ const val APPSEARCH_HOST = "appsearch.cluster.repebble.com"
 val INITIAL_APPSTORE_SOURCES = listOf(
     AppstoreSource(
         url = PEBBLE_FEED_URL,
-        title = "Pebble App Store",
+        title = "Pebble App Store", // not-localized
         algoliaAppId = "GM3S9TRYO4",
         algoliaApiKey = "0b83b4f8e4e8e9793d2f1f93c21894aa",
         algoliaIndexName = "apps"
     ),
     AppstoreSource(
         url = REBBLE_FEED_URL,
-        title = "Rebble App Store",
+        title = "Rebble App Store", // not-localized
         algoliaAppId = "7683OW76EQ",
         algoliaApiKey = "252f4938082b8693a8a9fc0157d1d24f",
         algoliaIndexName = "rebble-appstore-production",

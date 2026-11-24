@@ -1118,7 +1118,7 @@ fun LockerScreenPreviewWrapper() {
 
 val testApps = listOf(
     CommonApp(
-        title = "Sample Watchface",
+        title = "Sample Watchface", // not-localized
         developerName = "Dev Name",
         uuid = Uuid.parse("123e4567-e89b-12d3-a456-426614174000"),
         androidCompanion = null,
@@ -1145,7 +1145,7 @@ val testApps = listOf(
         capabilities = emptyList(),
     ),
     CommonApp(
-        title = "Another Watchface",
+        title = "Another Watchface", // not-localized
         developerName = "Another Dev",
         uuid = Uuid.parse("223e4567-e89b-12d3-a456-426614174000"),
         androidCompanion = null,
@@ -1172,7 +1172,7 @@ val testApps = listOf(
         capabilities = emptyList(),
     ),
     CommonApp(
-        title = "Third Watchface",
+        title = "Third Watchface", // not-localized
         developerName = "Third Dev",
         uuid = Uuid.parse("323e4567-e89b-12d3-a456-426614174000"),
         androidCompanion = null,

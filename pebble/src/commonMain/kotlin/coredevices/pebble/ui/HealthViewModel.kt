@@ -199,7 +199,7 @@ class HealthViewModel(
             val eH = ((ov.startTime + ov.duration - dayStart).toFloat() / 3600).toInt().coerceIn(0, 23)
             val type = OverlayType.fromValue(ov.type) ?: OverlayType.Walk
             val durMin = ov.duration / 60
-            val label = "${type.name} · ${durMin}min"
+            val label = "${type.name} · ${durMin}min" // not-localized
             ActivitySessionUi(sH, eH, type, label)
         }
 

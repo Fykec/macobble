@@ -62,7 +62,7 @@ class RealFirmwareUpdateUiTracker(
         if (autoUpdateTargetVersions[watch.identifier] == watch.runningFwVersion) {
             autoUpdateTargetVersions.remove(watch.identifier)
             notify(
-                title = "PebbleOS updated",
+                title = "PebbleOS updated", // not-localized
                 body = "${watch.name} was updated to PebbleOS ${watch.runningFwVersion}",
                 key = watch.identifier.asString.hashCode(),
                 identifier = watch.identifier,
@@ -101,7 +101,7 @@ class RealFirmwareUpdateUiTracker(
         val notificationKey = watch.identifier.asString.hashCode()
         activeNotificationKeys.add(notificationKey)
         notify(
-            title = "PebbleOS update available",
+            title = "PebbleOS update available", // not-localized
             body = "PebbleOS ${update.version.stringVersion} is available for ${watch.name}:\n${update.notes}",
             key = notificationKey,
             identifier = watch.identifier,

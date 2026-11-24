@@ -57,6 +57,10 @@ import kotlinx.serialization.json.jsonPrimitive
 import org.koin.compose.koinInject
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
+import coreapp.pebble.generated.resources.Res
+import coreapp.pebble.generated.resources.app_activity_summary
+import coreapp.pebble.generated.resources.show_all_n
+import org.jetbrains.compose.resources.stringResource
 
 private const val PREVIEW_ACTIONS = 15
 
@@ -141,7 +145,13 @@ private fun ActivityGroupRow(
             leadingContent = { AppOrPluginIcon(uuid, 56.dp, icons, nav) },
             headlineContent = { Text(title, fontWeight = FontWeight.Bold) },
             supportingContent = {
-                Text("${entries.size} actions · last ${relativeTime(Instant.fromEpochMilliseconds(entries.first().atMs))}")
+                Text(
+                stringResource(
+                    Res.string.app_activity_summary,
+                    entries.size,
+                    relativeTime(Instant.fromEpochMilliseconds(entries.first().atMs)),
+                )
+            )
             },
             trailingContent = {
                 Icon(
@@ -172,7 +182,7 @@ private fun ActionLogPreview(
     entries.take(PREVIEW_ACTIONS).forEach { ActionLogRow(it, describer, showCaller, icons, nav) }
     if (entries.size > PREVIEW_ACTIONS) {
         TextButton(onClick = showAll, modifier = Modifier.padding(horizontal = 4.dp)) {
-            Text("Show all ${entries.size}")
+            Text(stringResource(Res.string.show_all_n, entries.size))
         }
     }
 }

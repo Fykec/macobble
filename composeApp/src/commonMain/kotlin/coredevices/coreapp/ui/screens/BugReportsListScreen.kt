@@ -219,7 +219,7 @@ private fun TicketListItem(
             .padding(vertical = 4.dp),
         headlineContent = {
             Text(
-                text = "#${ticket.simpleId} - ${ticket.subject}",
+                text = "#${ticket.simpleId} - ${ticket.subject}", // not-localized
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyLarge,

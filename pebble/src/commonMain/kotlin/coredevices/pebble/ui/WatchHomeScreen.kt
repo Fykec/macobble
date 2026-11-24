@@ -155,6 +155,7 @@ import coreapp.pebble.generated.resources.more
 import coreapp.pebble.generated.resources.search
 import coreapp.pebble.generated.resources.sideload_firmware
 import coreapp.pebble.generated.resources.clear_search
+import coreapp.pebble.generated.resources.index_permissions_required
 
 fun LibPebble.haveSeenFullyConnectedWatch() = watches.value.any {
     it.isFullyConnected()
@@ -473,7 +474,7 @@ fun WatchHomeScreen(
                     }
                 },
             ) {
-                Text("Index requires additional permissions to function.\n" +
+                Text(stringResource(Res.string.index_permissions_required) + "\n" +
                         "Please grant the following permissions:")
                 Spacer(Modifier.height(8.dp))
                 for (permission in missingRequiredPermissions) {

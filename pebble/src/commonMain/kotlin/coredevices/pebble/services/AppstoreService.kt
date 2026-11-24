@@ -403,7 +403,7 @@ class AppstoreService(
                 appstoreCollectionDao.insertCollectionIfMissing(
                     AppstoreCollection(
                         sourceId = source.id,
-                        title = "Hearted",
+                        title = "Hearted", // not-localized
                         slug = HEARTED_COLLECTION_SLUG,
                         type = type,
                         enabled = true,
@@ -414,7 +414,7 @@ class AppstoreService(
                     appstoreCollectionDao.insertCollectionIfMissing(
                         AppstoreCollection(
                             sourceId = source.id,
-                            title = "Top Charts",
+                            title = "Top Charts", // not-localized
                             slug = TOP_CHARTS_COLLECTION_SLUG,
                             type = type,
                             enabled = true,

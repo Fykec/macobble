@@ -596,7 +596,7 @@ fun LockerAppScreen(topBarParams: TopBarParams, uuid: Uuid?, navBarNav: NavBarNa
 //                                onExpandedChange = { variantsExpanded = it },
 //                                modifier = Modifier.weight(1f)
 //                            ) {
-//                                val version = entry.version?.let { "v$it" } ?: "Unknown version"
+//                                val version = entry.version?.let { "v$it" } ?: "Unknown version" // not-localized
 //                                val textContent = if (hasUuidConflict) {
 //                                    "${entry.commonAppType.storeSource.title}: ${entry.title} ($version)"
 //                                } else {
@@ -624,9 +624,9 @@ fun LockerAppScreen(topBarParams: TopBarParams, uuid: Uuid?, navBarNav: NavBarNa
 //                                        DropdownMenuItem(
 //                                            text = {
 //                                                if (hasUuidConflict) {
-//                                                    Text("${variant.source.title}: ${variant.app.title} (${variant.app.version?.let { "v$it" } ?: "Unknown version"})")
+//                                                    Text("${variant.source.title}: ${variant.app.title} (${variant.app.version?.let { "v$it" } ?: "Unknown version"})") // not-localized
 //                                                } else {
-//                                                    Text("${variant.source.title} (${variant.app.version?.let { "v$it" } ?: "Unknown version"})")
+//                                                    Text("${variant.source.title} (${variant.app.version?.let { "v$it" } ?: "Unknown version"})") // not-localized
 //                                                }
 //                                            },
 //                                            onClick = {
@@ -771,7 +771,7 @@ fun LockerAppScreen(topBarParams: TopBarParams, uuid: Uuid?, navBarNav: NavBarNa
                                     PebbleNavBarRoutes.AppStoreCollectionRoute(
                                         sourceId = storeSource.id,
                                         path = "dev/$developerId",
-                                        title = "Developer: ${entry.developerName}"
+                                        title = "Developer: ${entry.developerName}", // not-localized
                                     )
                                 )
                             }

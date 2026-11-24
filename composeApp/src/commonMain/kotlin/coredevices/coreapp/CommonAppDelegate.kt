@@ -119,7 +119,7 @@ class CommonAppDelegate(
                 val sttVersion = "${CommonBuildKonfig.CACTUS_STT_WEIGHTS_VERSION}:${CommonBuildKonfig.CACTUS_STT_ENG_WEIGHTS_VERSION}"
                 if (settings.getStringOrNull(STT_UPDATE_NOTIFIED_VERSION_KEY) != sttVersion) {
                     settings.putString(STT_UPDATE_NOTIFIED_VERSION_KEY, sttVersion)
-                    val title = "Offline voice recognition"
+                    val title = "Offline voice recognition" // not-localized
                     val body = "We've improved offline voice recognition. Open the app to update the model."
                     NotifierManager.getLocalNotifier().notify(STT_UPDATE_NOTIFICATION_ID, title, body)
                     watchNotifier.send(STT_UPDATE_WATCH_KEY, title, body)

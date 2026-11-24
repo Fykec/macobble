@@ -1417,7 +1417,7 @@ fun rememberSettingsItemsState(navBarNav: NavBarNav?, snackbarDisplay: SnackbarD
                                     )
                                 )
                             },
-                            subtext = "Override the default on the watch",
+                            subtext = stringResource(PebbleRes.string.override_default_on_watch),
                             title = stringResource(Res.string.reminder_vibration_pattern),
                         )
                     },

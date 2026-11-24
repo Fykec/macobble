@@ -450,4 +450,8 @@
     <string name="override_default_on_watch">覆盖手表上的默认设置</string>
     <string name="default_value">默认：%1$s</string>
     <string name="developer_x">开发者：%1$s</string>
+    <string name="app_activity_summary">%1$s 项操作 · 最近 %2$s</string>
+    <string name="show_all_n">显示全部 %1$s 项</string>
+    <string name="couldnt_load_x">无法加载 %1$s</string>
+    <string name="index_permissions_required">Index 需要额外的权限才能工作。</string>
 </resources>

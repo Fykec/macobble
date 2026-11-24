@@ -43,6 +43,7 @@ import io.rebble.libpebblecommon.plugin.PluginMetadata
 import org.jetbrains.compose.resources.stringResource
 import coreapp.pebble.generated.resources.Res as PebbleRes
 import coreapp.pebble.generated.resources.ok
+import coreapp.pebble.generated.resources.about_x
 
 /** What a plugin's manifest declares it serves and can do. Rows expand on tap for the detail. */
 @Composable
@@ -90,7 +91,7 @@ private fun SectionTitle(text: String, info: String) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)) {
         Text(text, style = MaterialTheme.typography.titleMedium)
         IconButton(onClick = { showInfo = true }, modifier = Modifier.size(32.dp)) {
-            Icon(Icons.Outlined.Info, contentDescription = "About $text", modifier = Modifier.size(18.dp))
+            Icon(Icons.Outlined.Info, contentDescription = stringResource(PebbleRes.string.about_x, text), modifier = Modifier.size(18.dp))
         }
     }
 }

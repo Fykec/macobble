@@ -439,7 +439,7 @@ private fun ModelListItem(
                             onClick = { onDownload?.invoke() },
                             enabled = onDownload != null
                         ) {
-                            Icon(Icons.Default.Download, contentDescription = "Download")
+                            Icon(Icons.Default.Download, contentDescription = stringResource(PebbleRes.string.download))
                         }
                     }
                     DownloadState.Downloaded -> {
@@ -454,7 +454,7 @@ private fun ModelListItem(
                         }
                     }
                 }
-                Text("${model.sizeInMB} MB", modifier = Modifier.offset(y = (-8).dp))
+                Text("${model.sizeInMB} MB", modifier = Modifier.offset(y = (-8).dp)) // not-localized
             }
         }
     )

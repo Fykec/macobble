@@ -50,6 +50,9 @@ import kotlinx.io.writeString
 import org.koin.compose.koinInject
 import theme.currentColorScheme
 import kotlin.uuid.Uuid
+import coreapp.pebble.generated.resources.couldnt_load_x
+import coreapp.pebble.generated.resources.Res
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun PluginSourceScreen(topBarParams: TopBarParams, uuid: Uuid?, pbwUrl: String?, script: String, title: String) {
@@ -103,7 +106,7 @@ fun PluginSourceScreen(topBarParams: TopBarParams, uuid: Uuid?, pbwUrl: String?,
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         when {
             loaded == null -> CircularProgressIndicator()
-            text == null -> Text("Couldn't load $script")
+            text == null -> Text(stringResource(Res.string.couldnt_load_x, script))
             else -> SelectionContainer {
                 val dark = currentColorScheme().isDark
                 val highlighted by produceState(AnnotatedString(text), text, dark) {

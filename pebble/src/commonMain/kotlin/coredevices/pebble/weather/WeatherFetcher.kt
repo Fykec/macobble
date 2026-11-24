@@ -367,7 +367,7 @@ class WeatherFetcher(
                 }
             }.ifEmpty { null }?.joinToString("\n—\n")
             createTimelinePin(
-                title = "Sunrise",
+                title = "Sunrise", // not-localized
                 kind = WeatherPinKind.Sunrise,
                 subtitle = "${primaryForecast.day.temp}°/${primaryForecast.night.temp}°",
                 dayOrNight = primaryForecast.day,
@@ -391,7 +391,7 @@ class WeatherFetcher(
             }
         }.ifEmpty { null }?.joinToString("\n—\n")
         createTimelinePin(
-            title = "Sunset",
+            title = "Sunset", // not-localized
             kind = WeatherPinKind.Sunset,
             subtitle = "$dayTempString/${primaryForecast.night.temp}°",
             dayOrNight = primaryForecast.night,

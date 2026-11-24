@@ -544,7 +544,7 @@ private fun autoSunTimesItem(coreConfigHolder: CoreConfigHolder, weatherFetcher:
     val pref = RgbColorWatchPref.BacklightColorNight
     val coreConfig = coreConfigHolder.config.value
     return basicSettingsToggleItem(
-        title = "Automatic Sunrise/Sunset",
+        title = "Automatic Sunrise/Sunset", // not-localized
         description = "Use the sunrise and sunset times for your location",
         topLevelType = pref.topLevelType(),
         section = pref.section(),

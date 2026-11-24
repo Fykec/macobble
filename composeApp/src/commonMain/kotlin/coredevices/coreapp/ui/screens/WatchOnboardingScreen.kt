@@ -113,6 +113,8 @@ import coredevices.pebble.ui.InstallReviewDialog
 import io.rebble.libpebblecommon.permissions.InstallReview
 import org.jetbrains.compose.resources.stringResource
 import coreapp.composeapp.generated.resources.Res as AppRes
+import coreapp.composeapp.generated.resources.currently_installed_language_pack
+import coreapp.composeapp.generated.resources.installing_language_pack
 import coreapp.composeapp.generated.resources.app_permissions
 import coreapp.composeapp.generated.resources.checking_for_pebbleos_updates
 import coreapp.composeapp.generated.resources.configure_more_in_settings
@@ -285,10 +287,10 @@ fun WatchOnboardingScreen(
                         SectionText(stringResource(AppRes.string.install_a_language_pack))
                         Spacer(modifier = Modifier.height(15.dp))
                         if (installingLanguagePack != null) {
-                            Text("Installing $installingLanguagePack")
+                            Text(stringResource(AppRes.string.installing_language_pack, installingLanguagePack))
                             Spacer(modifier = Modifier.height(15.dp))
                         } else if (languagePackInstalled != null) {
-                            Text("Currently installed: $languagePackInstalled")
+                            Text(stringResource(AppRes.string.currently_installed_language_pack, languagePackInstalled))
                             Spacer(modifier = Modifier.height(15.dp))
                         }
                         val languagePackInstallState = connectedWatch.languagePackInstallState as? LanguagePackInstallState.Installing

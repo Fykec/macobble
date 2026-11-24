@@ -68,4 +68,9 @@
     <string name="what_s_new_in_the_app">应用的新变化</string>
     <string name="you_can_follow_up_on_an">你可以通过追加日志或信息来跟进已有的问题报告：</string>
     <string name="you_must_sign_in_to_submit">你需要先登录才能提交问题报告</string>
+    <string name="remove_n_files">移除 %1$s 个文件</string>
+    <string name="installing_language_pack">正在安装 %1$s</string>
+    <string name="currently_installed_language_pack">当前已安装：%1$s</string>
+    <string name="agent_reply_prefix">助手：%1$s</string>
+    <string name="report_title_with_subject">报告：%1$s</string>
 </resources>

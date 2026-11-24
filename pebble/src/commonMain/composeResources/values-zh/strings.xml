@@ -414,4 +414,11 @@
     <string name="top_level_watch">手表</string>
     <string name="top_level_all">全部</string>
     <string name="top_level_notifications">通知</string>
+    <string name="about_x">关于 %1$s</string>
+    <string name="remove_device_title">移除 %1$s？</string>
+    <string name="scan_action">扫描</string>
+    <string name="fab_add_watch_title">添加手表</string>
+    <string name="fab_add_watch_body">适用于任何通过低功耗蓝牙连接的现代 Pebble：\n\nPebble Time 2、Core 2 Duo、Pebble Round 2 和 Pebble 2。</string>
+    <string name="fab_add_classic_watch_title">添加经典手表</string>
+    <string name="fab_add_classic_watch_body">适用于通过经典蓝牙连接的旧款 Pebble：\n\n初代 Pebble、Pebble Steel、Pebble Time、Pebble Time Steel 和 Pebble Time Round。</string>
 </resources>

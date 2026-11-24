@@ -58,6 +58,7 @@ import org.koin.compose.koinInject
 import rememberOpenDocumentLauncher
 import rememberOpenPhotoLauncher
 import coreapp.composeapp.generated.resources.Res as AppRes
+import coreapp.composeapp.generated.resources.report_title_with_subject
 import coreapp.composeapp.generated.resources.add_image
 import coreapp.composeapp.generated.resources.attach_files
 import coreapp.composeapp.generated.resources.attach_more_logs
@@ -125,7 +126,7 @@ fun ViewBugReportScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("Report: $subject", maxLines = 1, fontSize = 17.sp) },
+                    title = { Text(stringResource(AppRes.string.report_title_with_subject, subject), maxLines = 1, fontSize = 17.sp) },
                     navigationIcon = {
                         IconButton(onClick = coreNav::goBack) {
                             Icon(

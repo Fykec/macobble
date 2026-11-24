@@ -49,6 +49,7 @@ import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.jetbrains.compose.resources.stringResource
 import coreapp.composeapp.generated.resources.Res as AppRes
+import coreapp.composeapp.generated.resources.agent_reply_prefix
 import coreapp.composeapp.generated.resources.my_bug_reports
 import coreapp.composeapp.generated.resources.back
 import coreapp.composeapp.generated.resources.no_bug_reports_found
@@ -234,7 +235,7 @@ private fun TicketListItem(
                     .trim()
                 
                 Text(
-                    text = "Agent: $strippedText",
+                    text = stringResource(AppRes.string.agent_reply_prefix, strippedText),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.bodyMedium,

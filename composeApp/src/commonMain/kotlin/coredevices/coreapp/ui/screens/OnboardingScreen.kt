@@ -50,6 +50,7 @@ import co.touchlab.kermit.Logger
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.set
 import coreapp.composeapp.generated.resources.Res
+import coreapp.composeapp.generated.resources.sign_in
 import coreapp.composeapp.generated.resources.pebble_logo
 import coredevices.pebble.ui.PebbleRoutes
 import coredevices.pebble.ui.PreviewWrapper
@@ -298,7 +299,7 @@ fun OnboardingScreen(
                         verticalArrangement = Arrangement.Center,
                     ) {
                         Text(
-                            text = "Sign In",
+                            text = stringResource(Res.string.sign_in),
                             fontSize = 35.sp,
                             modifier = Modifier.padding(bottom = 25.dp),
                         )

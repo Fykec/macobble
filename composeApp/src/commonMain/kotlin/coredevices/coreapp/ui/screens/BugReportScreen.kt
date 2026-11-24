@@ -109,6 +109,7 @@ import rememberOpenDocumentLauncher
 import rememberOpenPhotoLauncher
 import size
 import coreapp.composeapp.generated.resources.Res as AppRes
+import coreapp.composeapp.generated.resources.remove_n_files
 import coreapp.composeapp.generated.resources.add_images
 import coreapp.composeapp.generated.resources.bug_report
 import coreapp.composeapp.generated.resources.capturing_screenshot
@@ -750,7 +751,7 @@ private fun AttachmentButtons(
                     modifier = Modifier.size(ButtonDefaults.IconSize)
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text("Remove ${attachments.size} file(s)")
+                Text(stringResource(AppRes.string.remove_n_files, attachments.size))
             } else {
                 Icon(
                     Icons.Default.AttachFile,

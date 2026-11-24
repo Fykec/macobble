@@ -123,6 +123,15 @@ import com.russhwolf.settings.Settings
 import com.russhwolf.settings.serialization.decodeValue
 import com.russhwolf.settings.serialization.encodeValue
 import coreapp.pebble.generated.resources.Res
+import org.jetbrains.compose.resources.StringResource
+import coreapp.pebble.generated.resources.scan_action
+import coreapp.pebble.generated.resources.remove_device_title
+import coreapp.pebble.generated.resources.about_x
+import coreapp.pebble.generated.resources.fab_add_classic_watch_body
+import coreapp.pebble.generated.resources.fab_add_classic_watch_title
+import coreapp.pebble.generated.resources.fab_add_watch_body
+import coreapp.pebble.generated.resources.fab_add_watch_title
+import coreapp.pebble.generated.resources.Res as PebbleRes
 import coreapp.pebble.generated.resources.other_pebble_apps_warning
 import coreapp.pebble.generated.resources.connect_crash_hint
 import coreapp.pebble.generated.resources.other_pebbleos_apps_warning
@@ -469,7 +478,7 @@ fun WatchesScreen(navBarNav: NavBarNav, topBarParams: TopBarParams) {
                                 }
                             }
                         },
-                        icon = { Icon(Icons.Default.RadioButtonUnchecked, contentDescription = "Scan") },
+                        icon = { Icon(Icons.Default.RadioButtonUnchecked, contentDescription = stringResource(Res.string.scan_action)) },
                         text = { Text(stringResource(Res.string.add_index_01)) },
                     )
                     if (pebbleFeatures.supportsBtClassic()) {
@@ -773,12 +782,12 @@ fun WatchesScreen(navBarNav: NavBarNav, topBarParams: TopBarParams) {
     fabInfoDialog?.let { info ->
         M3Dialog(
             onDismissRequest = { fabInfoDialog = null },
-            title = { Text(info.title) },
+            title = { Text(stringResource(info.title)) },
             buttons = {
                 TextButton(onClick = { fabInfoDialog = null }) { Text(stringResource(Res.string.close)) }
             },
         ) {
-            Text(info.body)
+            Text(stringResource(info.body))
         }
     }
 }
@@ -855,17 +864,14 @@ private fun DiscoveredWatchesDialog(
     )
 }
 
-private enum class FabInfo(val title: String, val body: String) {
+private enum class FabInfo(val title: StringResource, val body: StringResource) {
     Watch(
-        title = "Add Watch",
-        body = "Use this for any modern Pebble that connects over Bluetooth Low Energy:\n\n" +
-                "Pebble Time 2, Core 2 Duo, Pebble Round 2 & Pebble 2.",
+        title = PebbleRes.string.fab_add_watch_title,
+        body = PebbleRes.string.fab_add_watch_body,
     ),
     ClassicWatch(
-        title = "Add Classic Watch",
-        body = "Use this for legacy Pebbles that connect over Bluetooth Classic:\n\n" +
-                "Original Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, and " +
-                "Pebble Time Round.",
+        title = PebbleRes.string.fab_add_classic_watch_title,
+        body = PebbleRes.string.fab_add_classic_watch_body,
     ),
 }
 
@@ -874,7 +880,7 @@ private fun FabMenuItemLabel(text: String, onInfoClick: () -> Unit) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(text)
         IconButton(onClick = onInfoClick) {
-            Icon(Icons.Outlined.Info, contentDescription = "About $text")
+            Icon(Icons.Outlined.Info, contentDescription = stringResource(Res.string.about_x, text))
         }
     }
 }
@@ -1259,7 +1265,7 @@ private fun RingMenu(ring: KnownIndexDevice) {
     if (showRemoveDialog) {
         AlertDialog(
             onDismissRequest = { showRemoveDialog = false },
-            title = { Text("Remove ${ring.name}?") },
+            title = { Text(stringResource(Res.string.remove_device_title, ring.name)) },
             text = { Text(stringResource(Res.string.are_you_sure)) },
             confirmButton = {
                 TextButton(onClick = {

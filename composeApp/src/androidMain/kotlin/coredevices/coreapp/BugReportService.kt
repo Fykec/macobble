@@ -110,10 +110,10 @@ class BugReportService : Service(), CoroutineScope {
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
             CHANNEL_ID,
-            "Bug Report Processing",
+            getString(coredevices.coreapp.shared.R.string.notification_channel_bug_report_name),
             NotificationManager.IMPORTANCE_DEFAULT
         ).apply {
-            description = "Shows progress while processing bug reports"
+            description = getString(coredevices.coreapp.shared.R.string.notification_channel_bug_report_description)
         }
         val manager = getSystemService(NotificationManager::class.java)
         manager.createNotificationChannel(channel)

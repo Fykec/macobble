@@ -47,6 +47,7 @@ val appPath = layout.buildDirectory.dir("macosApp/Pebble.app")
 val infoPlistPath = layout.projectDirectory.file("src/macosMain/resources/Info.plist")
 val entitlementsPath = layout.projectDirectory.file("src/macosMain/resources/CoreApp.entitlements")
 val iconPath = layout.projectDirectory.file("src/macosMain/resources/AppIcon.icns")
+val localizationDir = layout.projectDirectory.dir("src/macosMain/resources/zh-Hans.lproj")
 
 // Compose Resources are assembled per module; the app needs all of them merged.
 val resourceModules = listOf(":util", ":pebble", ":composeApp", ":macosApp")
@@ -65,10 +66,12 @@ val bundleApp by tasks.registering {
     val infoPlist = infoPlistPath.asFile
     val entitlements = entitlementsPath.asFile
     val icon = iconPath.asFile
+    val localizations = localizationDir.asFile
     val resourceDirs = assembledResourceDirs
 
     inputs.files(binary, infoPlist, entitlements, icon)
     inputs.files(resourceDirs)
+    inputs.files(localizations)
     outputs.dir(app)
 
     doLast {
@@ -84,6 +87,8 @@ val bundleApp by tasks.registering {
         File(macos, "Pebble").setExecutable(true)
         infoPlist.copyTo(File(app, "Contents/Info.plist"), overwrite = true)
         icon.copyTo(File(resources, "AppIcon.icns"), overwrite = true)
+        // macOS reads permission-prompt text from <lang>.lproj/InfoPlist.strings in the bundle.
+        localizations.copyRecursively(File(resources, localizations.name), overwrite = true)
         resourceDirs.forEach { src ->
             if (src.exists()) src.copyRecursively(composeResources, overwrite = true)
         }

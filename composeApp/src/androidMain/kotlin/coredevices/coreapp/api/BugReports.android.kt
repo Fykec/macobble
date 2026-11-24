@@ -56,10 +56,10 @@ actual fun createNotification(
 private fun Context.createChannel() {
     val channel = NotificationChannel(
         CHANNEL_ID,
-        "Support Chat",
+        getString(coredevices.coreapp.shared.R.string.notification_channel_support_chat_name),
         NotificationManager.IMPORTANCE_DEFAULT
     ).apply {
-        description = "Support Chat"
+        description = getString(coredevices.coreapp.shared.R.string.notification_channel_support_chat_name)
     }
     val manager = getSystemService(NotificationManager::class.java)
     manager.createNotificationChannel(channel)

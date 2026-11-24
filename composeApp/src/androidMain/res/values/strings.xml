@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_channel_pebble_name">Pebble Service</string>
+    <string name="notification_channel_bug_report_name">Bug Report Processing</string>
+    <string name="notification_channel_bug_report_description">Shows progress while processing bug reports</string>
+    <string name="notification_channel_support_chat_name">Support Chat</string>
+</resources>

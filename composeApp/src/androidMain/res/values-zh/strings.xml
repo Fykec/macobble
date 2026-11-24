@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_channel_pebble_name">Pebble 服务</string>
+    <string name="notification_channel_bug_report_name">问题报告处理</string>
+    <string name="notification_channel_bug_report_description">显示问题报告的处理进度</string>
+    <string name="notification_channel_support_chat_name">支持对话</string>
+</resources>

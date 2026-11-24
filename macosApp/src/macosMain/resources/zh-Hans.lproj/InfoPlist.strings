@@ -1,0 +1,6 @@
+/* Localized Info.plist values shown in macOS permission prompts. */
+"NSBluetoothAlwaysUsageDescription" = "Pebble 需要通过蓝牙连接你的 Pebble 手表，以同步通知、健康数据和表盘。";
+"NSLocationWhenInUseUsageDescription" = "Pebble 使用你的位置来为手表提供天气信息。";
+"NSCalendarsUsageDescription" = "Pebble 将你的日历日程同步到手表。";
+"NSRemindersUsageDescription" = "Pebble 将你的提醒事项同步到手表。";
+"NSContactsUsageDescription" = "Pebble 显示联系人信息，以便在手表上提示来电和消息。";

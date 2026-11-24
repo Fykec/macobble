@@ -121,6 +121,35 @@ import com.cactus.isCactusSupported
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.set
 import coreapp.pebble.generated.resources.Res
+import coreapp.pebble.generated.resources.section_notifications
+import coreapp.pebble.generated.resources.top_level_notifications
+import coreapp.pebble.generated.resources.top_level_all
+import coreapp.pebble.generated.resources.top_level_watch
+import coreapp.pebble.generated.resources.top_level_phone
+import coreapp.pebble.generated.resources.section_debug
+import coreapp.pebble.generated.resources.section_diagnostics
+import coreapp.pebble.generated.resources.section_other
+import coreapp.pebble.generated.resources.section_music
+import coreapp.pebble.generated.resources.section_connectivity
+import coreapp.pebble.generated.resources.section_quiet_time
+import coreapp.pebble.generated.resources.section_timeline
+import coreapp.pebble.generated.resources.section_time
+import coreapp.pebble.generated.resources.section_weather
+import coreapp.pebble.generated.resources.section_display
+import coreapp.pebble.generated.resources.section_speech
+import coreapp.pebble.generated.resources.section_health
+import coreapp.pebble.generated.resources.section_calendar
+import coreapp.pebble.generated.resources.section_battery
+import coreapp.pebble.generated.resources.section_plugins
+import coreapp.pebble.generated.resources.section_apps
+import coreapp.pebble.generated.resources.section_appearance
+import coreapp.pebble.generated.resources.section_general
+import coreapp.pebble.generated.resources.section_notifications_watch
+import coreapp.pebble.generated.resources.section_quick_launch
+import coreapp.pebble.generated.resources.section_defaults
+import coreapp.pebble.generated.resources.section_get_help
+import coreapp.pebble.generated.resources.section_about
+import coreapp.pebble.generated.resources.Res as PebbleRes
 import coreapp.pebble.generated.resources.wispr_flow
 import coreapp.pebble.generated.resources.wispr_flow_logo_black
 import coreapp.pebble.generated.resources.wispr_flow_logo_white
@@ -197,6 +226,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
@@ -331,11 +361,11 @@ import coreapp.pebble.generated.resources.what_s_new_in_the_app
 import coreapp.pebble.generated.resources.wi_fi_only
 import coreapp.pebble.generated.resources.year_of_birth
 
-enum class TopLevelType(val displayName: String) {
-    Phone("Phone"),
-    Watch("Watch"),
-    All("All"),
-    Notifications("Notifications"),
+enum class TopLevelType(val displayName: StringResource) {
+    Phone(PebbleRes.string.top_level_phone),
+    Watch(PebbleRes.string.top_level_watch),
+    All(PebbleRes.string.top_level_all),
+    Notifications(PebbleRes.string.top_level_notifications),
     ;
 
     fun icon(platform: Platform) = when (this) {
@@ -354,31 +384,31 @@ enum class TopLevelType(val displayName: String) {
     }
 }
 
-enum class Section(val title: String, val icon: ImageVector) {
-    About("About", Icons.Default.Info),
-    Support("Get Help", Icons.Default.SupportAgent),
-    Defaults("Defaults", Icons.Default.Tune),
-    QuickLaunch("Quick Launch", Icons.Default.RocketLaunch), // watch only
-    NotificationsWatch("Notifications", Icons.Default.Notifications), // watch only
-    General("General", Icons.Default.Settings),
-    Appearance("Appearance", Icons.Default.Palette),
-    Apps("Apps", Icons.Default.Apps),
-    Plugins("Plugins", Icons.Default.Power),
-    Battery("Battery", Icons.Default.BatteryFull),
-    Calendar("Calendar", Icons.Default.CalendarMonth),
-    Health("Health", Icons.AutoMirrored.Filled.DirectionsRun),
-    Speech("Speech Recognition", Icons.Default.Mic),
-    Display("Display", Icons.Default.DarkMode), // watch only
-    Weather("Weather", Icons.Default.Cloud),
-    Notifications("Notifications", Icons.Default.Notifications),
-    Time("Time", Icons.Default.Schedule), // watch only
-    Timeline("Timeline", Icons.Default.Timeline), // watch only
-    QuietTime("Quiet Time", Icons.Default.DoNotDisturb),
-    Connectivity("Connectivity", Icons.Default.Wifi),
-    Music("Music", Icons.Default.MusicNote),
-    Other("Other", Icons.Default.MoreHoriz), // watch only
-    Diagnostics("Diagnostics", Icons.Default.Timeline),
-    Debug("Debug", Icons.Default.BugReport),
+enum class Section(val title: StringResource, val icon: ImageVector) {
+    About(PebbleRes.string.section_about, Icons.Default.Info),
+    Support(PebbleRes.string.section_get_help, Icons.Default.SupportAgent),
+    Defaults(PebbleRes.string.section_defaults, Icons.Default.Tune),
+    QuickLaunch(PebbleRes.string.section_quick_launch, Icons.Default.RocketLaunch), // watch only
+    NotificationsWatch(PebbleRes.string.section_notifications_watch, Icons.Default.Notifications), // watch only
+    General(PebbleRes.string.section_general, Icons.Default.Settings),
+    Appearance(PebbleRes.string.section_appearance, Icons.Default.Palette),
+    Apps(PebbleRes.string.section_apps, Icons.Default.Apps),
+    Plugins(PebbleRes.string.section_plugins, Icons.Default.Power),
+    Battery(PebbleRes.string.section_battery, Icons.Default.BatteryFull),
+    Calendar(PebbleRes.string.section_calendar, Icons.Default.CalendarMonth),
+    Health(PebbleRes.string.section_health, Icons.AutoMirrored.Filled.DirectionsRun),
+    Speech(PebbleRes.string.section_speech, Icons.Default.Mic),
+    Display(PebbleRes.string.section_display, Icons.Default.DarkMode), // watch only
+    Weather(PebbleRes.string.section_weather, Icons.Default.Cloud),
+    Notifications(PebbleRes.string.section_notifications, Icons.Default.Notifications),
+    Time(PebbleRes.string.section_time, Icons.Default.Schedule), // watch only
+    Timeline(PebbleRes.string.section_timeline, Icons.Default.Timeline), // watch only
+    QuietTime(PebbleRes.string.section_quiet_time, Icons.Default.DoNotDisturb),
+    Connectivity(PebbleRes.string.section_connectivity, Icons.Default.Wifi),
+    Music(PebbleRes.string.section_music, Icons.Default.MusicNote),
+    Other(PebbleRes.string.section_other, Icons.Default.MoreHoriz), // watch only
+    Diagnostics(PebbleRes.string.section_diagnostics, Icons.Default.Timeline),
+    Debug(PebbleRes.string.section_debug, Icons.Default.BugReport),
 }
 
 fun Section.navigatesDirectlyTo(): NavBarRoute? = when (this) {
@@ -2658,7 +2688,7 @@ fun WatchSettingsScreen(navBarNav: NavBarNav, topBarParams: TopBarParams) {
                                                 modifier = Modifier.size(22.dp)
                                             )
                                             Text(
-                                                type.displayName,
+                                                stringResource(type.displayName),
                                                 fontSize = 10.sp,
                                                 lineHeight = 13.sp,
                                                 modifier = Modifier.padding(top = 3.dp).widthIn(min = 55.dp),
@@ -2688,7 +2718,7 @@ fun WatchSettingsScreen(navBarNav: NavBarNav, topBarParams: TopBarParams) {
                                         .background(MaterialTheme.colorScheme.background)
                                 ) {
                                     Text(
-                                        section.title,
+                                        stringResource(section.title),
                                         style = MaterialTheme.typography.titleSmall,
                                         color = MaterialTheme.colorScheme.primary,
                                         modifier = Modifier.padding(
@@ -2721,7 +2751,7 @@ fun WatchSettingsScreen(navBarNav: NavBarNav, topBarParams: TopBarParams) {
                                         contentDescription = null,
                                     )
                                 },
-                                headlineContent = { Text(section.title) },
+                                headlineContent = { Text(stringResource(section.title)) },
                                 trailingContent = if (sectionBadgeCount > 0) {
                                     {
                                         Badge {
@@ -2772,11 +2802,12 @@ fun WatchSettingsCategoryScreen(
             ) { focusManager.clearFocus() },
     ) {
         val state = rememberSettingsItemsState(navBarNav, topBarParams) ?: return
+        val sectionTitle = stringResource(section.title)
 
-        LaunchedEffect(Unit) {
+        LaunchedEffect(sectionTitle) {
             topBarParams.searchAvailable(null)
             topBarParams.actions {}
-            topBarParams.title(section.title)
+            topBarParams.title(sectionTitle)
         }
 
         val filteredItems = remember(state.rawSettingsItems, topLevelType, state.debugOptionsEnabled) {

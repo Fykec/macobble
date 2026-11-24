@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -41,7 +41,9 @@ private val LineColor = Color(0xFFE0E0E0)
  */
 @Composable
 fun DebugLogOverlay(modifier: Modifier = Modifier) {
-    var expanded by remember { mutableStateOf(true) }
+    // Collapsed by default: expanded covers the bottom of the window, where the app puts its
+    // floating action buttons.
+    var expanded by remember { mutableStateOf(false) }
     var lines by remember { mutableStateOf(emptyList<String>()) }
     // Sampled on a timer: log lines arrive far faster than the panel can be recomposed.
     LaunchedEffect(Unit) {
@@ -53,7 +55,7 @@ fun DebugLogOverlay(modifier: Modifier = Modifier) {
     Column(
         modifier
             .fillMaxWidth()
-            .fillMaxHeight(if (expanded) 0.35f else 0.055f)
+            .height(if (expanded) 220.dp else 26.dp)
             .background(Color.Black.copy(alpha = 0.88f))
             .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {

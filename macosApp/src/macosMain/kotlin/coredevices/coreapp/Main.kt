@@ -58,7 +58,7 @@ fun main() {
     log("main() start")
     val app = NSApplication.sharedApplication()
     app.setActivationPolicy(NSApplicationActivationPolicy.NSApplicationActivationPolicyRegular)
-    Window(title = "CoreApp", size = DpSize(420.dp, 900.dp)) {
+    Window(title = "Pebble", size = DpSize(420.dp, 900.dp)) {
         // Run once: SideEffect re-runs on every recomposition, which kept yanking the window
         // back to the centre whenever the UI updated.
         DisposableEffect(Unit) {

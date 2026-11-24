@@ -71,7 +71,7 @@
 ### 产出
 
 - `:macosApp` 模块：`./gradlew :macosApp:bundleApp` 产出
-  `macosApp/build/macosApp/CoreApp.app`（Info.plist + entitlements + ad-hoc 签名 + 合并的
+  `macosApp/build/macosApp/Pebble.app`（Info.plist + 图标 + entitlements + ad-hoc 签名 + 合并的
   Compose 资源），双击/`open` 即可运行。
 - `:macos-stubs` 模块：无 macOS 产物的第三方库的 no-op 实现（firebase common/auth/firestore/
   crashlytics、health-kmp、kmpnotifier、compose-webview-multiplatform、compass mobile、haversine）。

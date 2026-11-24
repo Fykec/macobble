@@ -5,15 +5,17 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleExecutable</key>
-    <string>CoreApp</string>
+    <string>Pebble</string>
     <key>CFBundleIdentifier</key>
     <string>coredevices.coreapp.macos</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
-    <string>CoreApp</string>
+    <string>Pebble</string>
     <key>CFBundleDisplayName</key>
-    <string>CoreApp</string>
+    <string>Pebble</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
@@ -25,15 +27,15 @@
     <key>NSHighResolutionCapable</key>
     <true/>
     <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>CoreApp connects to your Pebble watch over Bluetooth to sync notifications, health data and watchfaces.</string>
+    <string>Pebble connects to your Pebble watch over Bluetooth to sync notifications, health data and watchfaces.</string>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>CoreApp uses your location for weather on your watch.</string>
+    <string>Pebble uses your location for weather on your watch.</string>
     <key>NSCalendarsUsageDescription</key>
-    <string>CoreApp syncs your calendar events to your watch.</string>
+    <string>Pebble syncs your calendar events to your watch.</string>
     <key>NSRemindersUsageDescription</key>
-    <string>CoreApp syncs your reminders to your watch.</string>
+    <string>Pebble syncs your reminders to your watch.</string>
     <key>NSContactsUsageDescription</key>
-    <string>CoreApp shows your contacts for calls and messages on your watch.</string>
+    <string>Pebble shows your contacts for calls and messages on your watch.</string>
     <key>CFBundleURLTypes</key>
     <array>
         <dict>

@@ -39,13 +39,14 @@ compose.resources {
     packageOfResClass = "coreapp.macosapp.generated.resources"
 }
 
-// Packages the Kotlin/Native executable into a double-clickable CoreApp.app.
+// Packages the Kotlin/Native executable into a double-clickable Pebble.app.
 // Everything the task action touches is resolved while configuring, so the action only
 // captures plain files and strings (the build uses the configuration cache).
 val binaryPath = layout.buildDirectory.file("bin/macosArm64/debugExecutable/CoreApp.kexe")
-val appPath = layout.buildDirectory.dir("macosApp/CoreApp.app")
+val appPath = layout.buildDirectory.dir("macosApp/Pebble.app")
 val infoPlistPath = layout.projectDirectory.file("src/macosMain/resources/Info.plist")
 val entitlementsPath = layout.projectDirectory.file("src/macosMain/resources/CoreApp.entitlements")
+val iconPath = layout.projectDirectory.file("src/macosMain/resources/AppIcon.icns")
 
 // Compose Resources are assembled per module; the app needs all of them merged.
 val resourceModules = listOf(":util", ":pebble", ":composeApp", ":macosApp")
@@ -63,9 +64,10 @@ val bundleApp by tasks.registering {
     val app = appPath.get().asFile
     val infoPlist = infoPlistPath.asFile
     val entitlements = entitlementsPath.asFile
+    val icon = iconPath.asFile
     val resourceDirs = assembledResourceDirs
 
-    inputs.files(binary, infoPlist, entitlements)
+    inputs.files(binary, infoPlist, entitlements, icon)
     inputs.files(resourceDirs)
     outputs.dir(app)
 
@@ -78,9 +80,10 @@ val bundleApp by tasks.registering {
         // (NSBundle.resourcePath + "/compose-resources/" + the path, which itself starts
         // with "composeResources/").
         val composeResources = File(resources, "compose-resources/composeResources").apply { mkdirs() }
-        binary.copyTo(File(macos, "CoreApp"), overwrite = true)
-        File(macos, "CoreApp").setExecutable(true)
+        binary.copyTo(File(macos, "Pebble"), overwrite = true)
+        File(macos, "Pebble").setExecutable(true)
         infoPlist.copyTo(File(app, "Contents/Info.plist"), overwrite = true)
+        icon.copyTo(File(resources, "AppIcon.icns"), overwrite = true)
         resourceDirs.forEach { src ->
             if (src.exists()) src.copyRecursively(composeResources, overwrite = true)
         }

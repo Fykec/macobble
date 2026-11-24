@@ -9,6 +9,7 @@ import coredevices.coreapp.auth.RealGoogleAuthUtil
 import coredevices.analytics.AnalyticsBackend
 import coredevices.coreapp.util.AppUpdate
 import coredevices.coreapp.util.MacosAppUpdate
+import coredevices.libindex.LibIndex
 import coredevices.util.NoOpWatchNotifier
 import coredevices.util.NoopCompanionDevice
 import coredevices.util.PermissionRequester
@@ -78,6 +79,7 @@ val macosDefaultModule = module {
     // macOS has no ring/local models; callers fall back to cloud transcription.
     single<CactusModelPathProvider> { NoopCactusModelPathProvider() }
     single<AnalyticsBackend> { NoopAnalyticsBackend }
+    single<LibIndex> { NoopLibIndex() }
 }
 
 private object NoopAnalyticsBackend : AnalyticsBackend {

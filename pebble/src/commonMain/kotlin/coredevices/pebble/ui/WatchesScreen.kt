@@ -724,7 +724,16 @@ private fun DiscoveredWatchesDialog(
                 if (scanning) {
                     CoreLinearProgressIndicator(modifier = Modifier.fillMaxWidth())
                 } else if (watches.isEmpty()) {
-                    Text("No watches found", modifier = Modifier.padding(vertical = 16.dp))
+                    Column(Modifier.padding(vertical = 16.dp)) {
+                        Text("No watches found")
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            "A watch that is connected to another phone stops advertising, so it " +
+                                "will not appear here. Unpair it from that phone, or factory reset the " +
+                                "watch, then tap Scan again.",
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
                 }
                 LazyColumn {
                     items(watches, key = { it.identifier.asString }) { watch ->

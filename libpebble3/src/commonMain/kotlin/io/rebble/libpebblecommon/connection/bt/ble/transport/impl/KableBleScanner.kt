@@ -35,16 +35,19 @@ class KableBleScanner(
     override fun scan(): Flow<BleScanResult> {
         return createKableAdvertisementsFlow(bleConfigFlow.value)
             .mapNotNull {
-                val name = it.name ?: return@mapNotNull null
+                // The Pebble scan record in the manufacturer data is what identifies a watch;
+                // the local name is only used for display and is often missing on macOS.
                 val manufacturerData = it.manufacturerData ?: return@mapNotNull null
                 BleScanResult(
                     identifier = it.identifier.asPebbleBleIdentifier(),
-                    name = name,
+                    name = it.name ?: UNNAMED_WATCH_NAME,
                     rssi = it.rssi,
                     manufacturerData = manufacturerData
                 )
             }
     }
 }
+
+private const val UNNAMED_WATCH_NAME = "Pebble Watch"
 
 expect fun Identifier.asPebbleBleIdentifier(): PebbleBleIdentifier

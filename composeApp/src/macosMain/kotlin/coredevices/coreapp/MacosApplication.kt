@@ -1,16 +1,24 @@
 package coredevices.coreapp
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import co.touchlab.kermit.Logger
 import coredevices.coreapp.di.apiModule
 import coredevices.coreapp.di.macosDefaultModule
 import coredevices.coreapp.di.utilModule
 import coredevices.coreapp.ui.App
+import coredevices.coreapp.ui.DebugLogOverlay
 import coredevices.coreapp.util.initLogging
+import coredevices.pebble.PebbleAppDelegate
 import coredevices.pebble.watchModule
 import org.koin.core.Koin
 import org.koin.core.context.startKoin
@@ -24,6 +32,14 @@ import org.koin.mp.KoinPlatform
 fun MacosApp() {
     val koin = remember { bootstrap() }
     remember(koin) { koin.get<CommonAppDelegate>().init() }
+    // Android and iOS do this from their app delegate. Without it LibPebble is never set up, so
+    // Bluetooth stays reported as disabled and no scan ever starts.
+    remember(koin) { koin.get<PebbleAppDelegate>().init() }
+    // Debug aid: raw BLE advertisements, unfiltered by the Pebble service UUID.
+    DisposableEffect(Unit) {
+        startRawBleScan()
+        onDispose { }
+    }
     // Without an owner, koinViewModel() builds a fresh ViewModel on every recomposition, so state
     // set by a click is lost immediately. Android and iOS get one from their host.
     val viewModelStore = remember { ViewModelStore() }
@@ -33,7 +49,10 @@ fun MacosApp() {
         }
     }
     CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
-        App()
+        Box(Modifier.fillMaxSize()) {
+            App()
+            DebugLogOverlay(Modifier.align(Alignment.BottomCenter))
+        }
     }
 }
 
@@ -50,5 +69,6 @@ private fun bootstrap(): Koin {
     }
     val koin = KoinPlatform.getKoin()
     initLogging()
+    Logger.addLogWriter(DebugLogWriter())
     return koin
 }

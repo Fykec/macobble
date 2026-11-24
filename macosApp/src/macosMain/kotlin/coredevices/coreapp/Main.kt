@@ -29,6 +29,7 @@ private val diagLogPath = Path("${NSHomeDirectory()}/Library/Logs/CoreApp/macos.
 private fun log(message: String) {
     val line = "${Clock.System.now()} [CoreApp] $message"
     println(line)
+    DebugLogs.add("[CoreApp] $message")
     runCatching {
         diagLogPath.parent?.let { SystemFileSystem.createDirectories(it) }
         SystemFileSystem.sink(diagLogPath, append = true).buffered().use { it.writeString("$line\n") }

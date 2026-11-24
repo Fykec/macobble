@@ -80,6 +80,8 @@ import coreapp.pebble.generated.resources.current_location
 import coreapp.pebble.generated.resources.fixed_location
 import coreapp.pebble.generated.resources.manual_coordinates
 import coreapp.pebble.generated.resources.remove_location_title
+import coreapp.pebble.generated.resources.latitude_example
+import coreapp.pebble.generated.resources.longitude_example
 
 private const val MAX_WEATHER_LOCATIONS = 5
 private val logger = Logger.withTag("WeatherScreen")
@@ -326,7 +328,7 @@ private fun AddWeatherLocationDialog(
                     onValueChange = { manualLatitude = it },
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(PebbleRes.string.latitude)) },
-                    placeholder = { Text("e.g. 51.5074") },
+                    placeholder = { Text(stringResource(PebbleRes.string.latitude_example)) },
                     isError = manualLatitude.isNotBlank() && parsedLatitude == null,
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
@@ -336,7 +338,7 @@ private fun AddWeatherLocationDialog(
                     onValueChange = { manualLongitude = it },
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(PebbleRes.string.longitude)) },
-                    placeholder = { Text("e.g. -0.1278") },
+                    placeholder = { Text(stringResource(PebbleRes.string.longitude_example)) },
                     isError = manualLongitude.isNotBlank() && parsedLongitude == null,
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),

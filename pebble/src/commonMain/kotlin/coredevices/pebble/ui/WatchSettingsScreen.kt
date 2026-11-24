@@ -360,6 +360,10 @@ import coreapp.pebble.generated.resources.what_s_new_in_pebbleos
 import coreapp.pebble.generated.resources.what_s_new_in_the_app
 import coreapp.pebble.generated.resources.wi_fi_only
 import coreapp.pebble.generated.resources.year_of_birth
+import coreapp.pebble.generated.resources.app_version_value
+import coreapp.pebble.generated.resources.override_default_on_watch
+import coreapp.pebble.generated.resources.default_value
+import coreapp.pebble.generated.resources.about_x
 
 enum class TopLevelType(val displayName: StringResource) {
     Phone(PebbleRes.string.top_level_phone),
@@ -868,7 +872,7 @@ fun rememberSettingsItemsState(navBarNav: NavBarNav?, snackbarDisplay: SnackbarD
                     item = {
                         ListItem(
                             headlineContent = {
-                                Text("App Version: ${appVersion.version}")
+                                Text(stringResource(PebbleRes.string.app_version_value, appVersion.version))
                             },
                             shadowElevation = ELEVATION,
                         )
@@ -1168,7 +1172,7 @@ fun rememberSettingsItemsState(navBarNav: NavBarNav?, snackbarDisplay: SnackbarD
                                     )
                                 )
                             },
-                            subtext = "Override the default on the watch",
+                            subtext = stringResource(PebbleRes.string.override_default_on_watch),
                         )
                     },
                     isDebugSetting = false,
@@ -3000,7 +3004,7 @@ fun basicSettingsNumberItem(
                                 enabled = value != defaultValue,
                             ) {
                                 Text(
-                                    text = "Default: ${valueFormatter?.invoke(defaultValue) ?: "$defaultValue $unit"}",
+                                    text = stringResource(PebbleRes.string.default_value, valueFormatter?.invoke(defaultValue) ?: "$defaultValue $unit"),
                                     modifier = Modifier.widthIn(max = 150.dp),
                                     maxLines = 1,
                                     lineHeight = 12.sp,
@@ -3141,7 +3145,7 @@ fun basicSettingsNumberFieldItem(
                                 enabled = value != defaultValue,
                             ) {
                                 Text(
-                                    text = "Default: $defaultValue",
+                                    text = stringResource(PebbleRes.string.default_value, defaultValue),
                                     modifier = Modifier.widthIn(max = 150.dp),
                                     maxLines = 1,
                                     lineHeight = 12.sp,
@@ -3232,7 +3236,7 @@ fun <T> basicSettingsDropdownItem(
                     Text(title, modifier = Modifier.weight(1f, fill = false))
                     if (details != null) {
                         IconButton(onClick = { showingDetails = true }) {
-                            Icon(Icons.Outlined.Info, contentDescription = "About $title")
+                            Icon(Icons.Outlined.Info, contentDescription = stringResource(PebbleRes.string.about_x, title))
                         }
                     }
                 }

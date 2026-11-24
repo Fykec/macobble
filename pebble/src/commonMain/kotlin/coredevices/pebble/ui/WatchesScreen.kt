@@ -306,7 +306,6 @@ import coreapp.pebble.generated.resources.reset_into_prf_2
 import coreapp.pebble.generated.resources.rotate
 import coreapp.pebble.generated.resources.scanning_for_devices
 import coreapp.pebble.generated.resources.share
-import coreapp.pebble.generated.resources.test_success
 import coreapp.pebble.generated.resources.this_will_capture_the_current_state
 import coreapp.pebble.generated.resources.this_will_reset_the_watch_into
 import coreapp.pebble.generated.resources.this_will_wipe_the_watch_completely
@@ -2058,7 +2057,7 @@ private fun NotificationDialog(
                                 TimelineActionResult(
                                     success = true,
                                     icon = TimelineIcon.GenericConfirmation,
-                                    title = "Test Success"
+                                    "Test Successtitle = "
                                 )
                             }
                         ))

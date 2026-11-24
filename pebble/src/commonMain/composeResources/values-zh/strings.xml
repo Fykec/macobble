@@ -444,4 +444,10 @@
     <string name="ipv6_address">IPv6：%1$s</string>
     <string name="serial_number">序列号：%1$s</string>
     <string name="install_pebbleos_version">安装 PebbleOS %1$s</string>
+    <string name="latitude_example">例如 51.5074</string>
+    <string name="longitude_example">例如 -0.1278</string>
+    <string name="app_version_value">应用版本：%1$s</string>
+    <string name="override_default_on_watch">覆盖手表上的默认设置</string>
+    <string name="default_value">默认：%1$s</string>
+    <string name="developer_x">开发者：%1$s</string>
 </resources>

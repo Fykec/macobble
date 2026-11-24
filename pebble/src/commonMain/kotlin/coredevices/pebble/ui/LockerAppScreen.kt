@@ -131,6 +131,8 @@ import coreapp.pebble.generated.resources.hearts
 import coreapp.pebble.generated.resources.move_to_top
 import coreapp.pebble.generated.resources.screenshot
 import coreapp.pebble.generated.resources.this_app_s_settings_page_may
+import coreapp.pebble.generated.resources.remove_x_title
+import coreapp.pebble.generated.resources.developer_x
 
 private val logger = Logger.withTag("LockerAppScreen")
 
@@ -262,7 +264,7 @@ fun LockerAppScreen(topBarParams: TopBarParams, uuid: Uuid?, navBarNav: NavBarNa
                 if (entry != null) {
                     ConfirmDialog(
                         show = showRemoveConfirmDialog,
-                        title = "Remove ${entry.title}?",
+                        title = stringResource(PebbleRes.string.remove_x_title, entry.title),
                         text = stringResource(PebbleRes.string.are_you_sure_you_want_to),
                         onConfirm = {
                             // Store apps stay here to show the store listing; nothing to show otherwise

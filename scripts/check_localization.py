@@ -39,8 +39,10 @@ STRING_LITERAL = re.compile(r'"((?:[^"\\]|\\.)*)"')
 
 
 def is_prose(literal: str) -> bool:
-    """True when the literal looks like human text rather than a format or symbol."""
-    if len(re.findall(r"[A-Za-z]", literal)) < 2:
+    """True when the literal is human text rather than a format, symbol or pure interpolation."""
+    # "${count}", "$batteryLevel%" and similar carry no translatable words.
+    without_templates = re.sub(r"\$\{[^}]*\}|\$\w+", "", literal)
+    if len(re.findall(r"[A-Za-z]", without_templates)) < 2:
         return False
     if literal.startswith("%") and " " not in literal:
         return False

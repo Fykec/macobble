@@ -26,6 +26,14 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.stringResource
+import coreapp.util.generated.resources.Res
+import coreapp.util.generated.resources.models_download_explanation
+import coreapp.util.generated.resources.cancel
+import coreapp.util.generated.resources.download
+import coreapp.util.generated.resources.download_required
+import coreapp.util.generated.resources.downloading_models
+import coreapp.util.generated.resources.this_might_take_a_few_minutes
 
 sealed interface ModelType {
     val modelName: String
@@ -76,9 +84,9 @@ fun ModelDownloadDialog(
         },
         title = {
             if (job == null) {
-                Text("Download Required")
+                Text(stringResource(Res.string.download_required))
             } else {
-                Text("Downloading Models")
+                Text(stringResource(Res.string.downloading_models))
             }
         },
         buttons = if (job == null) {
@@ -86,12 +94,12 @@ fun ModelDownloadDialog(
                 TextButton(
                     onClick = ::onCancel
                 ) {
-                    Text("Cancel")
+                    Text(stringResource(Res.string.cancel))
                 }
                 TextButton(
                     onClick = ::onDownload
                 ) {
-                    Text("Download")
+                    Text(stringResource(Res.string.download))
                 }
             }
         } else {
@@ -99,16 +107,15 @@ fun ModelDownloadDialog(
                 TextButton(
                     onClick = ::onCancel
                 ) {
-                    Text("Cancel")
+                    Text(stringResource(Res.string.cancel))
                 }
             }
         }
     ) {
         if (job == null) {
-            Text("This feature requires downloading additional machine learning models. " +
-                    "Please avoid downloading over a metered connection.")
+            Text(stringResource(Res.string.models_download_explanation))
         } else {
-            Text("This might take a few minutes on a slow connection...")
+            Text(stringResource(Res.string.this_might_take_a_few_minutes))
             Spacer(Modifier.height(24.dp))
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }

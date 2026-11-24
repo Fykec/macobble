@@ -42,6 +42,17 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.compose.currentKoinScope
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.stringResource
+import coreapp.util.generated.resources.Res
+import coreapp.util.generated.resources.login_disabled_in_build
+import coreapp.util.generated.resources.account_exists_switch_explanation
+import coreapp.util.generated.resources.cancel
+import coreapp.util.generated.resources.sign_in
+import coreapp.util.generated.resources.sign_in_anyway
+import coreapp.util.generated.resources.sign_in_to_existing_account
+import coreapp.util.generated.resources.sign_in_with_apple
+import coreapp.util.generated.resources.sign_in_with_github
+import coreapp.util.generated.resources.sign_in_with_google
 
 internal expect suspend fun signInWithCredential(credential: AuthCredential)
 
@@ -171,18 +182,15 @@ private fun AccountSwitchConfirmationDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Sign in to existing account?") },
+        title = { Text(stringResource(Res.string.sign_in_to_existing_account)) },
         text = {
-            Text(
-                "This account already exists. Signing in will switch to it, and any " +
-                    "apps or settings saved as a guest on this device won't carry over."
-            )
+            Text(stringResource(Res.string.account_exists_switch_explanation))
         },
         confirmButton = {
-            TextButton(onClick = onConfirm) { Text("Sign in anyway") }
+            TextButton(onClick = onConfirm) { Text(stringResource(Res.string.sign_in_anyway)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(Res.string.cancel)) }
         },
     )
 }
@@ -205,7 +213,7 @@ fun SignInDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    "Sign in",
+                    stringResource(Res.string.sign_in),
                     style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier.padding(8.dp)
                 )
@@ -226,7 +234,7 @@ fun SignInDialog(
 @Composable
 private fun SignInUnavailable(provider: String) {
     Text(
-        text = "$provider login disabled within this build",
+        text = stringResource(Res.string.login_disabled_in_build, provider),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         textAlign = TextAlign.Center,
@@ -256,7 +264,7 @@ fun SignInButtons(
                 SignInButton(
                     onError = { error = it },
                     onSuccess = onDismiss,
-                    text = "Sign in with Google",
+                    text = stringResource(Res.string.sign_in_with_google),
                     credentialProvider = { context ->
                         val googleAuthUtil = koin.get<GoogleAuthUtil>()
                         googleAuthUtil.signInGoogle(context)
@@ -272,7 +280,7 @@ fun SignInButtons(
                 SignInButton(
                     onError = { error = it },
                     onSuccess = onDismiss,
-                    text = "Sign in with Apple",
+                    text = stringResource(Res.string.sign_in_with_apple),
                     credentialProvider = { context ->
                         val appleAuthUtil = koin.get<AppleAuthUtil>()
                         appleAuthUtil.signInApple(context)
@@ -288,7 +296,7 @@ fun SignInButtons(
                 SignInButton(
                     onError = { error = it },
                     onSuccess = onDismiss,
-                    text = "Sign in with GitHub",
+                    text = stringResource(Res.string.sign_in_with_github),
                     credentialProvider = { context ->
                         val githubAuthUtil = koin.get<GitHubAuthUtil>()
                         githubAuthUtil.signInGithub(context)

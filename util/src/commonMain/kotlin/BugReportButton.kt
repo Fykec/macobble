@@ -8,6 +8,9 @@ import androidx.compose.runtime.Composable
 import coredevices.util.CommonBuildKonfig
 import kotlinx.serialization.json.Json
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.stringResource
+import coreapp.util.generated.resources.Res
+import coreapp.util.generated.resources.report_a_bug
 
 private val jsonPretty = Json {
     prettyPrint = true
@@ -34,7 +37,7 @@ fun BugReportButton(
             ))
         }
     ) {
-        Icon(Icons.Default.BugReport, contentDescription = "Report a bug")
+        Icon(Icons.Default.BugReport, contentDescription = stringResource(Res.string.report_a_bug))
     }
 }
 

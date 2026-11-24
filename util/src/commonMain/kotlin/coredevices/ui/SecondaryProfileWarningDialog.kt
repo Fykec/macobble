@@ -28,6 +28,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplicationPreview
 import org.koin.compose.koinInject
 import org.koin.dsl.module
+import org.jetbrains.compose.resources.stringResource
+import coreapp.util.generated.resources.Res
+import coreapp.util.generated.resources.disable_sync
+import coreapp.util.generated.resources.keep_sync_on
+import coreapp.util.generated.resources.secondary_profile
 
 /** One-time prompt shown when the app runs in a secondary profile. Marks the warning seen on any
  *  dismissal, and turns on [coredevices.util.CoreConfig.disableRingBluetoothSync] if the user asks. */
@@ -46,13 +51,13 @@ fun SecondaryProfileWarningDialog(onDone: () -> Unit) {
         properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = false),
         onDismissRequest = { dismiss(disableSync = false) },
         icon = { Icon(Icons.Default.SwitchAccount, null) },
-        title = { Text("Secondary Profile") },
+        title = { Text(stringResource(Res.string.secondary_profile)) },
         verticalButtons = {
             Button(onClick = { dismiss(disableSync = true) }, modifier = Modifier.fillMaxWidth()) {
-                Text("Disable sync")
+                Text(stringResource(Res.string.disable_sync))
             }
             OutlinedButton(onClick = { dismiss(disableSync = false) }, modifier = Modifier.fillMaxWidth()) {
-                Text("Keep sync on")
+                Text(stringResource(Res.string.keep_sync_on))
             }
         },
     ) {

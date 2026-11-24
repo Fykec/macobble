@@ -129,6 +129,7 @@ import coreapp.ring.generated.resources.turn_on_if_pebble_is_also
 import coreapp.ring.generated.resources.view_and_cancel_timers_and_alarms
 import coreapp.ring.generated.resources.view_your_index_notes_and_reminders
 import coreapp.ring.generated.resources.when_online_asks_for_your_confirmation
+import coreapp.ring.generated.resources.version_value
 
 @Composable
 private fun RelinkDestinationsCard(destinations: List<LegacyDestination>) {
@@ -624,7 +625,7 @@ fun IndexSettings(coreNav: CoreNav) {
             item {
                 SettingsRow(
                     title = stringResource(RingRes.string.enable_debug_details),
-                    subtitle = "Version: ${viewModel.version}",
+                    subtitle = stringResource(RingRes.string.version_value, viewModel.version),
                     onClick = viewModel::toggleDebugDetailsEnabled,
                 ) {
                     Switch(

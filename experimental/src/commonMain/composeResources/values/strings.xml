@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="account">Account</string>
     <string name="action">Action</string>
@@ -366,4 +366,4 @@
     <string name="you_can_add_more_from_settings">You can add more from Settings later</string>
     <string name="you_can_add_plugins_from_settings">You can add plugins from settings later</string>
     <string name="you_re_all_done">You're all done!</string>
-</resources>
+<string name="copy_from_x">Copy from %1$s</string><string name="delete_x">Delete %1$s</string><string name="delete_recording_and_x">Delete recording and %1$s</string><string name="provider_needs_relinking">%1$s needs relinking</string><string name="recordings_across_all_devices">%1$s recordings across all devices</string><string name="set_default_destination_prompt">Do you want to set %1$s as your default destination for %2$s?</string><string name="couldnt_add_x">Couldn't add %1$s</string><string name="delete_x_title">Delete "%1$s"?</string><string name="version_value">Version: %1$s</string></resources>

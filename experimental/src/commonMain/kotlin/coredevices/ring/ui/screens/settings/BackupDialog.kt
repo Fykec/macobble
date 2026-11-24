@@ -84,6 +84,7 @@ import coreapp.ring.generated.resources.this_will_permanently_delete_all_your
 import coreapp.ring.generated.resources.type_delete_to_confirm
 import coreapp.ring.generated.resources.type_or_paste_the_encryption_key
 import coreapp.ring.generated.resources.type_or_paste_your_encryption_key
+import coreapp.ring.generated.resources.recordings_across_all_devices
 
 @Composable
 fun BackupDialog(
@@ -300,9 +301,9 @@ fun BackupDialog(
                         Text(stringResource(RingRes.string.loading))
                     } else {
                         Column {
-                            Text("${backupCount ?: "—"} recordings across all devices")
+                            Text(stringResource(RingRes.string.recordings_across_all_devices, backupCount ?: "—"))
                             if (userId != null) {
-                                Text("ID: $userId", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                Text("ID: $userId", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant) // not-localized
                             }
                         }
                     }

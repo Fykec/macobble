@@ -103,6 +103,7 @@ import coreapp.ring.generated.resources.type
 import coreapp.ring.generated.resources.checkbox
 import coreapp.ring.generated.resources.due
 import coreapp.ring.generated.resources.reminder
+import coreapp.ring.generated.resources.delete_x
 
 // Item kind detail (hero card view) — split out of ObjectDetail.kt
 // to keep that file focused on the route entry + chrome.
@@ -243,7 +244,7 @@ internal fun ItemView(
                     }
                     DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
                         DropdownMenuItem(
-                            text = { Text("Delete ${kindLabel(it.kind).lowercase()}", color = colors.error) },
+                            text = { Text(stringResource(RingRes.string.delete_x, kindLabel(it.kind).lowercase()), color = colors.error) },
                             onClick = {
                                 menuOpen = false
                                 deleting = true
@@ -694,7 +695,7 @@ private fun TypeButtons(kind: String, onKind: (String) -> Unit, labelAll: Boolea
     Row(horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween)) {
         TypeButton(
             selected = kind == "note",
-            label = "Note",
+            label = "Note", // not-localized
             icon = if (kind == "note") Icons.AutoMirrored.Filled.StickyNote2 else Icons.AutoMirrored.Outlined.StickyNote2,
             showLabel = labelAll,
             shapes = ButtonGroupDefaults.connectedLeadingButtonShapes(),

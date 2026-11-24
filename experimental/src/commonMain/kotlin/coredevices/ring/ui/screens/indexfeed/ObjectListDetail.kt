@@ -933,7 +933,7 @@ private fun SwipeToDeleteRow(
                 ) {
                     Icon(
                         Icons.Default.Delete,
-                        contentDescription = "Delete",
+                        contentDescription = "Delete", // not-localized
                         tint = Color.White,
                         modifier = Modifier.size(20.dp),
                     )
@@ -1214,7 +1214,7 @@ private fun EditableNoteRow(
                     }
                     textContextMenuItem(
                         key = ConvertToReminderMenuKey,
-                        label = "Convert to Reminder",
+                        label = "Convert to Reminder", // not-localized
                     ) {
                         onConvertToReminder(draft)
                         close()

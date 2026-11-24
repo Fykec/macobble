@@ -127,7 +127,7 @@ class ItemFactory {
         // not in the Reminders list.
         return createItem(
             createdAt = createdAt,
-            title = "Alarm · $timeStr",
+            title = "Alarm · $timeStr", // not-localized
             parents = emptyList(),
             recordingId = sourceRecordingId,
             toolCallId = toolCallId,
@@ -148,7 +148,7 @@ class ItemFactory {
         toolCallId: String?,
     ): ItemDocument {
         val durationPretty = duration?.toString()
-        val title = "Timer" + (durationPretty?.let { " · $it" } ?: "")
+        val title = "Timer" + (durationPretty?.let { " · $it" } ?: "") // not-localized
         // The system clock app owns the timer; surface it only on the recording,
         // not in the Reminders list.
         return createItem(
@@ -176,7 +176,7 @@ class ItemFactory {
         errorMessage: String? = null,
     ): ItemDocument = createItem(
         createdAt = createdAt,
-        title = "Message · ${recipientName ?: contactId}",
+        title = "Message · ${recipientName ?: contactId}", // not-localized
         body = text,
         parents = emptyList(),
         recordingId = sourceRecordingId,

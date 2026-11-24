@@ -90,7 +90,7 @@ fun recordingActions(
                 RecordingAction(
                     toolCallId = null,
                     result = null,
-                    label = "Answered",
+                    label = "Answered", // not-localized
                     glyph = Icons.Outlined.Assistant,
                     itemId = msg.answerTag?.itemId,
                     answerText = msg.content,

@@ -46,7 +46,7 @@ class IndexAgentCactus(
     conversation: List<ConversationMessageDocument>,
     private val inferenceBoost: InferenceBoostProvider = NoOpInferenceBoostProvider()
 ) : KoinComponent, ToolCallingAgent(conversation) {
-    override val label = "Cactus"
+    override val label = "Cactus" // not-localized
     override val isCloud = false
 
     companion object {

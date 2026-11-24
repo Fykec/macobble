@@ -22,6 +22,7 @@ import org.jetbrains.compose.resources.stringResource
 import coreapp.ring.generated.resources.Res as RingRes
 import coreapp.ring.generated.resources.check_your_connection_and_try_again
 import coreapp.ring.generated.resources.ok
+import coreapp.ring.generated.resources.couldnt_add_x
 
 /**
  * Installs a store plugin picked from a destination sheet: the permission review first, then
@@ -65,7 +66,7 @@ internal class StorePluginInstaller(
         failed?.let { plugin ->
             M3Dialog(
                 onDismissRequest = { failed = null },
-                title = { Text("Couldn't add ${plugin.title}") },
+                title = { Text(stringResource(RingRes.string.couldnt_add_x, plugin.title)) },
                 buttons = { TextButton(onClick = { failed = null }) { Text(stringResource(RingRes.string.ok)) } },
             ) {
                 Text(

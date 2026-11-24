@@ -72,6 +72,7 @@ import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.minutes
 import kotlin.uuid.Uuid
 import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.search
 import coreapp.ring.generated.resources.address
 import coreapp.ring.generated.resources.cancel
 import coreapp.ring.generated.resources.couldn_t_find_that_address
@@ -82,6 +83,7 @@ import coreapp.ring.generated.resources.name
 import coreapp.ring.generated.resources.remove_association
 import coreapp.ring.generated.resources.save
 import coreapp.ring.generated.resources.search_for_an_address
+import coreapp.ring.generated.resources.delete_x_title
 
 private val RADIUS_RANGE_METERS = 5f..100f
 private const val MAP_ZOOM = 18f
@@ -191,7 +193,7 @@ fun GeofenceLocationEditScreen(
                     TextButton(onClick = { delete(deleteReminders = false) }) { Text(stringResource(RingRes.string.delete)) }
                 },
             ) {
-                Text("Delete “${saved.name}”?")
+                Text(stringResource(RingRes.string.delete_x_title, saved.name))
             }
         } else {
             val reminders = if (reminderCount == 1) "1 reminder" else "$reminderCount reminders"
@@ -338,7 +340,7 @@ fun GeofenceLocationEditScreen(
                                     CircularProgressIndicator(Modifier.padding(12.dp), strokeWidth = 2.dp)
                                 } else {
                                     IconButton(onClick = ::searchAddress) {
-                                        Icon(Icons.Default.Search, contentDescription = "Search")
+                                        Icon(Icons.Default.Search, contentDescription = stringResource(RingRes.string.search))
                                     }
                                 }
                             },

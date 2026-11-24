@@ -79,7 +79,7 @@ class CreateListTool : BuiltInMcpTool(
                 JsonSnake.encodeToString(CreateListResult(success = true, id = id)),
                 SemanticResult.ActionLogged(
                     toolName = TOOL_NAME,
-                    title = "Created list '$title'",
+                    title = "Created list '$title'", // not-localized
                     success = true,
                 )
             )

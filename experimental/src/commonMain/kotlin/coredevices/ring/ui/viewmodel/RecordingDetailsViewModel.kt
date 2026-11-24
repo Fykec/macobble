@@ -252,12 +252,12 @@ class RecordingDetailsViewModel(
                     throw e
                 } catch (e: Exception) {
                     logger.e(e) { "Failed to export recording" }
-                    snackbarHostState.showSnackbar(message = "Couldn't export recording")
+                    snackbarHostState.showSnackbar(message = "Couldn't export recording") // not-localized
                 }
             } ?: run {
                 logger.e { "Can't export, no recording file to export" }
                 snackbarHostState.showSnackbar(
-                    message = "No recording file to export"
+                    message = "No recording file to export" // not-localized
                 )
             }
         }

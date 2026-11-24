@@ -13,6 +13,7 @@ import coreapp.ring.generated.resources.Res as RingRes
 import coreapp.ring.generated.resources.not_now
 import coreapp.ring.generated.resources.set_default
 import coreapp.ring.generated.resources.set_default_destination
+import coreapp.ring.generated.resources.set_default_destination_prompt
 
 /** Shows the default-destination question wherever the app is when a plugin's config page closes. */
 @Composable
@@ -27,6 +28,6 @@ fun DefaultDestinationPromptHost(prompter: DefaultDestinationPrompter = koinInje
             TextButton(onClick = prompter::accept) { Text(stringResource(RingRes.string.set_default)) }
         },
     ) {
-        Text("Do you want to set ${current.provider.title} as your default destination for ${current.kindsLabel}?")
+        Text(stringResource(RingRes.string.set_default_destination_prompt, current.provider.title, current.kindsLabel))
     }
 }

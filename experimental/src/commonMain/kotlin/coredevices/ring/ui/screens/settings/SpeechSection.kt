@@ -71,6 +71,7 @@ import coreapp.ring.generated.resources.speech_model
 import coreapp.ring.generated.resources.spoken_language
 import coreapp.ring.generated.resources.the_language_you_speak_when_recording
 import coreapp.ring.generated.resources.automatic
+import coreapp.ring.generated.resources.delete_x
 
 /** Cloud transcription is provided by Wispr Flow; the row is informational. */
 private const val WISPR_URL = "https://wispr.ai/"
@@ -500,7 +501,7 @@ private fun SpeechModelSheet(
                             IconButton(onClick = { onDelete(info) }) {
                                 Icon(
                                     Icons.Default.Delete,
-                                    contentDescription = "Delete ${info.slug}",
+                                    contentDescription = stringResource(RingRes.string.delete_x, info.slug),
                                     tint = colors.error,
                                     modifier = Modifier.size(18.dp),
                                 )

@@ -79,6 +79,8 @@ import coreapp.ring.generated.resources.speech_model_download_required
 import coreapp.ring.generated.resources.speech_model_still_downloading
 import coreapp.ring.generated.resources.transcribing
 import coreapp.ring.generated.resources.transferring_recording
+import org.jetbrains.compose.resources.getString
+import coreapp.ring.generated.resources.provider_needs_relinking
 
 data class GenericNotification(
     val id: Int,
@@ -333,7 +335,7 @@ class IndexNotificationManager(
                             is InflightIndexNotification.Transferring -> {
                                 GenericNotification(
                                     id = notification.id,
-                                    title = "Transferring recording",
+                                    title = getString(RingRes.string.transferring_recording),
                                     inProgress = NotificationProgress.Indeterminate,
                                     localOnly = false,
                                     deepLink = DEEP_LINK_URI
@@ -342,7 +344,7 @@ class IndexNotificationManager(
                             is InflightIndexNotification.Transcribing -> {
                                 GenericNotification(
                                     id = notification.id,
-                                    title = "Transcribing",
+                                    title = getString(RingRes.string.transcribing),
                                     inProgress = NotificationProgress.Indeterminate,
                                     localOnly = true,
                                     deepLink = DEEP_LINK_URI
@@ -356,7 +358,7 @@ class IndexNotificationManager(
                                 }
                                 GenericNotification(
                                     id = notification.id,
-                                    title = "Assistant running",
+                                    title = getString(RingRes.string.assistant_running),
                                     contentText = contextText,
                                     inProgress = NotificationProgress.Indeterminate,
                                     localOnly = true,
@@ -474,7 +476,7 @@ class IndexNotificationManager(
                             is InflightIndexNotification.NoSpeech -> {
                                 GenericNotification(
                                     id = notification.id,
-                                    title = "No audio detected",
+                                    title = getString(RingRes.string.no_audio_detected),
                                     contentText = "No speech was detected in your Index 01 recording.",
                                     inProgress = null,
                                     localOnly = false,
@@ -484,7 +486,7 @@ class IndexNotificationManager(
                             is InflightIndexNotification.Error -> {
                                 GenericNotification(
                                     id = notification.id,
-                                    title = "Error",
+                                    title = "Error", // not-localized
                                     contentText = notification.message,
                                     inProgress = null,
                                     localOnly = false,
@@ -642,7 +644,7 @@ class IndexNotificationManager(
                 platformIndexNotificationManager.notify(
                     GenericNotification(
                         id = nextNotificationId(),
-                        title = "Index 01 Pairing Issue",
+                        title = getString(RingRes.string.index_01_pairing_issue),
                         contentText = "Your Index 01 requires re-pairing to function correctly. Tap for info.",
                         inProgress = null,
                         localOnly = false,
@@ -658,7 +660,7 @@ class IndexNotificationManager(
                 platformIndexNotificationManager.notify(
                     GenericNotification(
                         id = COLLECTIONS_EVICTED_NOTIFICATION_ID,
-                        title = "Some Index 01 recordings were lost",
+                        title = getString(RingRes.string.some_index_01_recordings_were_lost),
                         contentText = "Your Index 01's storage filled up before it could sync with your phone, " +
                             "so the oldest recordings were overwritten.",
                         deepLink = FAQ_URL
@@ -677,7 +679,7 @@ class IndexNotificationManager(
                         if (it.isFailsafe) {
                             val notif = GenericNotification(
                                 id = notifId,
-                                title = "Recovering your Index 01",
+                                title = getString(RingRes.string.recovering_your_index_01),
                                 contentText = "Your Index 01 ran into a problem and is being restored.",
                                 inProgress = NotificationProgress.Indeterminate,
                                 localOnly = true
@@ -702,7 +704,7 @@ class IndexNotificationManager(
 
 internal fun legacyDestinationNotification(provider: IntegrationProvider): GenericNotification = GenericNotification(
     id = LEGACY_DESTINATION_NOTIFICATION_ID,
-    title = "${provider.title} needs relinking",
+    title = "${provider.title} needs relinking", // not-localized
     contentText = "The built-in ${provider.title} integration will be removed soon. " +
         "Tap to relink it as a plugin in Index settings.",
     deepLink = RingRoutes.SETTINGS_DEEP_LINK,
@@ -711,14 +713,14 @@ internal fun legacyDestinationNotification(provider: IntegrationProvider): Gener
 internal fun speechModelPromptNotification(prompt: SpeechModelPrompt): GenericNotification = when (prompt) {
     is SpeechModelPrompt.DownloadRequired -> GenericNotification(
         id = SPEECH_MODEL_PROMPT_NOTIFICATION_ID,
-        title = "Speech model download required",
+        title = "Speech model download required", // not-localized
         contentText = "Recordings can't be transcribed on this phone until the speech model is " +
             "downloaded. Tap to download it.",
         deepLink = CommonRoutes.SPEECH_MODEL_DOWNLOAD_DEEP_LINK,
     )
     is SpeechModelPrompt.DownloadPending -> GenericNotification(
         id = SPEECH_MODEL_PROMPT_NOTIFICATION_ID,
-        title = "Speech model still downloading",
+        title = "Speech model still downloading", // not-localized
         contentText = "Recordings can't be transcribed until the download finishes. Check you " +
             "aren't on a metered connection, or switch to cloud speech recognition until it completes.",
         deepLink = CommonRoutes.SPEECH_MODEL_DOWNLOAD_DEEP_LINK,

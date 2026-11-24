@@ -33,7 +33,7 @@ object BuiltInIntegrationProviders {
 
     object Index : IntegrationProvider, KoinComponent {
         override val id = "index"
-        override val title = "Built-in"
+        override val title = "Built-in" // not-localized
         override val notesTitle = "Index Notes"
         override val remindersTitle = "Index Reminders"
         override val supports = setOf(Note, Reminder)
@@ -45,28 +45,28 @@ object BuiltInIntegrationProviders {
 
     object Notion : IntegrationProvider, KoinComponent {
         override val id = "notion"
-        override val title = "Notion"
+        override val title = "Notion" // not-localized
         override val supports = setOf(Note)
         override fun notes(): NoteIntegration = get<NotionIntegration>()
     }
 
     object Obsidian : IntegrationProvider, KoinComponent {
         override val id = "obsidian"
-        override val title = "Obsidian"
+        override val title = "Obsidian" // not-localized
         override val supports = setOf(Note)
         override fun notes(): NoteIntegration = get<ObsidianIntegration>()
     }
 
     object GoogleTasks : IntegrationProvider, KoinComponent {
         override val id = "google_tasks"
-        override val title = "Google Tasks"
+        override val title = "Google Tasks" // not-localized
         override val supports = setOf(Reminder)
         override fun reminders(): ReminderIntegration = get<GTasksIntegration>()
     }
 
     object IosReminders : IntegrationProvider {
         override val id = "ios_reminders"
-        override val title = "iPhone Reminders"
+        override val title = "iPhone Reminders" // not-localized
         override val supports = setOf(Reminder)
         override val platforms = setOf(SupportedPlatform.Ios)
         override val isHiddenByPlugins = false
@@ -76,7 +76,7 @@ object BuiltInIntegrationProviders {
 
     object Tasker : IntegrationProvider {
         override val id = "tasker"
-        override val title = "Tasker"
+        override val title = "Tasker" // not-localized
         override val supports = setOf(Note, Reminder)
         override val platforms = setOf(SupportedPlatform.Android)
         override fun notes(): NoteIntegration = createTaskerNoteClient()

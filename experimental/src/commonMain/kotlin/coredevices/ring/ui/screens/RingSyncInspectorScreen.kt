@@ -89,16 +89,16 @@ fun RingSyncInspectorScreen(nav: CoreNav) {
                         }) },
                         supportingContent = {
                             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                                Text("ID: ${item.ringTransfer?.id ?: (recording?.id.toString() + "( legacy )")}")
-                                Text("Timestamp: ${item.ringTransfer?.createdAt ?: recording?.localTimestamp}")
-                                Text("Status: ${
+                                Text("ID: ${item.ringTransfer?.id ?: (recording?.id.toString() + "( legacy )")}") // not-localized
+                                Text("Timestamp: ${item.ringTransfer?.createdAt ?: recording?.localTimestamp}") // not-localized
+                                Text("Status: ${ // not-localized
                                     (transfer?.status.takeIf { it != RingTransferStatus.Completed }
                                         ?: recording?.entry?.status
                                         ?: RingTransferStatus.Completed).name
                                 }")
-                                Text("Transcription: ${recording?.entry?.transcription}")
-                                Text("LLM Result: ${recording?.semanticResult}")
-                                Text("Error: ${recording?.entry?.error}")
+                                Text("Transcription: ${recording?.entry?.transcription}") // not-localized
+                                Text("LLM Result: ${recording?.semanticResult}") // not-localized
+                                Text("Error: ${recording?.entry?.error}") // not-localized
                             }
                         }
                     )

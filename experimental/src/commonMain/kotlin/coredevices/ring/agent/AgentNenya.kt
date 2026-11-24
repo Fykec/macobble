@@ -45,7 +45,7 @@ open class AgentNenya(
     protected val model: NenyaModel,
     conversation: List<ConversationMessageDocument>,
 ): KoinComponent, IterativeAgent(conversation) {
-    override val label = "Nenya"
+    override val label = "Nenya" // not-localized
     override val isCloud = true
 
     override val logger: Logger = Logger.withTag("AgentNenya")

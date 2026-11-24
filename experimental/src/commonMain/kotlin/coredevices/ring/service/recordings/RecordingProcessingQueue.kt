@@ -86,7 +86,7 @@ class RecordingProcessingQueue(
     scope = scope,
     settings = settings,
     platform = platform,
-    label = "RecordingProcessing",
+    label = "RecordingProcessing", // not-localized
     rescheduleDelay = rescheduleDelay,
     maxConcurrency = maxConcurrency,
 ) {

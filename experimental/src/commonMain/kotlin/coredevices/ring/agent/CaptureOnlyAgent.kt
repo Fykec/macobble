@@ -19,7 +19,7 @@ class CaptureOnlyAgent(initialConversation: List<ConversationMessageDocument> = 
         replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
     ).apply { tryEmit(initialConversation) }
     override val conversation: SharedFlow<List<ConversationMessageDocument>> get() = _conversation
-    override val label = "Capture"
+    override val label = "Capture" // not-localized
     override val isCloud = false
 
     override suspend fun send(

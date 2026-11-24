@@ -366,4 +366,13 @@
     <string name="view_your_index_notes_and_reminders">在浏览器中打开 index.rePebble.com 查看 Index 笔记和提醒</string>
     <string name="when_online_asks_for_your_confirmation">联网时，在执行可能非你本意的操作前会先向你确认</string>
     <string name="you_can_add_plugins_from_settings">之后可以在设置中添加插件</string>
+    <string name="copy_from_x">复制自 %1$s</string>
+    <string name="couldnt_add_x">无法添加 %1$s</string>
+    <string name="delete_recording_and_x">删除录音及 %1$s</string>
+    <string name="delete_x">删除 %1$s</string>
+    <string name="delete_x_title">删除“%1$s”？</string>
+    <string name="provider_needs_relinking">%1$s 需要重新关联</string>
+    <string name="recordings_across_all_devices">所有设备共 %1$s 条录音</string>
+    <string name="set_default_destination_prompt">要将 %1$s 设为 %2$s 的默认目标吗？</string>
+    <string name="version_value">版本：%1$s</string>
 </resources>

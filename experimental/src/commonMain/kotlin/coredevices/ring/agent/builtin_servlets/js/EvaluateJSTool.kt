@@ -98,7 +98,7 @@ class EvaluateJSTool : BuiltInMcpTool(
             result,
             semanticResult = SemanticResult.ActionLogged(
                 toolName = TOOL_NAME,
-                title = "Ran JavaScript",
+                title = "Ran JavaScript", // not-localized
                 success = true,
                 body = evaluateJSArgs.js.take(240),
             )

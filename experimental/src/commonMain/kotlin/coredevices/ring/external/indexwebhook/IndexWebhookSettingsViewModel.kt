@@ -195,7 +195,7 @@ class IndexWebhookSettingsViewModel(
             )
             _testState.value = WebhookTestState.Done(
                 ok = result.ok,
-                label = "${result.status} · ${result.durationMs} ms",
+                label = "${result.status} · ${result.durationMs} ms", // not-localized
             )
         }
     }

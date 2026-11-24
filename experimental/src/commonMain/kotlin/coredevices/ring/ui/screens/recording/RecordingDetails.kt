@@ -116,6 +116,7 @@ import coreapp.ring.generated.resources.this_will_permanently_delete_the_recordi
 import coreapp.ring.generated.resources.transcription_error
 import coreapp.ring.generated.resources.delete_recording_only
 import coreapp.ring.generated.resources.retry_transcription
+import coreapp.ring.generated.resources.delete_recording_and_x
 
 @Composable
 fun RecordingDetails(id: Long, coreNav: CoreNav) {
@@ -318,7 +319,7 @@ private fun DeleteRecordingDialog(
                             onClick = onDeleteRecordingOnly,
                         )
                         DeleteChoiceRow(
-                            label = "Delete recording and $itemWord",
+                            label = stringResource(Res.string.delete_recording_and_x, itemWord),
                             sublabel = "Remove everything",
                             color = colors.error,
                             onClick = onDeleteRecordingAndItems,
@@ -469,11 +470,11 @@ private fun RecordingDetailsContents(
                                 "Ring Recording $i (Index ${entry.collectionStartIndex}, end: ${entry.collectionEndIndex})",
                                 style = MaterialTheme.typography.titleMedium
                             )
-                            Text("Release->RX Latency: ${entry.buttonReleaseAdvertisementLatencyMs} ms")
+                            Text("Release->RX Latency: ${entry.buttonReleaseAdvertisementLatencyMs} ms") // not-localized
                             val rxFeed = entry.advertisementReceived?.let { ar ->
                                 timestamp - Instant.fromEpochMilliseconds(ar)
                             }
-                            Text("RX->Feed Latency: ${rxFeed?.inWholeMilliseconds ?: "—"} ms")
+                            Text("RX->Feed Latency: ${rxFeed?.inWholeMilliseconds ?: "—"} ms") // not-localized
                         }
                     }
                 }

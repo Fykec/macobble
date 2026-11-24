@@ -136,7 +136,7 @@ class ExperimentalDevices(
         }
         if (preferences.ringPairedOld.value && preferences.ringPaired.value == null) {
             // Prompt user to re-pair to migrate
-            val title = "Re-pairing required"
+            val title = "Re-pairing required" // not-localized
             val body = "Please re-pair your Index 01 device to continue using it."
             NotifierManager.getLocalNotifier().notify {
                 this.title = title

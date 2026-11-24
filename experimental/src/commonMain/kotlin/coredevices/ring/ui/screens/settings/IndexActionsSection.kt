@@ -444,8 +444,8 @@ internal fun IndexActionsSection(
         // Sideloading is future expansion and ships disabled.
         // SectionActionRow(
         //     icon = Icons.Default.UploadFile,
-        //     title = "Sideload an action (.pbw)",
-        //     subtitle = "Install a plugin you built or downloaded",
+        //     title = "Sideload an action (.pbw)", // not-localized
+        //     subtitle = "Install a plugin you built or downloaded", // not-localized
         //     enabled = true,
         //     onClick = { dialog = ActionsDialog.Sideload },
         // )

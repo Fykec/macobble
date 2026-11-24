@@ -18,7 +18,7 @@ class IndexAgentNenya(
     captureType: DefaultCaptureType = DefaultCaptureType.Note,
     override val toolCallValidator: ToolCallValidator? = null,
 ): AgentNenya(nenyaClient, agentContext(captureType), NenyaModel.Default, conversation) {
-    override val label = "Nenya"
+    override val label = "Nenya" // not-localized
 
     override val logger: Logger = Logger.withTag("IndexAgentNenya")
     companion object {

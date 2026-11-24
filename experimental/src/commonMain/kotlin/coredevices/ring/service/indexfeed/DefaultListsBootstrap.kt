@@ -62,7 +62,7 @@ class DefaultListsBootstrap(
         maybeAdd(LIST_NOTES_SELF_ID) {
             ListDocument(
                 createdAt = now, updatedAt = now,
-                title = "Notes to self", icon = "📓",
+                title = "Notes to self", icon = "📓", // not-localized
                 listKind = "note", seed = SEED_NOTES_SELF,
             )
         }
@@ -76,7 +76,7 @@ class DefaultListsBootstrap(
         maybeAdd(LIST_SHOPPING_ID) {
             ListDocument(
                 createdAt = now, updatedAt = now,
-                title = "Shopping list", icon = "🛒",
+                title = "Shopping list", icon = "🛒", // not-localized
                 listKind = "checklist", seed = SEED_SHOPPING,
             )
         }

@@ -43,34 +43,34 @@ internal fun builtinServletDefinitions(
     return listOf(
         McpServerDefinition(
             name = NoteServlet.NAME,
-            title = "Note Creation"
+            title = "Note Creation" // not-localized
         ),
         McpServerDefinition(
             name = ReminderServlet.NAME,
-            title = "Reminders"
+            title = "Reminders" // not-localized
         ),
         McpServerDefinition(
             name = CalendarServlet.NAME,
-            title = "Calendar"
+            title = "Calendar" // not-localized
         ),
         McpServerDefinition(
             name = ClockServlet.name,
-            title = "Timers & Alarms",
+            title = "Timers & Alarms", // not-localized
             unavailableReason = clockUnavailableReason
         ),
         McpServerDefinition(
             name = MessagingServlet.name,
-            title = "Beeper Messaging",
+            title = "Beeper Messaging", // not-localized
             unavailableReason = androidOnly
         ),
         McpServerDefinition(
             name = NotificationReplyServlet.NAME,
-            title = "Reply to Notifications",
+            title = "Reply to Notifications", // not-localized
             unavailableReason = androidOnly
         ),
         McpServerDefinition(
             name = BugReportServlet.NAME,
-            title = "Bug Reports"
+            title = "Bug Reports" // not-localized
         )
     )
 }

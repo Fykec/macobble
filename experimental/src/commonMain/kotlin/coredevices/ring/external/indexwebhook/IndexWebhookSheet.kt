@@ -76,6 +76,7 @@ import coreapp.ring.generated.resources.sent_as_json_with_the_click
 import coreapp.ring.generated.resources.sign_requests
 import coreapp.ring.generated.resources.value
 import coreapp.ring.generated.resources.remove_header
+import coreapp.ring.generated.resources.copy_from_x
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -134,7 +135,7 @@ fun IndexWebhookSheet(
                     shape = CircleShape,
                     contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
                 ) {
-                    Text("Copy from ${other.gestureLabel}", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(RingRes.string.copy_from_x, other.gestureLabel), style = MaterialTheme.typography.labelMedium)
                 }
             }
         }

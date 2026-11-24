@@ -35,7 +35,7 @@ class SearchAgentNenya(
     private val itemRepository: ItemRepository,
     conversation: List<ConversationMessageDocument>,
 ) : KoinComponent, ToolCallingAgent(conversation) {
-    override val label = "Nenya"
+    override val label = "Nenya" // not-localized
     override val isCloud = true
 
     override val logger: Logger = Logger.withTag("SearchAgentNenya")

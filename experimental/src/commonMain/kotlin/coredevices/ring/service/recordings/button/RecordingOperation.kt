@@ -82,7 +82,7 @@ abstract class TranscribedRecordingOperation(
     fun sendNotEnoughMemoryNotification() {
         val now = Clock.System.now()
         if (lastNotEnoughMemoryNotif == null || now - lastNotEnoughMemoryNotif!! > 5.minutes) {
-            val title = "Low Memory Warning"
+            val title = "Low Memory Warning" // not-localized
             val body = "Offline speech recognition failed due to low memory. Please consider closing other apps or using online speech recognition only."
             NotifierManager.getLocalNotifier().notify {
                 this.title = title

@@ -39,7 +39,7 @@ class IndexWebhookDeliveryQueue(
     scope = scope,
     settings = settings,
     platform = platform,
-    label = "IndexWebhookDelivery",
+    label = "IndexWebhookDelivery", // not-localized
     rescheduleDelay = rescheduleDelay,
     maxAttempts = MAX_ATTEMPTS,
 ) {

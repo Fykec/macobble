@@ -145,12 +145,12 @@ class RecordingTraceTimelineViewModel(
         }.toMutableList()
         if (milestones.isNotEmpty()) {
             milestones.add(0, TraceMilestone(
-                label = "Button Press",
+                label = "Button Press", // not-localized
                 relativeMs = if (buttonPressTimeMark != null) 0 else null,
                 isError = false
             ))
             milestones.add(1, TraceMilestone(
-                label = "Button Release",
+                label = "Button Release", // not-localized
                 relativeMs = audioDurationMs,
                 isError = false
             ))

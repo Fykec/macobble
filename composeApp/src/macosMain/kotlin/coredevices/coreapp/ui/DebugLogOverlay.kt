@@ -55,7 +55,7 @@ fun DebugLogOverlay(modifier: Modifier = Modifier) {
     Column(
         modifier
             .fillMaxWidth()
-            .height(if (expanded) 220.dp else 26.dp)
+            .height(if (expanded) 220.dp else 20.dp)
             .background(Color.Black.copy(alpha = 0.88f))
             .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
@@ -68,14 +68,14 @@ fun DebugLogOverlay(modifier: Modifier = Modifier) {
             )
             Spacer(Modifier.width(12.dp))
             Text(
-                if (expanded) "收起" else "展开",
+                if (expanded) "collapse" else "expand",
                 color = AccentColor,
                 fontSize = 11.sp,
                 modifier = Modifier.clickable { expanded = !expanded },
             )
             Spacer(Modifier.weight(1f))
             Text(
-                "清空",
+                "clear",
                 color = AccentColor,
                 fontSize = 11.sp,
                 modifier = Modifier.clickable { DebugLogs.clear() },

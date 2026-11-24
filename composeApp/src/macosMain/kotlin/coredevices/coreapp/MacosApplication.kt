@@ -69,6 +69,7 @@ private fun bootstrap(): Koin {
     }
     val koin = KoinPlatform.getKoin()
     initLogging()
+    DebugLogs.startWriting()
     Logger.addLogWriter(DebugLogWriter())
     return koin
 }

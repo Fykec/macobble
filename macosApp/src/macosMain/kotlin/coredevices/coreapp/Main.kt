@@ -10,30 +10,14 @@ import androidx.compose.ui.window.Window
 import io.rebble.libpebblecommon.connection.LibPebble
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.io.buffered
-import kotlinx.io.files.Path
-import kotlinx.io.files.SystemFileSystem
-import kotlinx.io.writeString
 import org.koin.mp.KoinPlatform
 import platform.AppKit.NSApplication
 import platform.AppKit.NSApplicationActivationPolicy
 import platform.CoreGraphics.CGRectMake
-import platform.Foundation.NSHomeDirectory
-import kotlin.time.Clock
 
-// Temporary diagnostics for the macOS port: records what the watch stack sees, so "no watches"
-// can be told apart from "scan never started". Written to ~/Library/Logs/CoreApp/macos.log so it
-// is readable when the app is launched from Finder.
-private val diagLogPath = Path("${NSHomeDirectory()}/Library/Logs/CoreApp/macos.log")
-
+// Records what the watch stack sees, so "no watches" can be told apart from "scan never started".
 private fun log(message: String) {
-    val line = "${Clock.System.now()} [CoreApp] $message"
-    println(line)
     DebugLogs.add("[CoreApp] $message")
-    runCatching {
-        diagLogPath.parent?.let { SystemFileSystem.createDirectories(it) }
-        SystemFileSystem.sink(diagLogPath, append = true).buffered().use { it.writeString("$line\n") }
-    }
 }
 
 private fun CoroutineScope.logCollector(name: String, block: suspend CoroutineScope.() -> Unit) {

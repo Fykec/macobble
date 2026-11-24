@@ -32,6 +32,10 @@ import androidx.compose.ui.unit.dp
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.set
 import io.rebble.libpebblecommon.locker.AppType
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.don_t_show_again
+import coreapp.pebble.generated.resources.what_are_plugins
 
 private const val PLUGINS_HELP_DISMISSED_KEY = "pluginsHelpDismissed"
 
@@ -70,7 +74,7 @@ fun PluginsHelpCard(onDismiss: () -> Unit, modifier: Modifier = Modifier) {
                     )
                 }
                 Text(
-                    "What are plugins?",
+                    stringResource(PebbleRes.string.what_are_plugins),
                     style = MaterialTheme.typography.titleLargeEmphasized,
                 )
             }
@@ -94,7 +98,7 @@ fun PluginsHelpCard(onDismiss: () -> Unit, modifier: Modifier = Modifier) {
                 shapes = ButtonDefaults.shapes(),
                 modifier = Modifier.align(Alignment.End),
             ) {
-                Text("Don't show again")
+                Text(stringResource(PebbleRes.string.don_t_show_again))
             }
         }
     }

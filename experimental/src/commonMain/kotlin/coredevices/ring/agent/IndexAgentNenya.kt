@@ -5,6 +5,9 @@ import coredevices.indexai.agent.ToolCallValidator
 import coredevices.indexai.data.entity.ConversationMessageDocument
 import coredevices.ring.api.NenyaClient
 import coredevices.ring.api.NenyaModel
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.nenya
 
 /**
  * Online agent backed by the Nenya HTTP API, has Index agent prompt baked in.

@@ -18,6 +18,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import kotlin.uuid.Uuid
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.check_your_connection_and_try_again
+import coreapp.ring.generated.resources.ok
 
 /**
  * Installs a store plugin picked from a destination sheet: the permission review first, then
@@ -62,10 +66,10 @@ internal class StorePluginInstaller(
             M3Dialog(
                 onDismissRequest = { failed = null },
                 title = { Text("Couldn't add ${plugin.title}") },
-                buttons = { TextButton(onClick = { failed = null }) { Text("OK") } },
+                buttons = { TextButton(onClick = { failed = null }) { Text(stringResource(RingRes.string.ok)) } },
             ) {
                 Text(
-                    "Check your connection and try again.",
+                    stringResource(RingRes.string.check_your_connection_and_try_again),
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
                     color = IndexTheme.colors.onSurfaceVariant,

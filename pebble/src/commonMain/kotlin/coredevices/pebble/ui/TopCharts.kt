@@ -63,6 +63,12 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.parameter.parametersOf
 import kotlin.coroutines.cancellation.CancellationException
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.nothing_here_yet
+import coreapp.pebble.generated.resources.top_charts
+import coreapp.pebble.generated.resources.see_all
+import coreapp.pebble.generated.resources.selected
 
 private const val TOP_CHART_LIMIT = 50
 private const val TOP_CHART_CAROUSEL_SIZE = 10
@@ -205,9 +211,9 @@ fun TopChartsSection(
             },
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text("Top Charts", fontSize = 24.sp, modifier = Modifier.padding(vertical = 8.dp))
+            Text(stringResource(PebbleRes.string.top_charts), fontSize = 24.sp, modifier = Modifier.padding(vertical = 8.dp))
             Spacer(modifier = Modifier.width(7.dp))
-            Icon(Icons.AutoMirrored.Default.ArrowForward, contentDescription = "See all")
+            Icon(Icons.AutoMirrored.Default.ArrowForward, contentDescription = stringResource(PebbleRes.string.see_all))
         }
         TopChartControls(type, modifier = Modifier.padding(horizontal = 16.dp))
         TopChartContent(apps) { visibleApps ->
@@ -305,7 +311,7 @@ private fun TopChartContent(apps: List<CommonApp>?, content: @Composable (List<C
         }
 
         apps.isEmpty() -> Text(
-            "Nothing here yet",
+            stringResource(PebbleRes.string.nothing_here_yet),
             color = Color.Gray,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
         )
@@ -368,7 +374,7 @@ private fun <T> TopChartDropdown(
                         expanded = false
                     },
                     leadingIcon = if (option == selected) {
-                        { Icon(Icons.Filled.Done, contentDescription = "Selected") }
+                        { Icon(Icons.Filled.Done, contentDescription = stringResource(PebbleRes.string.selected)) }
                     } else null,
                 )
             }

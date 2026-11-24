@@ -22,6 +22,9 @@ import coredevices.ring.data.entity.room.indexfeed.CachedItem
 import coredevices.ring.data.entity.room.indexfeed.CachedList
 import coredevices.ring.service.indexfeed.DefaultListsBootstrap.Companion.LIST_NOTES_SELF_ID
 import kotlin.time.Duration
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.answered
 
 /** One tool call on a recording and what it produced, or an answer the agent gave, as the
  *  feeds present it. */

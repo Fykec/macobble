@@ -90,6 +90,19 @@ import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.early_alert
+import coreapp.ring.generated.resources.lists_2
+import coreapp.ring.generated.resources.notes_2
+import coreapp.ring.generated.resources.remove
+import coreapp.ring.generated.resources.source
+import coreapp.ring.generated.resources.timestamp
+import coreapp.ring.generated.resources.title
+import coreapp.ring.generated.resources.type
+import coreapp.ring.generated.resources.checkbox
+import coreapp.ring.generated.resources.due
+import coreapp.ring.generated.resources.reminder
 
 // Item kind detail (hero card view) — split out of ObjectDetail.kt
 // to keep that file focused on the route entry + chrome.
@@ -295,7 +308,7 @@ internal fun ItemView(
             s.sourceRecording?.let { rec ->
                 item("source-label") {
                     Text(
-                        "SOURCE",
+                        stringResource(RingRes.string.source),
                         color = colors.onSurfaceVariant,
                         fontSize = 11.sp,
                         fontWeight = FontWeight.SemiBold,
@@ -522,7 +535,7 @@ private fun ItemHeroEdit(
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Default),
                 decorationBox = { inner ->
                     if (title.isEmpty()) {
-                        Text("Title", color = colors.onSurfaceVariant, fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                        Text(stringResource(RingRes.string.title), color = colors.onSurfaceVariant, fontSize = 22.sp, fontWeight = FontWeight.Bold)
                     }
                     inner()
                 },
@@ -530,7 +543,7 @@ private fun ItemHeroEdit(
         }
         Spacer(Modifier.height(10.dp))
         if (showsDue) {
-            DueAtRow(label = "Due", dueAt = dueAt, onChange = onDueAt)
+            DueAtRow(label = stringResource(RingRes.string.due), dueAt = dueAt, onChange = onDueAt)
             // Early heads-up notification, only for reminders that scheduled one and
             // that we can actually cancel (built-in reminders).
             if (kind == "reminder" && notifyBeforeMillis != null && canRemoveExtraNotification) {
@@ -546,7 +559,7 @@ private fun ItemHeroEdit(
         if (kind in setOf("note", "checklist", "reminder")) {
             Spacer(Modifier.height(14.dp))
             Text(
-                "TYPE",
+                stringResource(RingRes.string.type),
                 color = colors.onSurfaceVariant,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold,
@@ -557,7 +570,7 @@ private fun ItemHeroEdit(
         if (!showsDue && listOptions.isNotEmpty()) {
             Spacer(Modifier.height(14.dp))
             Text(
-                "LISTS",
+                stringResource(RingRes.string.lists_2),
                 color = colors.onSurfaceVariant,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold,
@@ -615,7 +628,7 @@ private fun ItemHeroEdit(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Default),
             decorationBox = { inner ->
                 if (body.isEmpty()) {
-                    Text("Notes…", color = colors.onSurfaceVariant, fontSize = 14.sp)
+                    Text(stringResource(RingRes.string.notes_2), color = colors.onSurfaceVariant, fontSize = 14.sp)
                 }
                 inner()
             },
@@ -637,7 +650,7 @@ private fun TimestampRow(timestamp: Instant, onChange: (Instant) -> Unit) {
             .clickable { showPicker = true }
             .padding(horizontal = 12.dp, vertical = 10.dp),
     ) {
-        Text("Timestamp", color = colors.onSurfaceVariant, fontSize = 12.sp, modifier = Modifier.width(86.dp))
+        Text(stringResource(RingRes.string.timestamp), color = colors.onSurfaceVariant, fontSize = 12.sp, modifier = Modifier.width(86.dp))
         Text(
             formatLongDateTime(timestamp),
             color = colors.onSurface,
@@ -689,7 +702,7 @@ private fun TypeButtons(kind: String, onKind: (String) -> Unit, labelAll: Boolea
         )
         TypeButton(
             selected = kind == "checklist",
-            label = "Checkbox",
+            label = stringResource(RingRes.string.checkbox),
             icon = if (kind == "checklist") Icons.Filled.CheckCircle else Icons.Outlined.CheckCircle,
             showLabel = labelAll,
             shapes = ButtonGroupDefaults.connectedMiddleButtonShapes(),
@@ -697,7 +710,7 @@ private fun TypeButtons(kind: String, onKind: (String) -> Unit, labelAll: Boolea
         )
         TypeButton(
             selected = kind == "reminder",
-            label = "Reminder",
+            label = stringResource(RingRes.string.reminder),
             icon = if (kind == "reminder") Icons.Filled.Notifications else Icons.Outlined.Notifications,
             showLabel = labelAll,
             shapes = ButtonGroupDefaults.connectedTrailingButtonShapes(),
@@ -746,7 +759,7 @@ private fun EarlyNotificationRow(notifyBeforeMillis: Long, onRemove: () -> Unit)
             .border(1.dp, colors.outlineVariant, RoundedCornerShape(10.dp))
             .padding(horizontal = 12.dp, vertical = 10.dp),
     ) {
-        Text("Early alert", color = colors.onSurfaceVariant, fontSize = 12.sp, modifier = Modifier.width(86.dp))
+        Text(stringResource(RingRes.string.early_alert), color = colors.onSurfaceVariant, fontSize = 12.sp, modifier = Modifier.width(86.dp))
         Text(
             "${formatLeadTime(notifyBeforeMillis)} before",
             color = colors.onSurface,
@@ -754,7 +767,7 @@ private fun EarlyNotificationRow(notifyBeforeMillis: Long, onRemove: () -> Unit)
             modifier = Modifier.weight(1f),
         )
         Text(
-            "Remove",
+            stringResource(RingRes.string.remove),
             color = colors.primary,
             fontSize = 12.sp,
             fontWeight = FontWeight.SemiBold,

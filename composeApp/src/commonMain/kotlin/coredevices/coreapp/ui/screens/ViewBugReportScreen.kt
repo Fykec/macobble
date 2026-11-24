@@ -57,6 +57,11 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import rememberOpenDocumentLauncher
 import rememberOpenPhotoLauncher
+import coreapp.composeapp.generated.resources.Res as AppRes
+import coreapp.composeapp.generated.resources.add_image
+import coreapp.composeapp.generated.resources.attach_files
+import coreapp.composeapp.generated.resources.attach_more_logs
+import coreapp.composeapp.generated.resources.upload_more_logs
 
 private val logger = Logger.withTag("ViewBugReportScreen")
 
@@ -140,7 +145,7 @@ fun ViewBugReportScreen(
                 ) {
                     if (showPhotoChip) {
                         ElevatedAssistChip(
-                            label = { Text("Add Image") },
+                            label = { Text(stringResource(AppRes.string.add_image)) },
                             onClick = {
                                 ticket?.let {
                                     launchPhotoDialog()
@@ -150,14 +155,14 @@ fun ViewBugReportScreen(
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Default.InsertPhoto,
-                                    contentDescription = "Add Image",
+                                    contentDescription = stringResource(AppRes.string.add_image),
                                 )
                             },
                             elevation = AssistChipDefaults.elevatedAssistChipElevation(elevation = 6.dp),
                         )
                     }
                     ElevatedAssistChip(
-                        label = { Text("Attach Files") },
+                        label = { Text(stringResource(AppRes.string.attach_files)) },
                         onClick = {
                             ticket?.let {
                                 launchAttachmentDialog(listOf("*/*"))
@@ -167,13 +172,13 @@ fun ViewBugReportScreen(
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Default.AttachFile,
-                                contentDescription = "Attach Files",
+                                contentDescription = stringResource(AppRes.string.attach_files),
                             )
                         },
                         elevation = AssistChipDefaults.elevatedAssistChipElevation(elevation = 6.dp),
                     )
                     ElevatedAssistChip(
-                        label = { Text("Attach More Logs") },
+                        label = { Text(stringResource(AppRes.string.attach_more_logs)) },
                         onClick = {
                             ticket?.let {
                                 requestedMoreLogs = true
@@ -187,7 +192,7 @@ fun ViewBugReportScreen(
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Default.Troubleshoot,
-                                contentDescription = "Upload More Logs",
+                                contentDescription = stringResource(AppRes.string.upload_more_logs),
                             )
                         },
                         elevation = AssistChipDefaults.elevatedAssistChipElevation(elevation = 6.dp),

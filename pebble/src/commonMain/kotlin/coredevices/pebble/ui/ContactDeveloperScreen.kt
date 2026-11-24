@@ -62,6 +62,17 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import rememberOpenDocumentLauncher
 import rememberOpenPhotoLauncher
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.add_files
+import coreapp.pebble.generated.resources.add_photos
+import coreapp.pebble.generated.resources.close
+import coreapp.pebble.generated.resources.contact_the_developer
+import coreapp.pebble.generated.resources.message
+import coreapp.pebble.generated.resources.message_sent_the_developer_will_receive
+import coreapp.pebble.generated.resources.send_message
+import coreapp.pebble.generated.resources.sign_in
+import coreapp.pebble.generated.resources.you_need_to_sign_in_to
+import coreapp.pebble.generated.resources.remove
 
 private const val MAX_BODY = 5000
 private const val MAX_ATTACHMENTS = 3
@@ -166,7 +177,7 @@ fun ContactDeveloperScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Contact the developer") },
+                title = { Text(stringResource(PebbleRes.string.contact_the_developer)) },
                 navigationIcon = {
                     IconButton(
                         onClick = coreNav::goBack,
@@ -201,7 +212,7 @@ fun ContactDeveloperScreen(
                 when {
                     sent -> {
                         Text(
-                            "Message sent. The developer will receive an email and may reply to you directly.",
+                            stringResource(PebbleRes.string.message_sent_the_developer_will_receive),
                             color = MaterialTheme.colorScheme.primary,
                             fontWeight = FontWeight.Bold,
                         )
@@ -210,13 +221,13 @@ fun ContactDeveloperScreen(
                             onClick = coreNav::goBack,
                             modifier = Modifier.fillMaxWidth(),
                         ) {
-                            Text("Close")
+                            Text(stringResource(PebbleRes.string.close))
                         }
                     }
 
                     !signedIn -> {
                         Text(
-                            "You need to sign in to contact the developer.",
+                            stringResource(PebbleRes.string.you_need_to_sign_in_to),
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.error,
                         )
@@ -225,7 +236,7 @@ fun ContactDeveloperScreen(
                             onClick = { showSignInDialog = true },
                             modifier = Modifier.fillMaxWidth(),
                         ) {
-                            Text("Sign in")
+                            Text(stringResource(PebbleRes.string.sign_in))
                         }
                     }
 
@@ -236,7 +247,7 @@ fun ContactDeveloperScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(200.dp),
-                            label = { Text("Message") },
+                            label = { Text(stringResource(PebbleRes.string.message)) },
                             keyboardOptions = KeyboardOptions(
                                 capitalization = KeyboardCapitalization.Sentences,
                             ),
@@ -269,7 +280,7 @@ fun ContactDeveloperScreen(
                                     modifier = Modifier.size(ButtonDefaults.IconSize),
                                 )
                                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                                Text("Add files")
+                                Text(stringResource(PebbleRes.string.add_files))
                             }
                             if (pickPhotos != null) {
                                 OutlinedButton(
@@ -283,7 +294,7 @@ fun ContactDeveloperScreen(
                                         modifier = Modifier.size(ButtonDefaults.IconSize),
                                     )
                                     Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                                    Text("Add photos")
+                                    Text(stringResource(PebbleRes.string.add_photos))
                                 }
                             }
                         }
@@ -312,7 +323,7 @@ fun ContactDeveloperScreen(
                                 ) {
                                     Icon(
                                         Icons.Default.Close,
-                                        contentDescription = "Remove",
+                                        contentDescription = stringResource(PebbleRes.string.remove),
                                         modifier = Modifier.size(16.dp),
                                     )
                                 }
@@ -341,7 +352,7 @@ fun ContactDeveloperScreen(
                                     strokeWidth = 2.dp,
                                 )
                             } else {
-                                Text("Send message")
+                                Text(stringResource(PebbleRes.string.send_message))
                             }
                         }
                     }

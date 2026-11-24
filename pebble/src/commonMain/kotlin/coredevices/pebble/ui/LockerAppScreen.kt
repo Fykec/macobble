@@ -121,6 +121,16 @@ import org.koin.core.parameter.parametersOf
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.flow.flowOf
 import kotlin.uuid.Uuid
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.changelog
+import coreapp.pebble.generated.resources.dismiss
+import coreapp.pebble.generated.resources.are_you_sure_you_want_to
+import coreapp.pebble.generated.resources.banner
+import coreapp.pebble.generated.resources.hearts
+import coreapp.pebble.generated.resources.move_to_top
+import coreapp.pebble.generated.resources.screenshot
+import coreapp.pebble.generated.resources.this_app_s_settings_page_may
 
 private val logger = Logger.withTag("LockerAppScreen")
 
@@ -253,7 +263,7 @@ fun LockerAppScreen(topBarParams: TopBarParams, uuid: Uuid?, navBarNav: NavBarNa
                     ConfirmDialog(
                         show = showRemoveConfirmDialog,
                         title = "Remove ${entry.title}?",
-                        text = "Are you sure you want to remove this app from your Pebble?",
+                        text = stringResource(PebbleRes.string.are_you_sure_you_want_to),
                         onConfirm = {
                             // Store apps stay here to show the store listing; nothing to show otherwise
                             if (viewModel.selectedStoreEntry == null) {
@@ -294,7 +304,7 @@ fun LockerAppScreen(topBarParams: TopBarParams, uuid: Uuid?, navBarNav: NavBarNa
                     if (commonAppStore?.headerImageUrl != null) {
                         AsyncImage(
                             model = commonAppStore.headerImageUrl,
-                            contentDescription = "banner",
+                            contentDescription = stringResource(PebbleRes.string.banner),
                             modifier = Modifier.fillMaxWidth().padding(10.dp)
                                 .clip(RoundedCornerShape(8.dp)),
                             contentScale = ContentScale.FillWidth,
@@ -399,7 +409,7 @@ fun LockerAppScreen(topBarParams: TopBarParams, uuid: Uuid?, navBarNav: NavBarNa
                                     ) {
                                         Icon(
                                             icon,
-                                            contentDescription = "Hearts",
+                                            contentDescription = stringResource(PebbleRes.string.hearts),
                                             tint = if (isHearted) {
                                                 MaterialTheme.colorScheme.primary
                                             } else {
@@ -637,14 +647,14 @@ fun LockerAppScreen(topBarParams: TopBarParams, uuid: Uuid?, navBarNav: NavBarNa
                         )
                         if (entry.commonAppType is CommonAppTypeLocal && entry.commonAppType.order > 0) {
                             PebbleElevatedButton(
-                                text = "Move To Top",
+                                text = stringResource(PebbleRes.string.move_to_top),
                                 onClick = {
                                     scope.launch {
                                         libPebble.setAppOrder(entry.uuid, -1)
                                     }
                                 },
                                 icon = Icons.Default.VerticalAlignTop,
-                                contentDescription = "Move To Top",
+                                contentDescription = stringResource(PebbleRes.string.move_to_top),
                                 primaryColor = false,
                                 modifier = Modifier.padding(5.dp),
                             )
@@ -661,7 +671,7 @@ fun LockerAppScreen(topBarParams: TopBarParams, uuid: Uuid?, navBarNav: NavBarNa
                                 )
                             ) {
                                 Text(
-                                    text = "This app's settings page may not work any more",
+                                    text = stringResource(PebbleRes.string.this_app_s_settings_page_may),
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onErrorContainer,
                                     modifier = Modifier.padding(15.dp)
@@ -694,7 +704,7 @@ fun LockerAppScreen(topBarParams: TopBarParams, uuid: Uuid?, navBarNav: NavBarNa
                             items(screenshotsToDisplay, key = { it }) { screenshotUrl ->
                                 AsyncImage(
                                     model = screenshotUrl,
-                                    contentDescription = "Screenshot",
+                                    contentDescription = stringResource(PebbleRes.string.screenshot),
                                     modifier = Modifier.size(110.dp).clip(RoundedCornerShape(7.dp)),
                                 )
                             }
@@ -900,7 +910,7 @@ fun LockerAppScreen(topBarParams: TopBarParams, uuid: Uuid?, navBarNav: NavBarNa
                                     onDismissRequest = {
                                         show.value = false
                                     },
-                                    title = { Text("Changelog") },
+                                    title = { Text(stringResource(PebbleRes.string.changelog)) },
                                     text = {
                                         LazyColumn {
                                             items(changelog) { item ->
@@ -934,7 +944,7 @@ fun LockerAppScreen(topBarParams: TopBarParams, uuid: Uuid?, navBarNav: NavBarNa
                                     confirmButton = {
                                         TextButton(onClick = {
                                             show.value = false
-                                        }) { Text("Dismiss") }
+                                        }) { Text(stringResource(PebbleRes.string.dismiss)) }
                                     }
                                 )
                             }

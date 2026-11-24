@@ -97,6 +97,30 @@ import coredevices.util.models.CactusSTTMode
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import coreapp.util.generated.resources.Res as UtilRes
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.advanced
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.faq
+import coreapp.ring.generated.resources.getting_started_guide
+import coreapp.ring.generated.resources.it_s_a_new_kind_of
+import coreapp.ring.generated.resources.new_to_index_01
+import coreapp.ring.generated.resources.notification_shortcut
+import coreapp.ring.generated.resources.ok
+import coreapp.ring.generated.resources.auto_dismiss_notifications
+import coreapp.ring.generated.resources.backup
+import coreapp.ring.generated.resources.diagnostics
+import coreapp.ring.generated.resources.disable_bluetooth_sync
+import coreapp.ring.generated.resources.enable_debug_details
+import coreapp.ring.generated.resources.index_on_the_web_experimental
+import coreapp.ring.generated.resources.restart_pre_emptive_transfer
+import coreapp.ring.generated.resources.ring_button
+import coreapp.ring.generated.resources.ring_firmware_version
+import coreapp.ring.generated.resources.ring_sync_inspector
+import coreapp.ring.generated.resources.scan_by_paired_address
+import coreapp.ring.generated.resources.speech_recognition
+import coreapp.ring.generated.resources.timers_alarms
+import coreapp.ring.generated.resources.use_pendingintent_scan
+import coreapp.ring.generated.resources.validate_agent_choices
 
 @Composable
 private fun RelinkDestinationsCard(destinations: List<LegacyDestination>) {
@@ -295,13 +319,13 @@ fun IndexSettings(coreNav: CoreNav) {
                             )
                             Spacer(Modifier.width(8.dp))
                             Text(
-                                "New to Index 01?",
+                                stringResource(RingRes.string.new_to_index_01),
                                 style = MaterialTheme.typography.titleMedium
                             )
                         }
                         Spacer(Modifier.height(4.dp))
                         Text(
-                            "It's a new kind of gadget! A quick read goes a long way.",
+                            stringResource(RingRes.string.it_s_a_new_kind_of),
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Spacer(Modifier.height(12.dp))
@@ -315,7 +339,7 @@ fun IndexSettings(coreNav: CoreNav) {
                                 ),
                                 modifier = Modifier.weight(1f).height(40.dp)
                             ) {
-                                Text("Getting Started Guide")
+                                Text(stringResource(RingRes.string.getting_started_guide))
                                 Spacer(Modifier.width(6.dp))
                                 Icon(
                                     Icons.AutoMirrored.Filled.OpenInNew,
@@ -334,7 +358,7 @@ fun IndexSettings(coreNav: CoreNav) {
                                 ),
                                 modifier = Modifier.height(40.dp),
                             ) {
-                                Text("FAQ")
+                                Text(stringResource(RingRes.string.faq))
                             }
                         }
                     }
@@ -356,7 +380,7 @@ fun IndexSettings(coreNav: CoreNav) {
             // --- Button Actions section ---
             item {
                 SectionHeader(
-                    title = "Ring Button",
+                    title = stringResource(RingRes.string.ring_button),
                     modifier = Modifier.padding(top = 18.dp, bottom = 2.dp, start = 16.dp, end = 16.dp)
                 )
             }
@@ -367,7 +391,7 @@ fun IndexSettings(coreNav: CoreNav) {
             item {
                 SectionHeader(
                     modifier = Modifier.padding(top = 22.dp, bottom = 2.dp, start = 16.dp, end = 16.dp),
-                    title = "Speech Recognition",
+                    title = stringResource(RingRes.string.speech_recognition),
                 )
             }
             item {
@@ -431,7 +455,7 @@ fun IndexSettings(coreNav: CoreNav) {
                     modifier = Modifier.padding(top = 22.dp, bottom = 2.dp, start = 16.dp, end = 16.dp),
                     leadingContent = {
                         Text(
-                            "Advanced",
+                            stringResource(RingRes.string.advanced),
                             style = MaterialTheme.typography.titleSmall,
                             color = colors.primary
                         )
@@ -442,7 +466,7 @@ fun IndexSettings(coreNav: CoreNav) {
             if (platform.isIOS && clockUnavailableReason() == null) {
                 item {
                     SettingsRow(
-                        title = "Timers & alarms",
+                        title = stringResource(RingRes.string.timers_alarms),
                         subtitle = "View and cancel timers and alarms set by your Index",
                         onClick = { coreNav.navigateTo(RingRoutes.TimersAndAlarms) },
                     )
@@ -451,7 +475,7 @@ fun IndexSettings(coreNav: CoreNav) {
             item {
                 val uriHandler = LocalUriHandler.current
                 SettingsRow(
-                    title = "Index on the web (experimental)",
+                    title = stringResource(RingRes.string.index_on_the_web_experimental),
                     subtitle = "View your Index notes and reminders in a browser at index.rePebble.com",
                     onClick = { uriHandler.openUrlSafely("https://index.rePebble.com") },
                 ) {
@@ -465,21 +489,21 @@ fun IndexSettings(coreNav: CoreNav) {
             }
             item {
                 SettingsRow(
-                    title = "Backup",
+                    title = stringResource(RingRes.string.backup),
                     subtitle = "Sync, manage, or delete cloud backup",
                     onClick = { showBackupDialog = true },
                 )
             }
             item {
                 SettingsRow(
-                    title = "Notification Shortcut",
+                    title = stringResource(RingRes.string.notification_shortcut),
                     subtitle = providers.shortcutDestinationTitle(noteShortcut) ?: "Email me",
                     onClick = viewModel::showNoteShortcutDialog,
                 )
             }
             item {
                 SettingsRow(
-                    title = "Auto-dismiss Notifications",
+                    title = stringResource(RingRes.string.auto_dismiss_notifications),
                     subtitle = "Dismiss recording action notifications after 5 minutes",
                     onClick = viewModel::toggleAutoDismissActionNotifications,
                 ) {
@@ -491,7 +515,7 @@ fun IndexSettings(coreNav: CoreNav) {
             }
             item {
                 SettingsRow(
-                    title = "Validate agent choices",
+                    title = stringResource(RingRes.string.validate_agent_choices),
                     subtitle = "When online, asks for your confirmation before taking actions you may not have intended",
                     onClick = viewModel::toggleActionValidation,
                 ) {
@@ -503,13 +527,13 @@ fun IndexSettings(coreNav: CoreNav) {
             }
             item {
                 SettingsRow(
-                    title = "Ring Firmware Version",
+                    title = stringResource(RingRes.string.ring_firmware_version),
                     subtitle = currentRingFirmware ?: "Not yet seen device",
                 )
             }
             item {
                 SettingsRow(
-                    title = "Diagnostics",
+                    title = stringResource(RingRes.string.diagnostics),
                     subtitle = "Record diagnostic information from your Index 01, only needed if support asks.",
                     enabled = ringPaired && diagnosticsState != DiagnosticsState.Running,
                     onClick = {
@@ -522,7 +546,7 @@ fun IndexSettings(coreNav: CoreNav) {
             if (debugDetailsEnabled || platform.isSecondaryProfile || coreConfig.disableRingBluetoothSync) {
                 item {
                     SettingsRow(
-                        title = "Disable Bluetooth Sync",
+                        title = stringResource(RingRes.string.disable_bluetooth_sync),
                         subtitle = "Turn on if Pebble is also installed on another profile of this phone. Index can't sync when two profiles connect to the ring at once.",
                         onClick = {
                             coreConfigHolder.update(coreConfig.copy(disableRingBluetoothSync = !coreConfig.disableRingBluetoothSync))
@@ -549,7 +573,7 @@ fun IndexSettings(coreNav: CoreNav) {
             }
             item {
                 SettingsRow(
-                    title = "Use PendingIntent scan",
+                    title = stringResource(RingRes.string.use_pendingintent_scan),
                     subtitle = if (platform.isAndroid) {
                         "Improves background reliability and battery consumption"
                     } else {
@@ -572,7 +596,7 @@ fun IndexSettings(coreNav: CoreNav) {
             }
             item {
                 SettingsRow(
-                    title = "Scan by paired address",
+                    title = stringResource(RingRes.string.scan_by_paired_address),
                     subtitle = if (platform.isAndroid) {
                         "Improves latency and battery"
                     } else {
@@ -591,7 +615,7 @@ fun IndexSettings(coreNav: CoreNav) {
             }
             item {
                 SettingsRow(
-                    title = "Enable Debug Details",
+                    title = stringResource(RingRes.string.enable_debug_details),
                     subtitle = "Version: ${viewModel.version}",
                     onClick = viewModel::toggleDebugDetailsEnabled,
                 ) {
@@ -604,7 +628,7 @@ fun IndexSettings(coreNav: CoreNav) {
             if (debugDetailsEnabled) {
                 item {
                     SettingsRow(
-                        title = "Restart Pre-emptive Transfer",
+                        title = stringResource(RingRes.string.restart_pre_emptive_transfer),
                         subtitle = "Available on iOS only".takeIf { platform.isAndroid },
                         enabled = !platform.isAndroid,
                         onClick = viewModel::restartPreemptiveTransfer,
@@ -612,7 +636,7 @@ fun IndexSettings(coreNav: CoreNav) {
                 }
                 item {
                     SettingsRow(
-                        title = "Ring Sync Inspector",
+                        title = stringResource(RingRes.string.ring_sync_inspector),
                         onClick = { coreNav.navigateTo(RingRoutes.RingSyncInspector) },
                     )
                 }
@@ -679,13 +703,13 @@ fun NoteShortcutDialog(
     }
     M3Dialog(
         onDismissRequest = onDismissRequest,
-        title = { Text("Notification Shortcut") },
+        title = { Text(stringResource(RingRes.string.notification_shortcut)) },
         buttons = {
             TextButton(onClick = onDismissRequest) {
-                Text("Cancel")
+                Text(stringResource(RingRes.string.cancel))
             }
             TextButton(onClick = { onShortcutSelected(targetShortcut) }) {
-                Text("OK")
+                Text(stringResource(RingRes.string.ok))
             }
         }
     ) {

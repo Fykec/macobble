@@ -10,6 +10,10 @@ import dev.gitlive.firebase.firestore.DocumentSnapshot
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.notes_to_self
+import coreapp.ring.generated.resources.shopping_list
 
 /**
  * Creates the three system seed lists for a user the first time they run the

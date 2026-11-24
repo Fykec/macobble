@@ -64,6 +64,9 @@ import kotlin.time.Clock
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Instant
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.recordingprocessing
 
 class RecordingProcessingQueue(
     private val recordingStorage: RecordingStorage,

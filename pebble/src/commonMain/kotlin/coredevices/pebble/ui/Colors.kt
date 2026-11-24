@@ -70,6 +70,17 @@ import io.rebble.libpebblecommon.database.entity.RgbColorPreset
 import io.rebble.libpebblecommon.timeline.TimelineColor
 import io.rebble.libpebblecommon.timeline.argbColor
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.cancel
+import coreapp.pebble.generated.resources.color
+import coreapp.pebble.generated.resources.hex
+import coreapp.pebble.generated.resources.none
+import coreapp.pebble.generated.resources.ok
+import coreapp.pebble.generated.resources.presets
+import coreapp.pebble.generated.resources.reset
+import coreapp.pebble.generated.resources.select
+import coreapp.pebble.generated.resources.select_color
 
 enum class ColorTab(val icon: ImageVector) {
     Grid(Icons.Default.GridOn),
@@ -144,7 +155,7 @@ fun ColorPickerDialog(
                             onDismissWithoutResult()
                         },
                         content = {
-                            Text("Cancel")
+                            Text(stringResource(PebbleRes.string.cancel))
                         },
                         modifier = Modifier.weight(1f),
                     )
@@ -153,7 +164,7 @@ fun ColorPickerDialog(
                             onColorSelected(null)
                         },
                         content = {
-                            Text("None")
+                            Text(stringResource(PebbleRes.string.none))
                         },
                         modifier = Modifier.weight(1f),
                     )
@@ -261,7 +272,7 @@ fun SelectColorOrNone(
     }
     ListItem(
         headlineContent = {
-            Text("Color")
+            Text(stringResource(PebbleRes.string.color))
         },
         supportingContent = {
             val surfaceColor = MaterialTheme.colorScheme.surface
@@ -288,12 +299,12 @@ fun SelectColorOrNone(
         },
         trailingContent = {
             PebbleElevatedButton(
-                text = "Select",
+                text = stringResource(PebbleRes.string.select),
                 onClick = {
                     showColorChooser = true
                 },
                 icon = Icons.Default.ColorLens,
-                contentDescription = "Select color",
+                contentDescription = stringResource(PebbleRes.string.select_color),
                 primaryColor = true,
                 modifier = Modifier.padding(8.dp),
             )
@@ -372,7 +383,7 @@ fun RgbColorPickerDialog(
                         )
                     }
                     if (presets.isNotEmpty()) {
-                        Text("Presets", modifier = Modifier.padding(bottom = 4.dp))
+                        Text(stringResource(PebbleRes.string.presets), modifier = Modifier.padding(bottom = 4.dp))
                         Column(
                             modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
                             verticalArrangement = Arrangement.spacedBy(6.dp),
@@ -416,7 +427,7 @@ fun RgbColorPickerDialog(
                             hexInput = it.uppercase().take(6)
                             applyHex(hexInput)
                         },
-                        label = { Text("Hex") },
+                        label = { Text(stringResource(PebbleRes.string.hex)) },
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
@@ -426,16 +437,16 @@ fun RgbColorPickerDialog(
                         TextButton(
                             onClick = onDismissWithoutResult,
                             modifier = Modifier.weight(1f),
-                        ) { Text("Cancel") }
+                        ) { Text(stringResource(PebbleRes.string.cancel)) }
                         TextButton(
                             onClick = { setRgb(defaultRgb) },
                             modifier = Modifier.weight(1f),
                             enabled = rgb != (defaultRgb and 0x00FFFFFFu),
-                        ) { Text("Reset") }
+                        ) { Text(stringResource(PebbleRes.string.reset)) }
                         TextButton(
                             onClick = { onColorSelected(rgb) },
                             modifier = Modifier.weight(1f),
-                        ) { Text("OK") }
+                        ) { Text(stringResource(PebbleRes.string.ok)) }
                     }
                 }
             }
@@ -544,10 +555,10 @@ fun SelectRgbColor(
         },
         trailingContent = {
             PebbleElevatedButton(
-                text = "Select",
+                text = stringResource(PebbleRes.string.select),
                 onClick = { showPicker = true },
                 icon = Icons.Default.ColorLens,
-                contentDescription = "Select color",
+                contentDescription = stringResource(PebbleRes.string.select_color),
                 primaryColor = true,
                 modifier = Modifier.padding(8.dp),
             )

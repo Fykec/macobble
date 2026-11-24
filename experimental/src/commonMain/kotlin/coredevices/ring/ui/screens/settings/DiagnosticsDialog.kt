@@ -34,6 +34,17 @@ import coredevices.ring.ui.viewmodel.SettingsViewModel
 import coredevices.ui.M3Dialog
 import kotlinx.coroutines.Job
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.close
+import coreapp.ring.generated.resources.diagnostics_complete_if_support_asked_you
+import coreapp.ring.generated.resources.done
+import coreapp.ring.generated.resources.file_bug_report
+import coreapp.ring.generated.resources.index_01_diagnostics
+import coreapp.ring.generated.resources.keep_your_index_01_next_to
+import coreapp.ring.generated.resources.start
+import coreapp.ring.generated.resources.try_again
 
 @Composable
 fun DiagnosticsDialog(
@@ -56,20 +67,20 @@ fun DiagnosticsDialog(
         ),
         onDismissRequest = ::dismiss,
         icon = { Icon(Icons.Default.Troubleshoot, contentDescription = null) },
-        title = { Text("Index 01 Diagnostics") },
+        title = { Text(stringResource(RingRes.string.index_01_diagnostics)) },
         buttons = {
             when (state) {
                 DiagnosticsState.Idle -> {
-                    TextButton(onClick = ::dismiss) { Text("Cancel") }
-                    TextButton(onClick = { job = viewModel.beginDiagnostics() }) { Text("Start") }
+                    TextButton(onClick = ::dismiss) { Text(stringResource(RingRes.string.cancel)) }
+                    TextButton(onClick = { job = viewModel.beginDiagnostics() }) { Text(stringResource(RingRes.string.start)) }
                 }
                 DiagnosticsState.Running -> {}
                 is DiagnosticsState.Error -> {
-                    TextButton(onClick = ::dismiss) { Text("Close") }
-                    TextButton(onClick = { job = viewModel.beginDiagnostics() }) { Text("Try Again") }
+                    TextButton(onClick = ::dismiss) { Text(stringResource(RingRes.string.close)) }
+                    TextButton(onClick = { job = viewModel.beginDiagnostics() }) { Text(stringResource(RingRes.string.try_again)) }
                 }
                 is DiagnosticsState.Completed -> {
-                    TextButton(onClick = ::dismiss) { Text("Done") }
+                    TextButton(onClick = ::dismiss) { Text(stringResource(RingRes.string.done)) }
                     TextButton(onClick = {
                         nextBugReportContext.nextContext = buildString {
                             appendLine()
@@ -83,7 +94,7 @@ fun DiagnosticsDialog(
                         }
                         dismiss()
                         coreNav.navigateTo(CommonRoutes.BugReport(pebble = false))
-                    }) { Text("File Bug Report") }
+                    }) { Text(stringResource(RingRes.string.file_bug_report)) }
                 }
             }
         }
@@ -103,7 +114,7 @@ fun DiagnosticsDialog(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    "Keep your Index 01 next to your phone and click the button...",
+                    stringResource(RingRes.string.keep_your_index_01_next_to),
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center
                 )
@@ -114,7 +125,7 @@ fun DiagnosticsDialog(
                 "An error occurred: ${state.message}\nPlease try again ensuring you've clicked the button to wake up the device"
             )
             is DiagnosticsState.Completed -> Text(
-                "Diagnostics complete. If support asked you to run this, file a bug report to send them the results."
+                stringResource(RingRes.string.diagnostics_complete_if_support_asked_you)
             )
         }
     }

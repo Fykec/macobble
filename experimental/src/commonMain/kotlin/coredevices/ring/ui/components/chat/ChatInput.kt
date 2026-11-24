@@ -55,6 +55,10 @@ import coredevices.ring.ui.PreviewWrapper
 import coredevices.ring.ui.theme.IndexTheme
 import coredevices.ring.ui.theme.indexTextEntryStyle
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.recording
+import coreapp.ring.generated.resources.type_or_hold_to_record
 
 /**
  * Pebble Index compose bar — outlined pill text field + separate red mic
@@ -196,7 +200,7 @@ private fun TextPill(
             decorationBox = { inner ->
                 if (value.isEmpty()) {
                     Text(
-                        "Type or hold to record…",
+                        stringResource(RingRes.string.type_or_hold_to_record),
                         color = colors.onSurfaceVariant,
                         fontSize = 15.sp,
                     )
@@ -245,7 +249,7 @@ private fun RecordingIndicator(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                "Recording",
+                stringResource(RingRes.string.recording),
                 color = colors.error,
                 fontSize = 13.sp,
             )

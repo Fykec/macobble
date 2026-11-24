@@ -61,6 +61,21 @@ import coredevices.ring.ui.screens.settings.gestureLabel
 import coredevices.util.relativeTime
 import coredevices.ring.ui.theme.IndexTheme
 import org.koin.compose.viewmodel.koinViewModel
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.add_an_hmac_sha256_signature
+import coreapp.ring.generated.resources.add_header
+import coreapp.ring.generated.resources.application_json_instead_of_multipart_form
+import coreapp.ring.generated.resources.https_example_com_webhook
+import coreapp.ring.generated.resources.name
+import coreapp.ring.generated.resources.remove_webhook
+import coreapp.ring.generated.resources.retry
+import coreapp.ring.generated.resources.send_as_json
+import coreapp.ring.generated.resources.send_test_event
+import coreapp.ring.generated.resources.sent_as_json_with_the_click
+import coreapp.ring.generated.resources.sign_requests
+import coreapp.ring.generated.resources.value
+import coreapp.ring.generated.resources.remove_header
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -137,7 +152,7 @@ fun IndexWebhookSheet(
                     onValueChange = viewModel::updateUrlInput,
                     singleLine = true,
                     shape = RoundedCornerShape(8.dp),
-                    placeholder = { Text("https://example.com/webhook") },
+                    placeholder = { Text(stringResource(RingRes.string.https_example_com_webhook)) },
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     keyboardActions = dismissKeyboard,
                     modifier = Modifier.fillMaxWidth(),
@@ -156,7 +171,7 @@ fun IndexWebhookSheet(
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Text(
-                    "Sent as JSON with the click count. Valid JSON is embedded as-is, anything else as text",
+                    stringResource(RingRes.string.sent_as_json_with_the_click),
                     style = MaterialTheme.typography.bodySmall,
                     color = colors.onSurfaceVariant,
                 )
@@ -182,9 +197,9 @@ fun IndexWebhookSheet(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Send as JSON", style = MaterialTheme.typography.bodyLarge)
+                        Text(stringResource(RingRes.string.send_as_json), style = MaterialTheme.typography.bodyLarge)
                         Text(
-                            "application/json instead of multipart/form-data. Audio is base64",
+                            stringResource(RingRes.string.application_json_instead_of_multipart_form),
                             style = MaterialTheme.typography.bodySmall,
                             color = colors.onSurfaceVariant,
                         )
@@ -207,7 +222,7 @@ fun IndexWebhookSheet(
                             singleLine = true,
                             shape = RoundedCornerShape(8.dp),
                             textStyle = MaterialTheme.typography.bodyMedium,
-                            placeholder = { Text("Name", style = MaterialTheme.typography.bodyMedium) },
+                            placeholder = { Text(stringResource(RingRes.string.name), style = MaterialTheme.typography.bodyMedium) },
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                             keyboardActions = dismissKeyboard,
                             modifier = Modifier.weight(1f),
@@ -218,7 +233,7 @@ fun IndexWebhookSheet(
                             singleLine = true,
                             shape = RoundedCornerShape(8.dp),
                             textStyle = MaterialTheme.typography.bodyMedium,
-                            placeholder = { Text("Value", style = MaterialTheme.typography.bodyMedium) },
+                            placeholder = { Text(stringResource(RingRes.string.value), style = MaterialTheme.typography.bodyMedium) },
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                             keyboardActions = dismissKeyboard,
                             modifier = Modifier.weight(1f),
@@ -226,7 +241,7 @@ fun IndexWebhookSheet(
                         IconButton(onClick = { viewModel.removeHeader(index) }) {
                             Icon(
                                 Icons.Default.Close,
-                                contentDescription = "Remove header",
+                                contentDescription = stringResource(RingRes.string.remove_header),
                                 tint = colors.onSurfaceVariant,
                                 modifier = Modifier.size(20.dp),
                             )
@@ -237,7 +252,7 @@ fun IndexWebhookSheet(
                     onClick = viewModel::addHeader,
                     contentPadding = PaddingValues(4.dp),
                 ) {
-                    Text("Add header", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(RingRes.string.add_header), style = MaterialTheme.typography.labelLarge)
                 }
             }
 
@@ -249,9 +264,9 @@ fun IndexWebhookSheet(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Sign requests", style = MaterialTheme.typography.bodyLarge)
+                        Text(stringResource(RingRes.string.sign_requests), style = MaterialTheme.typography.bodyLarge)
                         Text(
-                            "Add an HMAC-SHA256 signature",
+                            stringResource(RingRes.string.add_an_hmac_sha256_signature),
                             style = MaterialTheme.typography.bodySmall,
                             color = colors.onSurfaceVariant,
                         )
@@ -337,7 +352,7 @@ fun IndexWebhookSheet(
                         modifier = Modifier.size(17.dp),
                     )
                     Spacer(Modifier.width(6.dp))
-                    Text("Send test event", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(RingRes.string.send_test_event), style = MaterialTheme.typography.labelLarge)
                 }
                 Text(
                     text = when (val state = testState) {
@@ -369,7 +384,7 @@ fun IndexWebhookSheet(
                     onClick = viewModel::removeCurrentGesture,
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text("Remove webhook", color = colors.error)
+                    Text(stringResource(RingRes.string.remove_webhook), color = colors.error)
                 }
             }
 
@@ -436,7 +451,7 @@ private fun RunRow(run: IndexWebhookRun, onRetry: () -> Unit) {
         )
         if (run.retryDeliveryId != null) {
             TextButton(onClick = onRetry, contentPadding = PaddingValues(horizontal = 4.dp)) {
-                Text("Retry")
+                Text(stringResource(RingRes.string.retry))
             }
         }
     }

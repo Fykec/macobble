@@ -33,6 +33,9 @@ import coredevices.ring.ui.theme.IndexTheme
 import coredevices.ring.ui.viewmodel.ToolCallStep
 import coredevices.ring.ui.viewmodel.toolCallLabel
 import coredevices.ring.ui.viewmodel.toolCallsLabel
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.caret
 
 /**
  * Collapsed summary of an assistant turn's intermediate tool calls. The header shimmers while
@@ -47,7 +50,7 @@ fun ToolCallGroup(
     if (steps.isEmpty()) return
     val colors = IndexTheme.colors
     var expanded by remember { mutableStateOf(false) }
-    val caretRotation by animateFloatAsState(if (expanded) 0f else -90f, label = "caret")
+    val caretRotation by animateFloatAsState(if (expanded) 0f else -90f, label = stringResource(RingRes.string.caret))
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(10.dp))

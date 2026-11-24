@@ -22,6 +22,10 @@ import coredevices.pebble.rememberLibPebble
 import coredevices.util.CoreConfigHolder
 import io.rebble.libpebblecommon.permissions.PermissionPolicy
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.app_permissions
+import coreapp.pebble.generated.resources.ok
 
 private const val HAS_SEEN_PERMISSIONS_INTRO_SETTINGS_KEY = "hasSeenPermissionsIntro"
 
@@ -121,11 +125,11 @@ fun PermissionsIntroDialog(onDismissRequest: () -> Unit) {
         // The settings row needs about the width of the settings screen.
         modifier = Modifier.padding(horizontal = 16.dp),
         properties = DialogProperties(usePlatformDefaultWidth = false),
-        title = { Text("App permissions") },
+        title = { Text(stringResource(PebbleRes.string.app_permissions)) },
         text = {
             val settings = rememberSettingsItemsState(navBarNav = null, snackbarDisplay = {})
             PermissionsIntroContent(settings, Modifier.verticalScroll(rememberScrollState()))
         },
-        confirmButton = { TextButton(onClick = onDismissRequest) { Text("OK") } },
+        confirmButton = { TextButton(onClick = onDismissRequest) { Text(stringResource(PebbleRes.string.ok)) } },
     )
 }

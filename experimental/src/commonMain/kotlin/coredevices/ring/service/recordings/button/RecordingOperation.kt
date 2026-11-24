@@ -40,6 +40,9 @@ import kotlin.time.Clock
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.low_memory_warning
 
 interface RecordingOperation {
     suspend fun run(handle: RecordingProcessingQueue.TaskHandle? = null)

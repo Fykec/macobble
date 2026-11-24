@@ -92,6 +92,12 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.search_2
+import coreapp.ring.generated.resources.this_item_is_gone
+import coreapp.ring.generated.resources.not_found
 
 /**
  * Detail page for a single item (note / reminder / scheduled / message /
@@ -120,9 +126,9 @@ fun ObjectDetail(coreNav: CoreNav, objectId: String, startEditing: Boolean = fal
                 }
                 is ObjectDetailViewModel.UiState.NotFound -> {
                     Column {
-                        DetailTopBar(title = "Not found", coreNav = coreNav, right = {})
+                        DetailTopBar(title = stringResource(RingRes.string.not_found), coreNav = coreNav, right = {})
                         Text(
-                            "This item is gone.",
+                            stringResource(RingRes.string.this_item_is_gone),
                             modifier = Modifier.padding(24.dp),
                             color = colors.onSurfaceVariant,
                         )
@@ -224,7 +230,7 @@ internal fun ListSearchTopBar(
                 }),
                 decorationBox = { inner ->
                     if (value.isEmpty()) {
-                        Text("Search…", color = colors.onSurfaceVariant, fontSize = 15.sp)
+                        Text(stringResource(RingRes.string.search_2), color = colors.onSurfaceVariant, fontSize = 15.sp)
                     }
                     inner()
                 },
@@ -236,7 +242,7 @@ internal fun ListSearchTopBar(
             }
         }
         Text(
-            "Cancel",
+            stringResource(RingRes.string.cancel),
             color = colors.primary,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,

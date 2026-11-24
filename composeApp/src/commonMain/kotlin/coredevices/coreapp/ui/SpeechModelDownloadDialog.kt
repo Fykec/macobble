@@ -30,6 +30,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.stringResource
+import coreapp.composeapp.generated.resources.Res as AppRes
+import coreapp.composeapp.generated.resources.download_required
+import coreapp.composeapp.generated.resources.the_current_speech_engine_doesn_t
 
 /**
  * Offers to download the on-device speech model the configured engine is missing. Reached via
@@ -46,7 +50,7 @@ fun SpeechModelDownloadDialog(onDismiss: () -> Unit) {
         config.sttConfig.mode.usesLocalCactus() ->
             CactusModelDownloadDialog(config.sttConfig.modelName, onDismiss)
         else -> ModelDownloadDialog(
-            message = "The current speech engine doesn't need a download.",
+            message = stringResource(AppRes.string.the_current_speech_engine_doesn_t),
             downloadLabel = null,
             progress = null,
             onDownload = {},
@@ -134,7 +138,7 @@ private fun ModelDownloadDialog(
     M3Dialog(
         onDismissRequest = onDismiss,
         icon = { Icon(Icons.Outlined.CloudDownload, contentDescription = null) },
-        title = { Text("Download Required") },
+        title = { Text(stringResource(AppRes.string.download_required)) },
         buttons = {
             TextButton(onClick = onDismiss) { Text(if (downloadLabel == null) "Close" else "Cancel") }
             if (downloadLabel != null) {

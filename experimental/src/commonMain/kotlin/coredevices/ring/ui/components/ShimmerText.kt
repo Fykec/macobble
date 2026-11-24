@@ -22,6 +22,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.shimmer
+import coreapp.ring.generated.resources.shimmer_progress
 
 /** Text with a highlight band sweeping across it, for "still working" labels. */
 @Composable
@@ -34,7 +38,7 @@ fun ShimmerText(
     fontWeight: FontWeight? = null,
 ) {
     var textWidth by remember { mutableIntStateOf(0) }
-    val transition = rememberInfiniteTransition(label = "shimmer")
+    val transition = rememberInfiniteTransition(label = stringResource(RingRes.string.shimmer))
     val progress by transition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
@@ -42,7 +46,7 @@ fun ShimmerText(
             animation = tween(durationMillis = 1400, easing = LinearEasing),
             repeatMode = RepeatMode.Restart,
         ),
-        label = "shimmer-progress",
+        label = stringResource(RingRes.string.shimmer_progress),
     )
     val band = (textWidth * 0.6f).coerceAtLeast(1f)
     val start = -band + (textWidth + 2 * band) * progress

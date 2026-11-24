@@ -73,6 +73,17 @@ import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.dsl.module
 import theme.onboardingScheme
+import org.jetbrains.compose.resources.stringResource
+import coreapp.composeapp.generated.resources.sign_in_to_backup_your_pebble
+import coreapp.composeapp.generated.resources.both
+import coreapp.composeapp.generated.resources.connect_a_pebble
+import coreapp.composeapp.generated.resources.description
+import coreapp.composeapp.generated.resources.get_started
+import coreapp.composeapp.generated.resources.i_have_a
+import coreapp.composeapp.generated.resources.index_01
+import coreapp.composeapp.generated.resources.ok
+import coreapp.composeapp.generated.resources.skip
+import coreapp.composeapp.generated.resources.watch
 
 
 enum class OnboardingStage {
@@ -168,13 +179,13 @@ fun OnboardingScreen(
                     ) {
                         Image(
                             painter = painterResource(Res.drawable.pebble_logo),
-                            contentDescription = "description",
+                            contentDescription = stringResource(Res.string.description),
                             colorFilter = ColorFilter.tint(Color.White),
                             modifier = Modifier.height(50.dp),
                         )
                         Spacer(modifier = Modifier.height(15.dp))
                         PebbleElevatedButton(
-                            text = "Get Started",
+                            text = stringResource(Res.string.get_started),
                             onClick = {
                                 viewModel.stage.value = OnboardingStage.DeviceSelection
                             },
@@ -190,7 +201,7 @@ fun OnboardingScreen(
                         verticalArrangement = Arrangement.Center,
                     ) {
                         Text(
-                            text = "I have a:",
+                            text = stringResource(Res.string.i_have_a),
                             fontSize = 28.sp,
                             fontWeight = FontWeight.Bold,
                         )
@@ -200,7 +211,7 @@ fun OnboardingScreen(
                             horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
                         ) {
                             DeviceChoiceCard(
-                                label = "Watch",
+                                label = stringResource(Res.string.watch),
                                 icon = Icons.Default.Watch,
                                 onClick = {
                                     viewModel.deviceChoice.value = DeviceChoice.Watch
@@ -208,14 +219,14 @@ fun OnboardingScreen(
                                 },
                             )
                             DeviceChoiceCard(
-                                label = "Index 01",
+                                label = stringResource(Res.string.index_01),
                                 icon = Icons.Default.RadioButtonUnchecked,
                                 onClick = { chooseIndexDevice(DeviceChoice.Index01) },
                             )
                         }
                         Spacer(modifier = Modifier.height(20.dp))
                         DeviceChoiceCard(
-                            label = "Both",
+                            label = stringResource(Res.string.both),
                             icon = Icons.Default.Devices,
                             onClick = { chooseIndexDevice(DeviceChoice.Both) },
                         )
@@ -262,7 +273,7 @@ fun OnboardingScreen(
                                 if (warnBeforeFullScreenRequest) {
                                     Spacer(modifier = Modifier.height(10.dp))
                                     PebbleElevatedButton(
-                                        text = "OK",
+                                        text = stringResource(Res.string.ok),
                                         onClick = {
                                             scope.launch {
                                                 requestPermission(
@@ -292,7 +303,7 @@ fun OnboardingScreen(
                             modifier = Modifier.padding(bottom = 25.dp),
                         )
                         Spacer(modifier = Modifier.height(10.dp))
-                        Text("Sign in to backup your Pebble account to backup apps, settings, etc", textAlign = TextAlign.Center)
+                        Text(stringResource(Res.string.sign_in_to_backup_your_pebble), textAlign = TextAlign.Center)
                         SignInButtons(
                             onDismiss = { viewModel.stage.value = OnboardingStage.Done },
                             primaryColor = true,
@@ -302,7 +313,7 @@ fun OnboardingScreen(
                         )
                         if (!coreConfig.enableIndex) {
                             PebbleElevatedButton(
-                                text = "Skip",
+                                text = stringResource(Res.string.skip),
                                 onClick = { viewModel.stage.value = OnboardingStage.Done },
                                 primaryColor = true,
                             )
@@ -317,7 +328,7 @@ fun OnboardingScreen(
                         verticalArrangement = Arrangement.Center,
                     ) {
                         PebbleElevatedButton(
-                            text = "Connect a Pebble!",
+                            text = stringResource(Res.string.connect_a_pebble),
                             onClick = ::exitOnboarding,
                             primaryColor = true,
                         )

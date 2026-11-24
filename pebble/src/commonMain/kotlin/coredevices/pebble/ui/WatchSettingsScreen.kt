@@ -208,6 +208,127 @@ import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Instant
 import theme.coreOrange
+import coreapp.pebble.generated.resources.cancel
+import coreapp.pebble.generated.resources.cloud_recognition_provider
+import coreapp.pebble.generated.resources.copy_account_token
+import coreapp.pebble.generated.resources.note_selecting_a_language_may_improve
+import coreapp.pebble.generated.resources.ok
+import coreapp.pebble.generated.resources.only_update_during_time_window
+import coreapp.pebble.generated.resources.search_languages
+import coreapp.pebble.generated.resources.select_language
+import coreapp.pebble.generated.resources.spoken_language
+import coreapp.pebble.generated.resources.activity
+import coreapp.pebble.generated.resources.always_send_notifications
+import coreapp.pebble.generated.resources.app_activity
+import coreapp.pebble.generated.resources.app_theme
+import coreapp.pebble.generated.resources.app_update_available
+import coreapp.pebble.generated.resources.app_version
+import coreapp.pebble.generated.resources.ask_before_apps_use_permissions
+import coreapp.pebble.generated.resources.ask_before_older_apps_use_permissions
+import coreapp.pebble.generated.resources.auto_resume_firmware_updates
+import coreapp.pebble.generated.resources.automatic
+import coreapp.pebble.generated.resources.background_refresh_interval
+import coreapp.pebble.generated.resources.background_sampling
+import coreapp.pebble.generated.resources.bluetooth_state_restoration
+import coreapp.pebble.generated.resources.bottom_bar
+import coreapp.pebble.generated.resources.calendar_reminders
+import coreapp.pebble.generated.resources.calendars
+import coreapp.pebble.generated.resources.complications
+import coreapp.pebble.generated.resources.configure_appstore_sources
+import coreapp.pebble.generated.resources.copy_pkjs_account_token
+import coreapp.pebble.generated.resources.data_usage
+import coreapp.pebble.generated.resources.declined_events
+import coreapp.pebble.generated.resources.decrease
+import coreapp.pebble.generated.resources.disable_companion_device_manager
+import coreapp.pebble.generated.resources.disable_fw_update_notifications
+import coreapp.pebble.generated.resources.do_immediate_background_sync
+import coreapp.pebble.generated.resources.download_in_background
+import coreapp.pebble.generated.resources.downloading_in_the_background
+import coreapp.pebble.generated.resources.during_activities
+import coreapp.pebble.generated.resources.emulate_timeline_webservice
+import coreapp.pebble.generated.resources.enable_calendar
+import coreapp.pebble.generated.resources.enable_health_tracking
+import coreapp.pebble.generated.resources.enable_index_feed
+import coreapp.pebble.generated.resources.enable_showsuserinterface_actions
+import coreapp.pebble.generated.resources.enable_weather
+import coreapp.pebble.generated.resources.filter_ble_watch_scans_by_uuid
+import coreapp.pebble.generated.resources.force_jscore_gc
+import coreapp.pebble.generated.resources.foreground_service
+import coreapp.pebble.generated.resources.gender
+import coreapp.pebble.generated.resources.getting_started_troubleshooting
+import coreapp.pebble.generated.resources.heart_rate_monitor
+import coreapp.pebble.generated.resources.height
+import coreapp.pebble.generated.resources.ignore_missing_prf
+import coreapp.pebble.generated.resources.ignore_other_pebble_apps
+import coreapp.pebble.generated.resources.imperial_units
+import coreapp.pebble.generated.resources.increase
+import coreapp.pebble.generated.resources.legacy_pebblekit
+import coreapp.pebble.generated.resources.locations
+import coreapp.pebble.generated.resources.manage_offline_models
+import coreapp.pebble.generated.resources.mute_phone_call_effects
+import coreapp.pebble.generated.resources.mute_phone_notification_effects
+import coreapp.pebble.generated.resources.new_bug_report
+import coreapp.pebble.generated.resources.notify_when_watch_fully_charged
+import coreapp.pebble.generated.resources.offline_speech_recognition
+import coreapp.pebble.generated.resources.open_google_fit
+import coreapp.pebble.generated.resources.passive_reconnection_mode
+import coreapp.pebble.generated.resources.permissions
+import coreapp.pebble.generated.resources.permissions_in_use
+import coreapp.pebble.generated.resources.pkjs_debugger
+import coreapp.pebble.generated.resources.pkjs_requests_through_app_instead_of
+import coreapp.pebble.generated.resources.populate_fake_health_data
+import coreapp.pebble.generated.resources.post_test_notification
+import coreapp.pebble.generated.resources.preferred_sources
+import coreapp.pebble.generated.resources.quick_replies
+import coreapp.pebble.generated.resources.re_publish_gatt_services_after_bt
+import coreapp.pebble.generated.resources.reminder_vibration_pattern
+import coreapp.pebble.generated.resources.respect_phone_do_not_disturb_legacy
+import coreapp.pebble.generated.resources.restore_system_app_positions
+import coreapp.pebble.generated.resources.reversed_ppog
+import coreapp.pebble.generated.resources.seek_instead_of_skip_for_podcasts
+import coreapp.pebble.generated.resources.send_app_analytics
+import coreapp.pebble.generated.resources.send_app_crashes
+import coreapp.pebble.generated.resources.send_local_only_notifications_to_watch
+import coreapp.pebble.generated.resources.send_notification_images
+import coreapp.pebble.generated.resources.send_watch_analytics
+import coreapp.pebble.generated.resources.show_badge_when_app_was_updated
+import coreapp.pebble.generated.resources.show_debug_options
+import coreapp.pebble.generated.resources.show_legacy_watches_in_ble_scan
+import coreapp.pebble.generated.resources.show_notifications_in_phone_logs
+import coreapp.pebble.generated.resources.show_ring_onboarding
+import coreapp.pebble.generated.resources.show_sensitive_content_in_phone_logs
+import coreapp.pebble.generated.resources.show_watch_connection_debug_info
+import coreapp.pebble.generated.resources.show_watch_onboarding
+import coreapp.pebble.generated.resources.sign_in_pebble_account
+import coreapp.pebble.generated.resources.sign_out_pebble_account
+import coreapp.pebble.generated.resources.sign_out_rebble
+import coreapp.pebble.generated.resources.sleep
+import coreapp.pebble.generated.resources.store_disabled_notifications
+import coreapp.pebble.generated.resources.store_notifications_for
+import coreapp.pebble.generated.resources.sync_now
+import coreapp.pebble.generated.resources.system_speech_model
+import coreapp.pebble.generated.resources.this_will_wipe_all_existing_health
+import coreapp.pebble.generated.resources.time_window
+import coreapp.pebble.generated.resources.update_pebbleos_automatically
+import coreapp.pebble.generated.resources.use_lan_developer_connection
+import coreapp.pebble.generated.resources.use_pebble_weather_service_when_apps
+import coreapp.pebble.generated.resources.use_reversed_ppog
+import coreapp.pebble.generated.resources.use_vibration_patterns_from_os
+import coreapp.pebble.generated.resources.verbose_connection_logging
+import coreapp.pebble.generated.resources.verbose_ppog_logging
+import coreapp.pebble.generated.resources.vibration_pattern
+import coreapp.pebble.generated.resources.view_debug_stats
+import coreapp.pebble.generated.resources.view_my_bug_reports
+import coreapp.pebble.generated.resources.watch_settings_sync
+import coreapp.pebble.generated.resources.watch_type_for_unknown_devices
+import coreapp.pebble.generated.resources.weather_pins
+import coreapp.pebble.generated.resources.weather_provider
+import coreapp.pebble.generated.resources.weather_refresh_interval
+import coreapp.pebble.generated.resources.weight
+import coreapp.pebble.generated.resources.what_s_new_in_pebbleos
+import coreapp.pebble.generated.resources.what_s_new_in_the_app
+import coreapp.pebble.generated.resources.wi_fi_only
+import coreapp.pebble.generated.resources.year_of_birth
 
 enum class TopLevelType(val displayName: String) {
     Phone("Phone"),
@@ -581,8 +702,8 @@ fun rememberSettingsItemsState(navBarNav: NavBarNav?, snackbarDisplay: SnackbarD
     }
     ConfirmDialog(
         show = showFakeHealthDataDialog,
-        title = "Populate fake health data",
-        text = "This will wipe all existing health data and replace it with 30 days of fake data. This cannot be undone.",
+        title = stringResource(Res.string.populate_fake_health_data),
+        text = stringResource(Res.string.this_will_wipe_all_existing_health),
         confirmText = "Wipe & Populate",
         onConfirm = {
             scope.launch { libPebble.populateDebugHealthData() }
@@ -905,7 +1026,7 @@ fun rememberSettingsItemsState(navBarNav: NavBarNav?, snackbarDisplay: SnackbarD
                         val window = coreConfig.autoFirmwareUpdateWindow
                         ListItem(
                             headlineContent = {
-                                Text("Only update during time window")
+                                Text(stringResource(Res.string.only_update_during_time_window))
                             },
                             leadingContent = {
                                 Checkbox(
@@ -1278,7 +1399,7 @@ fun rememberSettingsItemsState(navBarNav: NavBarNav?, snackbarDisplay: SnackbarD
                                 )
                             },
                             subtext = "Override the default on the watch",
-                            title = "Reminder Vibration Pattern",
+                            title = stringResource(Res.string.reminder_vibration_pattern),
                         )
                     },
                     isDebugSetting = false,
@@ -1784,7 +1905,7 @@ fun rememberSettingsItemsState(navBarNav: NavBarNav?, snackbarDisplay: SnackbarD
                         modelDownloadState.takeIf { it.inProgress }?.let { state ->
                             Column {
                                 Text(
-                                    text = "Downloading in the background...",
+                                    text = stringResource(Res.string.downloading_in_the_background),
                                     style = MaterialTheme.typography.bodySmall,
                                 )
                                 (state as? ModelDownloadStatus.Downloading)?.progress?.let { progress ->
@@ -1854,7 +1975,7 @@ fun rememberSettingsItemsState(navBarNav: NavBarNav?, snackbarDisplay: SnackbarD
                             Res.drawable.wispr_flow_logo_black
                         }
                         ListItem(
-                            headlineContent = { Text("Cloud Recognition Provider") },
+                            headlineContent = { Text(stringResource(Res.string.cloud_recognition_provider)) },
                             trailingContent = {
                                 Image(
                                     painter = painterResource(logo),
@@ -2947,7 +3068,7 @@ fun basicSettingsNumberFieldItem(
                             },
                             enabled = value > minL,
                         ) {
-                            Icon(Icons.Default.Remove, contentDescription = "Decrease")
+                            Icon(Icons.Default.Remove, contentDescription = stringResource(Res.string.decrease))
                         }
                         OutlinedTextField(
                             value = textFieldValue,
@@ -2986,7 +3107,7 @@ fun basicSettingsNumberFieldItem(
                             },
                             enabled = value < maxL,
                         ) {
-                            Icon(Icons.Default.Add, contentDescription = "Increase")
+                            Icon(Icons.Default.Add, contentDescription = stringResource(Res.string.increase))
                         }
                         if (valueFormatter != null) {
                             Spacer(modifier = Modifier.width(8.dp))
@@ -3086,7 +3207,7 @@ fun <T> basicSettingsDropdownItem(
                 onDismissRequest = { showingDetails = false },
                 title = { Text(title) },
                 text = { Column(Modifier.verticalScroll(rememberScrollState())) { details() } },
-                confirmButton = { TextButton(onClick = { showingDetails = false }) { Text("OK") } },
+                confirmButton = { TextButton(onClick = { showingDetails = false }) { Text(stringResource(Res.string.ok)) } },
             )
         }
         ListItem(
@@ -3135,7 +3256,7 @@ fun PKJSCopyTokenDialog(onDismissRequest: () -> Unit) {
                 modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
             ) {
                 Text(
-                    "Copy Account Token",
+                    stringResource(Res.string.copy_account_token),
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
@@ -3186,19 +3307,19 @@ fun STTLanguageDialog(
     M3Dialog(
         onDismissRequest = onDismissRequest,
         icon = { Icon(Icons.Default.Language, contentDescription = null) },
-        title = { Text("Select language") },
+        title = { Text(stringResource(Res.string.select_language)) },
         buttons = {
             TextButton(
                 onClick = onDismissRequest
             ) {
-                Text("Cancel")
+                Text(stringResource(Res.string.cancel))
             }
             TextButton(
                 onClick = {
                     onLanguageSelected(targetLanguage)
                 }
             ) {
-                Text("OK")
+                Text(stringResource(Res.string.ok))
             }
         }
     ) {
@@ -3259,9 +3380,9 @@ fun SpokenLanguagePickerDialog(
     M3Dialog(
         onDismissRequest = onDismissRequest,
         icon = { Icon(Icons.Default.Language, contentDescription = null) },
-        title = { Text("Spoken Language") },
+        title = { Text(stringResource(Res.string.spoken_language)) },
         buttons = {
-            TextButton(onClick = onDismissRequest) { Text("Cancel") }
+            TextButton(onClick = onDismissRequest) { Text(stringResource(Res.string.cancel)) }
         },
     ) {
         Column(Modifier.fillMaxWidth()) {
@@ -3269,7 +3390,7 @@ fun SpokenLanguagePickerDialog(
                 value = query,
                 onValueChange = { query = it },
                 singleLine = true,
-                placeholder = { Text("Search languages") },
+                placeholder = { Text(stringResource(Res.string.search_languages)) },
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(Modifier.height(8.dp))
@@ -3277,7 +3398,7 @@ fun SpokenLanguagePickerDialog(
                 if (showAutomatic) {
                     item(key = "__automatic__") {
                         SpokenLanguageRow(
-                            label = "Automatic",
+                            label = stringResource(Res.string.automatic),
                             selected = selectedCode == null,
                             onClick = { onLanguageSelected(null) },
                         )
@@ -3293,7 +3414,7 @@ fun SpokenLanguagePickerDialog(
             }
             Spacer(Modifier.height(8.dp))
             Text(
-                "Note: Selecting a language may improve accuracy for that language but not all languages on this list are guaranteed to be supported.",
+                stringResource(Res.string.note_selecting_a_language_may_improve),
                 fontSize = 11.sp,
             )
         }

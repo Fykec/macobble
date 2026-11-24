@@ -23,6 +23,15 @@ import io.rebble.libpebblecommon.connection.LibPebble
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.component.inject
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.beeper_messaging
+import coreapp.ring.generated.resources.bug_reports
+import coreapp.ring.generated.resources.calendar
+import coreapp.ring.generated.resources.note_creation
+import coreapp.ring.generated.resources.reminders
+import coreapp.ring.generated.resources.reply_to_notifications
+import coreapp.ring.generated.resources.timers_alarms_2
 
 const val ANDROID_ONLY_REASON = "Only available on Android"
 

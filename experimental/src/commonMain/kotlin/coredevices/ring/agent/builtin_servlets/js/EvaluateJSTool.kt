@@ -15,6 +15,9 @@ import kotlinx.serialization.json.JsonObject
 import coredevices.util.CoreConfigFlow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.ran_javascript
 
 class EvaluateJSTool : BuiltInMcpTool(
     definition = Tool(

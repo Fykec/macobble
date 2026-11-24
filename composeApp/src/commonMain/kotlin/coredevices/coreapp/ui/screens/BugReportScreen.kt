@@ -108,6 +108,29 @@ import org.koin.compose.koinInject
 import rememberOpenDocumentLauncher
 import rememberOpenPhotoLauncher
 import size
+import coreapp.composeapp.generated.resources.Res as AppRes
+import coreapp.composeapp.generated.resources.add_images
+import coreapp.composeapp.generated.resources.bug_report
+import coreapp.composeapp.generated.resources.capturing_screenshot
+import coreapp.composeapp.generated.resources.include_recent_recordings
+import coreapp.composeapp.generated.resources.include_recording
+import coreapp.composeapp.generated.resources.index_bug
+import coreapp.composeapp.generated.resources.please_describe_the_bug
+import coreapp.composeapp.generated.resources.please_note_that_logs_device_info
+import coreapp.composeapp.generated.resources.report_sent
+import coreapp.composeapp.generated.resources.send_report
+import coreapp.composeapp.generated.resources.sign_in
+import coreapp.composeapp.generated.resources.take_watch_screenshot
+import coreapp.composeapp.generated.resources.tap_to_see_what_s_working
+import coreapp.composeapp.generated.resources.this_is_a
+import coreapp.composeapp.generated.resources.watch_bug
+import coreapp.composeapp.generated.resources.you_must_sign_in_to_submit
+import coreapp.composeapp.generated.resources.attach_an_image
+import coreapp.composeapp.generated.resources.clear_attachments
+import coreapp.composeapp.generated.resources.how_to_submit_a_great_bug
+import coreapp.composeapp.generated.resources.my_bug_reports
+import coreapp.composeapp.generated.resources.watch_screenshot
+import coreapp.composeapp.generated.resources.you_can_follow_up_on_an
 
 expect fun isThirdPartyTest(): Boolean
 expect fun getExperimentalDebugInfoDirectory(): String
@@ -310,7 +333,7 @@ fun BugReportScreen(
             snackbarHost = { SnackbarHost(snackbarHostState) },
             topBar = {
                 TopAppBar(
-                    title = { Text("Bug Report") },
+                    title = { Text(stringResource(AppRes.string.bug_report)) },
                     navigationIcon = {
                         IconButton(onClick = coreNav::goBack) {
                             Icon(
@@ -376,11 +399,11 @@ fun BugReportScreen(
                                         tint = MaterialTheme.colorScheme.onPrimary
                                     )
                                     Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                                    Text("Report Sent!")
+                                    Text(stringResource(AppRes.string.report_sent))
                                 }
 
                                 else -> {
-                                    Text("Send Report")
+                                    Text(stringResource(AppRes.string.send_report))
                                     Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                                     Icon(
                                         Icons.Default.ChevronRight,
@@ -405,13 +428,13 @@ fun BugReportScreen(
                     modifier = Modifier.height(200.dp).fillMaxWidth().padding(16.dp),
                     value = userMessage,
                     onValueChange = setUserMessage,
-                    label = { Text("Please describe the bug") },
+                    label = { Text(stringResource(AppRes.string.please_describe_the_bug)) },
                     keyboardOptions = KeyboardOptions(
                         capitalization = KeyboardCapitalization.Sentences
                     )
                 )
                 if (coreConfig.enableIndex) {
-                    Text("This is a:", modifier = Modifier.padding(top = 8.dp))
+                    Text(stringResource(AppRes.string.this_is_a), modifier = Modifier.padding(top = 8.dp))
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         modifier = Modifier.padding(horizontal = 16.dp)
@@ -422,18 +445,18 @@ fun BugReportScreen(
                                 isWatch = false
                                 watchScreenshot = null
                             },
-                            label = { Text("Index bug") }
+                            label = { Text(stringResource(AppRes.string.index_bug)) }
                         )
                         FilterChip(
                             selected = isWatch,
                             onClick = { isWatch = true },
-                            label = { Text("Watch bug") }
+                            label = { Text(stringResource(AppRes.string.watch_bug)) }
                         )
                     }
                 }
                 if (user == null) {
                     Text(
-                        "You must sign in to submit a bug report",
+                        stringResource(AppRes.string.you_must_sign_in_to_submit),
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(4.dp),
@@ -442,7 +465,7 @@ fun BugReportScreen(
                     Button(
                         onClick = { showSignInDialog = true },
                     ) {
-                        Text("Sign In")
+                        Text(stringResource(AppRes.string.sign_in))
                     }
                     Spacer(Modifier.height(8.dp))
                 }
@@ -454,7 +477,7 @@ fun BugReportScreen(
                         ) { setSendRecording(!sendRecording) }) {
                         Checkbox(sendRecording, { setSendRecording(it) }, enabled = !sending)
                         Text(
-                            "Include recording",
+                            stringResource(AppRes.string.include_recording),
                             modifier = Modifier.align(Alignment.CenterVertically)
                         )
                     }
@@ -467,7 +490,7 @@ fun BugReportScreen(
                         ) { setSendRecentRecordings(!sendRecentRecordings) }) {
                         Checkbox(sendRecentRecordings, { setSendRecentRecordings(it) }, enabled = !sending)
                         Text(
-                            "Include recent recordings",
+                            stringResource(AppRes.string.include_recent_recordings),
                             modifier = Modifier.align(Alignment.CenterVertically)
                         )
                     }
@@ -499,7 +522,7 @@ fun BugReportScreen(
                                 modifier = Modifier.size(ButtonDefaults.IconSize)
                             )
                             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                            Text("Take Watch Screenshot")
+                            Text(stringResource(AppRes.string.take_watch_screenshot))
                         }
                     } else if (screenshotLoading) {
                         Row(
@@ -507,7 +530,7 @@ fun BugReportScreen(
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
                             CircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = 2.dp)
-                            Text("Capturing screenshot...", fontSize = 14.sp)
+                            Text(stringResource(AppRes.string.capturing_screenshot), fontSize = 14.sp)
                         }
                     } else {
                         watchScreenshot?.let { screenshot ->
@@ -524,7 +547,7 @@ fun BugReportScreen(
                                     val width = height / screenshot.height * screenshot.width
                                     Image(
                                         bitmap = screenshot,
-                                        contentDescription = "Watch screenshot",
+                                        contentDescription = stringResource(AppRes.string.watch_screenshot),
                                         modifier = Modifier.height(height).width(width),
                                     )
                                     Row(
@@ -558,11 +581,11 @@ fun BugReportScreen(
                         }
                     },
                     modifier = Modifier.padding(8.dp),
-                    text = "How to submit a great bug report",
+                    text = stringResource(AppRes.string.how_to_submit_a_great_bug),
                     primaryColor = false,
                 )
                 Text(
-                    "Tap to see what's working and what's still in development",
+                    stringResource(AppRes.string.tap_to_see_what_s_working),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(8.dp).clickable {
                         scope.launch {
@@ -574,7 +597,7 @@ fun BugReportScreen(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    "Please note that logs + device info will be sent with this report",
+                    stringResource(AppRes.string.please_note_that_logs_device_info),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(8.dp),
                     fontSize = 12.sp
@@ -591,7 +614,7 @@ fun BugReportScreen(
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         Text(
-                            text = "You can follow up on an existing bug report by adding more logs or information:",
+                            text = stringResource(AppRes.string.you_can_follow_up_on_an),
                             textAlign = TextAlign.Center,
                             fontSize = 13.sp,
                             modifier = Modifier.padding(6.dp),
@@ -603,7 +626,7 @@ fun BugReportScreen(
                             modifier = Modifier.padding(8.dp),
                         ) {
                             Text(
-                                text = "My Bug Reports",
+                                text = stringResource(AppRes.string.my_bug_reports),
                                 fontSize = 14.sp,
                             )
                         }
@@ -723,7 +746,7 @@ private fun AttachmentButtons(
             if (!attachments.isNullOrEmpty()) {
                 Icon(
                     Icons.Outlined.Delete,
-                    contentDescription = "Clear attachments",
+                    contentDescription = stringResource(AppRes.string.clear_attachments),
                     modifier = Modifier.size(ButtonDefaults.IconSize)
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
@@ -731,11 +754,11 @@ private fun AttachmentButtons(
             } else {
                 Icon(
                     Icons.Default.AttachFile,
-                    contentDescription = "Attach an image",
+                    contentDescription = stringResource(AppRes.string.attach_an_image),
                     modifier = Modifier.size(ButtonDefaults.IconSize)
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text("Add Images")
+                Text(stringResource(AppRes.string.add_images))
             }
         }
     }

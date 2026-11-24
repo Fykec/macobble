@@ -34,6 +34,11 @@ import coredevices.util.name
 import coredevices.util.rememberUiContext
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.all_permissions_granted
+import coreapp.pebble.generated.resources.don_t_show_a_badge_on
+import coreapp.pebble.generated.resources.hide_missing_permission_warnings
 
 private val logger = Logger.withTag("PermissionsScreen")
 
@@ -63,9 +68,9 @@ fun PermissionsScreen(navBarNav: NavBarNav, topBarParams: TopBarParams) {
         LazyColumn {
             item(key = "hide_badges_toggle") {
                 ListItem(
-                    headlineContent = { Text("Hide missing permission warnings") },
+                    headlineContent = { Text(stringResource(PebbleRes.string.hide_missing_permission_warnings)) },
                     supportingContent = {
-                        Text("Don't show a badge on Settings when permissions are missing")
+                        Text(stringResource(PebbleRes.string.don_t_show_a_badge_on))
                     },
                     trailingContent = {
                         Switch(
@@ -101,7 +106,7 @@ fun PermissionsScreen(navBarNav: NavBarNav, topBarParams: TopBarParams) {
                             ),
                             modifier = Modifier.padding(15.dp),
                         ) {
-                            Text("All permissions granted!", modifier = Modifier.padding(15.dp))
+                            Text(stringResource(PebbleRes.string.all_permissions_granted), modifier = Modifier.padding(15.dp))
                         }
                     }
                 }

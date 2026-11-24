@@ -58,6 +58,19 @@ import coredevices.util.transcription.SpokenLanguageOptions
 import coredevices.util.transcription.platformModelNeedsDownload
 import coredevices.util.transcription.platformModelState
 import coredevices.util.transcription.spokenLanguageLabel
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.cloud_speech_recognition_by_wispr_flow
+import coreapp.ring.generated.resources.download_required
+import coreapp.ring.generated.resources.search_languages
+import coreapp.ring.generated.resources.select_what_turns_your_recordings_into
+import coreapp.ring.generated.resources.select_which_model_transcribes_on_this
+import coreapp.ring.generated.resources.speech_engine
+import coreapp.ring.generated.resources.speech_model
+import coreapp.ring.generated.resources.spoken_language
+import coreapp.ring.generated.resources.the_language_you_speak_when_recording
+import coreapp.ring.generated.resources.automatic
 
 /** Cloud transcription is provided by Wispr Flow; the row is informational. */
 private const val WISPR_URL = "https://wispr.ai/"
@@ -192,26 +205,26 @@ fun SpeechSection(
     val platformNeedsDownload = platformModelNeedsDownload(platformModelAvailability, platformDownloadStatus)
 
     SettingsRow(
-        title = "Speech Engine",
+        title = stringResource(RingRes.string.speech_engine),
         subtitle = mode.speechEngineName(),
         onClick = { showEngineSheet = true },
     )
     SettingsRow(
-        title = "Spoken Language",
+        title = stringResource(RingRes.string.spoken_language),
         subtitle = spokenLanguageRowSubtitle(spokenLanguage, languageSelectable),
         enabled = languageSelectable,
         onClick = { showLanguageSheet = true },
     )
     if (mode.needsLocalModel() && onDeviceSupported) {
         SettingsRow(
-            title = "Speech Model",
+            title = stringResource(RingRes.string.speech_model),
             subtitle = currentModel,
             onClick = { showModelSheet = true },
         )
     }
     if (mode == CactusSTTMode.PlatformOnly) {
         SettingsRow(
-            title = "Speech Model",
+            title = stringResource(RingRes.string.speech_model),
             subtitle = platformModelSubtitle(spokenLanguage, platformModelAvailability, platformDownloadStatus),
             enabled = platformNeedsDownload,
             onClick = onShowModelDownload,
@@ -219,7 +232,7 @@ fun SpeechSection(
     }
     val uriHandler = LocalUriHandler.current
     Text(
-        "Cloud speech recognition by Wispr Flow",
+        stringResource(RingRes.string.cloud_speech_recognition_by_wispr_flow),
         fontSize = 12.sp,
         color = IndexTheme.colors.onSurfaceVariant,
         modifier = Modifier
@@ -343,13 +356,13 @@ private fun SpeechEngineSheet(
         Column(modifier = Modifier.padding(bottom = 28.dp)) {
             Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 10.dp)) {
                 Text(
-                    "Speech Engine",
+                    stringResource(RingRes.string.speech_engine),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
                     color = colors.onSurface,
                 )
                 Text(
-                    "Select what turns your recordings into text",
+                    stringResource(RingRes.string.select_what_turns_your_recordings_into),
                     fontSize = 12.sp,
                     color = colors.onSurfaceVariant,
                 )
@@ -429,13 +442,13 @@ private fun SpeechModelSheet(
         Column(modifier = Modifier.padding(bottom = 28.dp)) {
             Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 10.dp)) {
                 Text(
-                    "Speech Model",
+                    stringResource(RingRes.string.speech_model),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
                     color = colors.onSurface,
                 )
                 Text(
-                    "Select which model transcribes on this phone",
+                    stringResource(RingRes.string.select_which_model_transcribes_on_this),
                     fontSize = 12.sp,
                     color = colors.onSurfaceVariant,
                 )
@@ -516,13 +529,13 @@ private fun SpokenLanguageSheet(
         Column(modifier = Modifier.padding(bottom = 28.dp)) {
             Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 10.dp)) {
                 Text(
-                    "Spoken Language",
+                    stringResource(RingRes.string.spoken_language),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
                     color = colors.onSurface,
                 )
                 Text(
-                    "The language you speak when recording",
+                    stringResource(RingRes.string.the_language_you_speak_when_recording),
                     fontSize = 12.sp,
                     color = colors.onSurfaceVariant,
                 )
@@ -531,13 +544,13 @@ private fun SpokenLanguageSheet(
                 value = query,
                 onValueChange = { query = it },
                 singleLine = true,
-                placeholder = { Text("Search languages") },
+                placeholder = { Text(stringResource(RingRes.string.search_languages)) },
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
             )
             LazyColumn(modifier = Modifier.heightIn(max = 420.dp).padding(top = 8.dp)) {
                 item {
                     SpokenLanguageRow(
-                        label = "Automatic",
+                        label = stringResource(RingRes.string.automatic),
                         selected = current == null,
                         onClick = { onSelect(null) },
                     )
@@ -587,9 +600,9 @@ private fun SpeechModelDownloadDialog(
 ) {
     M3Dialog(
         onDismissRequest = onDismiss,
-        title = { Text("Download Required") },
+        title = { Text(stringResource(RingRes.string.download_required)) },
         buttons = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(RingRes.string.cancel)) }
             TextButton(onClick = onDownload) {
                 Text(if (isLite) "Download lite model: ${downloadSizeInMb}MB"
                      else "Download offline model: ${downloadSizeInMb}MB")

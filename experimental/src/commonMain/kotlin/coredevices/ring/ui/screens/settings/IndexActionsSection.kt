@@ -110,6 +110,32 @@ import coredevices.ring.ui.viewmodel.isPlugin
 import coredevices.ui.M3Dialog
 import io.rebble.libpebblecommon.permissions.InstallReview
 import kotlin.uuid.Uuid
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.allowed
+import coreapp.ring.generated.resources.any_unclear_requests_become
+import coreapp.ring.generated.resources.any_unclear_requests_become_a
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.choose_a_pbw_file
+import coreapp.ring.generated.resources.configure_plugin
+import coreapp.ring.generated.resources.connect
+import coreapp.ring.generated.resources.denied
+import coreapp.ring.generated.resources.get_more
+import coreapp.ring.generated.resources.get_more_actions
+import coreapp.ring.generated.resources.in_label
+import coreapp.ring.generated.resources.saves_to
+import coreapp.ring.generated.resources.select_what_index_agent_can_read
+import coreapp.ring.generated.resources.sideload_an_action
+import coreapp.ring.generated.resources.sideloading_isn_t_available_yet
+import coreapp.ring.generated.resources.used_when_index_can_t_tell
+import coreapp.ring.generated.resources.you_can_add_more_from_settings
+import coreapp.ring.generated.resources.add_mcp_server
+import coreapp.ring.generated.resources.add_plugin_integration
+import coreapp.ring.generated.resources.index_agent
+import coreapp.ring.generated.resources.plugin
+import coreapp.ring.generated.resources.settings
+import coreapp.ring.generated.resources.where_notes_save
+import coreapp.ring.generated.resources.where_reminders_save
 
 /** Actions are only reachable through an Index agent, so they are off when no gesture routes to one. */
 internal fun nothingRoutesToIndexAgent(routes: Map<RingGesture, GestureDestination>): Boolean =
@@ -304,11 +330,11 @@ internal fun IndexActionsSection(
     Column(modifier = Modifier.fillMaxWidth()) {
         if (showHeader) {
             SectionHeader(
-                title = "Index Agent",
+                title = stringResource(RingRes.string.index_agent),
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 22.dp, bottom = 2.dp),
             )
             Text(
-                "Select what Index Agent can read and do.",
+                stringResource(RingRes.string.select_what_index_agent_can_read),
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
                 color = colors.onSurfaceVariant,
@@ -392,7 +418,7 @@ internal fun IndexActionsSection(
         if (onGetMorePlugins != null) {
             SectionActionRow(
                 icon = Icons.Default.Power,
-                title = "Add plugin integration",
+                title = stringResource(RingRes.string.add_plugin_integration),
                 subtitle = "Browse plugins in the store",
                 enabled = true,
                 onClick = onGetMorePlugins,
@@ -400,7 +426,7 @@ internal fun IndexActionsSection(
         } else {
             SectionActionRow(
                 icon = Icons.Default.Power,
-                title = "Add plugin integration",
+                title = stringResource(RingRes.string.add_plugin_integration),
                 subtitle = "You can add plugins from settings later",
                 enabled = false,
                 onClick = {},
@@ -408,7 +434,7 @@ internal fun IndexActionsSection(
         }
         SectionActionRow(
             icon = Icons.Default.Dns,
-            title = "Add MCP server",
+            title = stringResource(RingRes.string.add_mcp_server),
             subtitle = httpMcpDisabledReason ?: "Connect a remote server over HTTP",
             enabled = httpMcpDisabledReason == null,
             onClick = { dialog = ActionsDialog.AddServer },
@@ -434,7 +460,7 @@ internal fun IndexActionsSection(
         )
         ActionsSheet.NoteDestination -> DestinationSheet(
             icon = Icons.Default.EditNote,
-            title = "Where notes save",
+            title = stringResource(RingRes.string.where_notes_save),
             items = noteDestinations,
             hasDialog = { noteConfigureDialog(it) != null },
             onGetMore = onGetMorePlugins,
@@ -461,7 +487,7 @@ internal fun IndexActionsSection(
         )
         ActionsSheet.ReminderDestination -> DestinationSheet(
             icon = Icons.Default.Checklist,
-            title = "Where reminders save",
+            title = stringResource(RingRes.string.where_reminders_save),
             items = reminderDestinations,
             onGetMore = onGetMorePlugins,
             selected = reminderProvider,
@@ -552,9 +578,9 @@ private fun CaptureSentence(
         verticalArrangement = Arrangement.spacedBy(4.dp),
         itemVerticalAlignment = Alignment.CenterVertically,
     ) {
-        SentenceText("Any unclear requests become a")
+        SentenceText(stringResource(RingRes.string.any_unclear_requests_become_a))
         SentenceLink(typeLabel, onTypeClick)
-        SentenceText("in")
+        SentenceText(stringResource(RingRes.string.in_label))
         SentenceLink(destinationLabel, onDestinationClick)
     }
 }
@@ -615,7 +641,7 @@ private fun ActionRow(
         },
         trailing = {
             if (onConnect != null) {
-                TextButton(onClick = onConnect) { Text("Connect") }
+                TextButton(onClick = onConnect) { Text(stringResource(RingRes.string.connect)) }
             } else {
                 Checkbox(
                     checked = enabled,
@@ -644,7 +670,7 @@ private fun DestinationChip(label: String, interactive: Boolean, onClick: () -> 
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Text(
-            "Saves to",
+            stringResource(RingRes.string.saves_to),
             fontSize = 12.sp,
             color = colors.onSurfaceVariant,
         )
@@ -778,7 +804,7 @@ private fun AgentRow(
         }
         if (onSettings != null) {
             IconButton(onClick = onSettings) {
-                Icon(Icons.Default.Settings, contentDescription = "Settings")
+                Icon(Icons.Default.Settings, contentDescription = stringResource(RingRes.string.settings))
             }
         }
         trailing()
@@ -797,7 +823,7 @@ private fun ConfigurePluginLink(onClick: () -> Unit) {
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         Text(
-            "Configure plugin",
+            stringResource(RingRes.string.configure_plugin),
             fontSize = 14.sp,
             fontWeight = FontWeight.Medium,
             color = colors.primary,
@@ -857,7 +883,7 @@ private fun PluginGrantRow(
                     )
                     Spacer(Modifier.width(ToggleButtonDefaults.IconSpacing))
                 }
-                Text("Denied")
+                Text(stringResource(RingRes.string.denied))
             }
             ToggleButton(
                 checked = checked,
@@ -874,7 +900,7 @@ private fun PluginGrantRow(
                     )
                     Spacer(Modifier.width(ToggleButtonDefaults.IconSpacing))
                 }
-                Text("Allowed")
+                Text(stringResource(RingRes.string.allowed))
             }
         }
     }
@@ -963,13 +989,13 @@ private fun CaptureTypeSheet(
         Column(modifier = Modifier.padding(bottom = 28.dp)) {
             Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 10.dp)) {
                 Text(
-                    "Any unclear requests become",
+                    stringResource(RingRes.string.any_unclear_requests_become),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
                     color = colors.onSurface,
                 )
                 Text(
-                    "Used when Index can't tell what you meant.",
+                    stringResource(RingRes.string.used_when_index_can_t_tell),
                     fontSize = 12.sp,
                     color = colors.onSurfaceVariant,
                 )
@@ -1063,7 +1089,7 @@ private fun DestOptionTitle(title: String, plugin: Boolean) {
         if (plugin) {
             Icon(
                 Icons.Default.Power,
-                contentDescription = "Plugin",
+                contentDescription = stringResource(RingRes.string.plugin),
                 modifier = Modifier.size(18.dp),
                 tint = IndexTheme.colors.onSurfaceVariant
             )
@@ -1137,7 +1163,7 @@ private fun DestinationSheet(
                     },
                     trailing = {
                         if (!item.isConnected) {
-                            TextButton(onClick = connect) { Text("Connect") }
+                            TextButton(onClick = connect) { Text(stringResource(RingRes.string.connect)) }
                         }
                     },
                 )
@@ -1150,7 +1176,7 @@ private fun DestinationSheet(
                     },
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                 ) {
-                    Text("Get more")
+                    Text(stringResource(RingRes.string.get_more))
                 }
             } else {
                 AddMoreLaterHint(
@@ -1166,7 +1192,7 @@ private fun DestinationSheet(
 @Composable
 private fun AddMoreLaterHint(modifier: Modifier = Modifier) {
     Text(
-        "You can add more from Settings later",
+        stringResource(RingRes.string.you_can_add_more_from_settings),
         fontSize = 13.sp,
         color = IndexTheme.colors.onSurfaceVariant,
         modifier = modifier,
@@ -1179,9 +1205,9 @@ private fun SideloadDialog(onDismiss: () -> Unit) {
     var picked by remember { mutableStateOf(false) }
     M3Dialog(
         onDismissRequest = onDismiss,
-        title = { Text("Sideload an action") },
+        title = { Text(stringResource(RingRes.string.sideload_an_action)) },
         buttons = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(RingRes.string.cancel)) }
         },
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
@@ -1208,7 +1234,7 @@ private fun SideloadDialog(onDismiss: () -> Unit) {
                     modifier = Modifier.size(28.dp),
                 )
                 Text(
-                    "Choose a .pbw file",
+                    stringResource(RingRes.string.choose_a_pbw_file),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
                     color = colors.primary,
@@ -1216,7 +1242,7 @@ private fun SideloadDialog(onDismiss: () -> Unit) {
             }
             if (picked) {
                 Text(
-                    "Sideloading isn't available yet.",
+                    stringResource(RingRes.string.sideloading_isn_t_available_yet),
                     fontSize = 13.sp,
                     color = colors.primary,
                 )
@@ -1263,7 +1289,7 @@ private fun GetMoreActionsRow(onClick: () -> Unit) {
             modifier = Modifier.size(24.dp),
         )
         Text(
-            "Get more actions",
+            stringResource(RingRes.string.get_more_actions),
             fontSize = 16.sp,
             color = colors.primary,
             modifier = Modifier.weight(1f),

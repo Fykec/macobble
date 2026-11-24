@@ -111,6 +111,24 @@ import theme.onboardingScheme
 import kotlin.time.Duration.Companion.seconds
 import coredevices.pebble.ui.InstallReviewDialog
 import io.rebble.libpebblecommon.permissions.InstallReview
+import org.jetbrains.compose.resources.stringResource
+import coreapp.composeapp.generated.resources.Res as AppRes
+import coreapp.composeapp.generated.resources.app_permissions
+import coreapp.composeapp.generated.resources.checking_for_pebbleos_updates
+import coreapp.composeapp.generated.resources.configure_more_in_settings
+import coreapp.composeapp.generated.resources.configure_your_watch
+import coreapp.composeapp.generated.resources.install_a_language_pack
+import coreapp.composeapp.generated.resources.once_your_pebble_is_connected_we
+import coreapp.composeapp.generated.resources.speech_recognition
+import coreapp.composeapp.generated.resources.updating_your_watch_to_the_latest
+import coreapp.composeapp.generated.resources.waiting_for_your_pebble_to_connect
+import coreapp.composeapp.generated.resources.waiting_for_your_pebble_to_restart
+import coreapp.composeapp.generated.resources.add
+import coreapp.composeapp.generated.resources.choose_language
+import coreapp.composeapp.generated.resources.finished
+import coreapp.composeapp.generated.resources.get_started_2
+import coreapp.composeapp.generated.resources.remove
+import coreapp.composeapp.generated.resources.skip_setup
 
 private val logger = Logger.withTag("OnboardingScreen")
 
@@ -167,7 +185,7 @@ fun WatchOnboardingScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = "Get Started!",
+                        text = stringResource(AppRes.string.get_started_2),
                         fontSize = 35.sp,
                     )
 
@@ -176,9 +194,9 @@ fun WatchOnboardingScreen(
                     if (connectedWatch == null) {
                         haveStartedFwupSinceLastConnection = false
                         if (haveUpdatedFirmware) {
-                            SectionText("Waiting for your Pebble to restart..")
+                            SectionText(stringResource(AppRes.string.waiting_for_your_pebble_to_restart))
                         } else {
-                            SectionText("Waiting for your Pebble to connect..")
+                            SectionText(stringResource(AppRes.string.waiting_for_your_pebble_to_connect))
                         }
 
                         Spacer(modifier = Modifier.height(15.dp))
@@ -187,12 +205,12 @@ fun WatchOnboardingScreen(
                     if (connectedWatch is ConnectedPebbleDeviceInRecovery) {
                         val firmwareUpdateAvailable = connectedWatch.firmwareUpdateAvailable.result
                         if (firmwareUpdateAvailable !is FirmwareUpdateCheckResult.FoundUpdate) {
-                            SectionText("Checking for PebbleOS updates..")
+                            SectionText(stringResource(AppRes.string.checking_for_pebbleos_updates))
 
                             Spacer(modifier = Modifier.height(15.dp))
 
                             PebbleElevatedButton(
-                                text = "Skip Setup",
+                                text = stringResource(AppRes.string.skip_setup),
                                 onClick = { coreNav.goBack() },
                                 primaryColor = true,
                             )
@@ -208,7 +226,7 @@ fun WatchOnboardingScreen(
                             }
                         }
 
-                        SectionText("Updating your watch to the latest version of PebbleOS...")
+                        SectionText(stringResource(AppRes.string.updating_your_watch_to_the_latest))
                         Spacer(modifier = Modifier.height(15.dp))
                         val progress = (connectedWatch.firmwareUpdateState as? FirmwareUpdater.FirmwareUpdateStatus.InProgress)?.progress?.collectAsState()
                         if (progress != null) {
@@ -221,12 +239,12 @@ fun WatchOnboardingScreen(
                     }
 
                     if (connectedWatch !is ConnectedPebbleDevice) {
-                        SectionText("Once your Pebble is connected, we'll get it set up")
+                        SectionText(stringResource(AppRes.string.once_your_pebble_is_connected_we))
 
                         Spacer(modifier = Modifier.height(15.dp))
 
                         PebbleElevatedButton(
-                            text = "Skip Setup",
+                            text = stringResource(AppRes.string.skip_setup),
                             onClick = { coreNav.goBack() },
                             primaryColor = true,
                         )
@@ -240,7 +258,7 @@ fun WatchOnboardingScreen(
 
                         // Before the apps, since adding one can ask for permissions.
                         LaunchedEffect(Unit) { appSettings.setHasSeenPermissionsIntro(true) }
-                        SectionText("App permissions")
+                        SectionText(stringResource(AppRes.string.app_permissions))
                         Spacer(modifier = Modifier.height(15.dp))
                         PermissionsIntroContent(settings)
                         SectionDivider()
@@ -264,7 +282,7 @@ fun WatchOnboardingScreen(
                         val languagePackInstalled = connectedWatch.languagePackInstalled(languagePackRepository)
                         val installingLanguagePack =
                             connectedWatch.languagePackInstallState.installing()
-                        SectionText("Install a language pack")
+                        SectionText(stringResource(AppRes.string.install_a_language_pack))
                         Spacer(modifier = Modifier.height(15.dp))
                         if (installingLanguagePack != null) {
                             Text("Installing $installingLanguagePack")
@@ -282,7 +300,7 @@ fun WatchOnboardingScreen(
                             )
                         }
                         PebbleElevatedButton(
-                            text = "Choose Language",
+                            text = stringResource(AppRes.string.choose_language),
                             onClick = { showLanguageDialog = true },
                             primaryColor = true,
                             icon = Icons.Outlined.Language,
@@ -300,7 +318,7 @@ fun WatchOnboardingScreen(
 
                         // Support settings sync
                         if (connectedWatch.capabilities.contains(ProtocolCapsFlag.SupportsBlobDbVersion)) {
-                            SectionText("Configure your watch")
+                            SectionText(stringResource(AppRes.string.configure_your_watch))
                             Spacer(modifier = Modifier.height(15.dp))
 
                             settings.Show(BoolWatchPref.Clock24h.id)
@@ -322,17 +340,17 @@ fun WatchOnboardingScreen(
                         }
 
                         if (connectedWatch.capabilities.contains(ProtocolCapsFlag.SupportsAppDictation)) {
-                            SectionText("Speech Recognition")
+                            SectionText(stringResource(AppRes.string.speech_recognition))
                             Spacer(modifier = Modifier.height(15.dp))
                             settings.Show(OfflineSpeechRecognition)
                             SectionDivider()
                         }
 
-                        Text("Configure more in Settings", textAlign = TextAlign.Center)
+                        Text(stringResource(AppRes.string.configure_more_in_settings), textAlign = TextAlign.Center)
                         SectionDivider()
 
                         PebbleElevatedButton(
-                            text = "Finished",
+                            text = stringResource(AppRes.string.finished),
                             onClick = {
                                 scope.launch {
                                     watchOnboardingFinished.finished.trySend(Unit)
@@ -454,7 +472,7 @@ fun OnboardingAppCarousel(
                     )
                     if (entry.uuid in allCollectionUuids.orEmpty()) {
                         PebbleElevatedButton(
-                            text = "Remove",
+                            text = stringResource(AppRes.string.remove),
                             onClick = {
                                 added = false
                                 GlobalScope.launch {
@@ -496,7 +514,7 @@ fun OnboardingAppCarousel(
                             }
                         }
                         PebbleElevatedButton(
-                            text = "Add",
+                            text = stringResource(AppRes.string.add),
                             onClick = {
                                 added = true
                                 scope.launch {

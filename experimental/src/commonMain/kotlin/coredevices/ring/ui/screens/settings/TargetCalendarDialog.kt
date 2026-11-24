@@ -36,6 +36,14 @@ import io.rebble.libpebblecommon.connection.LibPebble
 import io.rebble.libpebblecommon.database.entity.CalendarEntity
 import kotlinx.coroutines.flow.map
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.choose_the_calendar_index_adds_events
+import coreapp.ring.generated.resources.no_calendars_found
+import coreapp.ring.generated.resources.no_write_access
+import coreapp.ring.generated.resources.ok
+import coreapp.ring.generated.resources.target_calendar
 
 /** Writable calendars first, alphabetically; read-only ones trail so they can be greyed out. */
 internal fun orderCalendarsForPicker(calendars: List<CalendarEntity>): List<CalendarEntity> =
@@ -64,28 +72,28 @@ fun TargetCalendarDialog(onDismiss: () -> Unit) {
 
     M3Dialog(
         onDismissRequest = onDismiss,
-        title = { Text("Target Calendar") },
+        title = { Text(stringResource(RingRes.string.target_calendar)) },
         buttons = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(RingRes.string.cancel)) }
             TextButton(
                 enabled = selectedId != null,
                 onClick = {
                     preferences.setTargetCalendar(selectedId)
                     onDismiss()
                 }
-            ) { Text("OK") }
+            ) { Text(stringResource(RingRes.string.ok)) }
         }
     ) {
         Column(
             modifier = Modifier.heightIn(max = 400.dp)
         ) {
             Text(
-                "Choose the calendar Index adds events to.",
+                stringResource(RingRes.string.choose_the_calendar_index_adds_events),
                 style = MaterialTheme.typography.bodySmall
             )
             Spacer(Modifier.height(12.dp))
             if (calendars.isEmpty()) {
-                Text("No calendars found.")
+                Text(stringResource(RingRes.string.no_calendars_found))
             } else {
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     items(calendars.size) { i ->
@@ -123,7 +131,7 @@ private fun CalendarRow(calendar: CalendarEntity, selected: Boolean, onSelect: (
             Text(calendar.name)
             if (!calendar.writable) {
                 Text(
-                    "No write access",
+                    stringResource(RingRes.string.no_write_access),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

@@ -9,6 +9,9 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.first
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.capture
 
 /** Runs no model and takes no action, so the input is saved by the caller's forced capture tool. */
 class CaptureOnlyAgent(initialConversation: List<ConversationMessageDocument> = emptyList()) : Agent {

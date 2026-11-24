@@ -99,6 +99,17 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.allow
+import coreapp.pebble.generated.resources.cancel
+import coreapp.pebble.generated.resources.deny
+import coreapp.pebble.generated.resources.install
+import coreapp.pebble.generated.resources.ok
+import coreapp.pebble.generated.resources.permissions
+import coreapp.pebble.generated.resources.replace
+import coreapp.pebble.generated.resources.required
+import coreapp.pebble.generated.resources.review
 
 @Composable
 fun ReplaceAppDialog(replaced: ReplacedApp, onAnswer: (replace: Boolean) -> Unit) {
@@ -113,8 +124,8 @@ fun ReplaceAppDialog(replaced: ReplacedApp, onAnswer: (replace: Boolean) -> Unit
                     "sign-ins and permissions, on this phone and on connected watches."
             )
         },
-        confirmButton = { TextButton(onClick = { onAnswer(true) }) { Text("Replace") } },
-        dismissButton = { TextButton(onClick = { onAnswer(false) }) { Text("Cancel") } },
+        confirmButton = { TextButton(onClick = { onAnswer(true) }) { Text(stringResource(PebbleRes.string.replace)) } },
+        dismissButton = { TextButton(onClick = { onAnswer(false) }) { Text(stringResource(PebbleRes.string.cancel)) } },
     )
 }
 
@@ -220,9 +231,9 @@ fun InstallReviewDialog(review: InstallReview, onAnswer: (Map<String, Boolean>?)
                     onAnswer((review.toReview + review.automatic).mapNotNull { key -> decisionOf(key)?.let { key to it } }.toMap())
                 },
                 enabled = review.toReview.filter(review::needsAnswer).all { decisionOf(it) != null },
-            ) { Text("Install") }
+            ) { Text(stringResource(PebbleRes.string.install)) }
         },
-        dismissButton = { TextButton(onClick = { onAnswer(null) }) { Text("Cancel") } },
+        dismissButton = { TextButton(onClick = { onAnswer(null) }) { Text(stringResource(PebbleRes.string.cancel)) } },
     )
 }
 
@@ -313,7 +324,7 @@ internal fun PermissionRow(
 @Composable
 private fun RequiredTag() {
     Text(
-        "Required",
+        stringResource(PebbleRes.string.required),
         style = MaterialTheme.typography.labelSmall,
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.padding(start = 6.dp)
@@ -369,7 +380,7 @@ private fun ReasonDialog(title: String, reason: String, onDismiss: () -> Unit) {
         onDismissRequest = onDismiss,
         title = { Text(title) },
         text = { Text(reason, modifier = Modifier.verticalScroll(rememberScrollState())) },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("OK") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(PebbleRes.string.ok)) } },
     )
 }
 
@@ -395,7 +406,7 @@ private fun KindInfo(icon: ImageVector, title: String, explanation: String) {
             onDismissRequest = { explaining = false },
             title = { Text(title) },
             text = { Text(explanation) },
-            confirmButton = { TextButton(onClick = { explaining = false }) { Text("OK") } },
+            confirmButton = { TextButton(onClick = { explaining = false }) { Text(stringResource(PebbleRes.string.ok)) } },
         )
     }
 }
@@ -534,10 +545,10 @@ fun PendingPermissionRequests(onReview: (Uuid) -> Unit) {
                             fun answer(granted: Boolean) = scope.launch {
                                 libPebble.setPermissionDecisions(appUuid, mapOf(keys.single() to granted))
                             }
-                            TextButton(onClick = { answer(false) }) { Text("Deny") }
-                            TextButton(onClick = { answer(true) }) { Text("Allow") }
+                            TextButton(onClick = { answer(false) }) { Text(stringResource(PebbleRes.string.deny)) }
+                            TextButton(onClick = { answer(true) }) { Text(stringResource(PebbleRes.string.allow)) }
                         } else {
-                            TextButton(onClick = { onReview(appUuid) }) { Text("Review") }
+                            TextButton(onClick = { onReview(appUuid) }) { Text(stringResource(PebbleRes.string.review)) }
                         }
                     }
                 }
@@ -572,7 +583,7 @@ fun AppPermissionsSection(appUuid: Uuid, collapsible: Boolean = true) {
     val statuses = (loaded ?: return).statuses
     if (statuses.isNullOrEmpty()) {
         Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
-            Text("Permissions", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(bottom = 4.dp))
+            Text(stringResource(PebbleRes.string.permissions), style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(bottom = 4.dp))
             Text(
                 if (statuses == null) "Shown once the app has been installed on your watch."
                 else "This app doesn't use any permissions.",

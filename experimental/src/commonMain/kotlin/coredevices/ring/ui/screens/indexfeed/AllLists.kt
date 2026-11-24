@@ -65,6 +65,11 @@ import coredevices.ring.ui.theme.indexTextEntryStyle
 import coredevices.ring.ui.viewmodel.AllListsViewModel
 import kotlin.time.ExperimentalTime
 import org.koin.compose.viewmodel.koinViewModel
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.search_2
+import coreapp.ring.generated.resources.all_notes
 
 /**
  * Full-screen 2-col grid of every list except the system Todos list.
@@ -94,7 +99,7 @@ fun AllLists(coreNav: CoreNav) {
             )
         } else {
             TopBar(
-                title = "All notes",
+                title = stringResource(RingRes.string.all_notes),
                 coreNav = coreNav,
                 right = {
                     IconButton(onClick = { searching = true }) {
@@ -219,7 +224,7 @@ private fun ListsSearchTopBar(value: String, onChange: (String) -> Unit, onCance
                     keyboard?.hide()
                 }),
                 decorationBox = { inner ->
-                    if (value.isEmpty()) Text("Search…", color = colors.onSurfaceVariant, fontSize = 15.sp)
+                    if (value.isEmpty()) Text(stringResource(RingRes.string.search_2), color = colors.onSurfaceVariant, fontSize = 15.sp)
                     inner()
                 },
             )
@@ -230,7 +235,7 @@ private fun ListsSearchTopBar(value: String, onChange: (String) -> Unit, onCance
             }
         }
         Text(
-            "Cancel",
+            stringResource(RingRes.string.cancel),
             color = colors.primary,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,

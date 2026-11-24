@@ -47,6 +47,9 @@ import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.writeString
 import kotlinx.serialization.json.Json
 import size
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.re_pairing_required
 
 class ExperimentalDevices(
     private val watchNotifier: WatchNotifier,

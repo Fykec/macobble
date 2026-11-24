@@ -47,6 +47,9 @@ import io.rebble.libpebblecommon.health.HealthTimeRange
 import kotlinx.datetime.LocalDate
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.health_settings
 
 @Composable
 fun HealthScreen(topBarParams: TopBarParams, nav: NavBarNav) {
@@ -89,7 +92,7 @@ fun HealthScreen(topBarParams: TopBarParams, nav: NavBarNav) {
             ) {
                 Icon(Icons.Default.Settings, null, Modifier.size(16.dp))
                 Spacer(Modifier.width(4.dp))
-                Text("Health Settings")
+                Text(stringResource(PebbleRes.string.health_settings))
             }
             Spacer(Modifier.height(8.dp))
         }

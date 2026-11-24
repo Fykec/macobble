@@ -135,6 +135,17 @@ import org.koin.compose.viewmodel.koinViewModel
 import rememberOpenDocumentLauncher
 import theme.coreDarkGreen
 import kotlin.uuid.Uuid
+import coreapp.pebble.generated.resources.active
+import coreapp.pebble.generated.resources.from_my_apps
+import coreapp.pebble.generated.resources.from_the_store
+import coreapp.pebble.generated.resources.another_watchface
+import coreapp.pebble.generated.resources.clear_filters_for_more_results
+import coreapp.pebble.generated.resources.configure_feeds
+import coreapp.pebble.generated.resources.in_my_collection
+import coreapp.pebble.generated.resources.plugin_settings
+import coreapp.pebble.generated.resources.sample_watchface
+import coreapp.pebble.generated.resources.see_all
+import coreapp.pebble.generated.resources.third_watchface
 
 const val REBBLE_LOGIN_URI = "https://boot.rebble.io"
 
@@ -596,7 +607,7 @@ fun LockerScreen(
                                 ) {
                                     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                                         Text(
-                                            "Active",
+                                            stringResource(Res.string.active),
                                             fontSize = 24.sp,
                                             modifier = Modifier.padding(
                                                 top = 5.dp,
@@ -672,7 +683,7 @@ fun LockerScreen(
                                                     )
                                                 )
                                             }) {
-                                                Icon(Icons.Default.Settings, contentDescription = "Plugin settings")
+                                                Icon(Icons.Default.Settings, contentDescription = stringResource(Res.string.plugin_settings))
                                             }
                                         }
                                     } else null,
@@ -708,7 +719,7 @@ fun LockerScreen(
                                         ) {
                                             Icon(
                                                 Icons.Default.Tune,
-                                                contentDescription = "Configure Feeds"
+                                                contentDescription = stringResource(Res.string.configure_feeds)
                                             )
                                         }
                                     }
@@ -932,7 +943,7 @@ fun SearchResultsList(
                 } else if (storeResults.itemCount == 0 && hasUnfilteredStoreResults) {
                     item(span = { GridItemSpan(maxLineSpan) }) {
                         PebbleElevatedButton(
-                            text = "Clear filters for more results",
+                            text = stringResource(Res.string.clear_filters_for_more_results),
                             onClick = {
                                 sharedViewModel.showScaled.value = true
                                 sharedViewModel.showIncompatible.value = true
@@ -948,7 +959,7 @@ fun SearchResultsList(
             if (lockerEntries.isNotEmpty()) {
                 item {
                     Text(
-                        "From my apps",
+                        stringResource(Res.string.from_my_apps),
                         modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp),
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.primary,
@@ -976,7 +987,7 @@ fun SearchResultsList(
             }
             item {
                 Text(
-                    "From the store",
+                    stringResource(Res.string.from_the_store),
                     modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary,
@@ -1021,7 +1032,7 @@ fun SearchResultsList(
                 } else if (storeResults.itemCount == 0 && hasUnfilteredStoreResults) {
                     item {
                         PebbleElevatedButton(
-                            text = "Clear filters for more results",
+                            text = stringResource(Res.string.clear_filters_for_more_results),
                             onClick = {
                                 sharedViewModel.showScaled.value = true
                                 sharedViewModel.showIncompatible.value = true
@@ -1063,7 +1074,7 @@ fun AppCarousel(
                 Text(title, fontSize = 24.sp, modifier = Modifier.padding(vertical = 8.dp))
                 Spacer(modifier = Modifier.width(7.dp))
                 if (onClick != null) {
-                    Icon(Icons.AutoMirrored.Default.ArrowForward, contentDescription = "See all", modifier = Modifier)
+                    Icon(Icons.AutoMirrored.Default.ArrowForward, contentDescription = stringResource(Res.string.see_all), modifier = Modifier)
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -1265,7 +1276,7 @@ fun NativeWatchfaceMainContent(
                 if (inMyCollection) {
                     Icon(
                         Icons.AutoMirrored.Filled.PlaylistAddCheck,
-                        contentDescription = "In My Collection",
+                        contentDescription = stringResource(Res.string.in_my_collection),
                         modifier = Modifier.size(19.dp)
                             .padding(top = 1.dp, bottom = 5.dp),
                         tint = coreDarkGreen,
@@ -1346,7 +1357,7 @@ fun NativeWatchfaceListItem(
                         if (inMyCollection) {
                             Icon(
                                 Icons.AutoMirrored.Filled.PlaylistAddCheck,
-                                contentDescription = "In My Collection",
+                                contentDescription = stringResource(Res.string.in_my_collection),
                                 modifier = Modifier.size(16.dp)
                                     .padding(top = 1.dp, end = 6.dp, bottom = 5.dp),
                                 tint = coreDarkGreen,

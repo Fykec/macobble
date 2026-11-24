@@ -40,6 +40,9 @@ import androidx.compose.ui.unit.dp
 import coredevices.pebble.ui.PluginCapabilities.ActionSummary
 import coredevices.pebble.ui.PluginCapabilities.SourceGroup
 import io.rebble.libpebblecommon.plugin.PluginMetadata
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.ok
 
 /** What a plugin's manifest declares it serves and can do. Rows expand on tap for the detail. */
 @Composable
@@ -81,7 +84,7 @@ private fun SectionTitle(text: String, info: String) {
             onDismissRequest = { showInfo = false },
             title = { Text(text) },
             text = { Text(info) },
-            confirmButton = { TextButton(onClick = { showInfo = false }) { Text("OK") } },
+            confirmButton = { TextButton(onClick = { showInfo = false }) { Text(stringResource(PebbleRes.string.ok)) } },
         )
     }
     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)) {

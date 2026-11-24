@@ -14,6 +14,14 @@ import coredevices.ring.agent.integrations.providers.IntegrationSupport.Note
 import coredevices.ring.agent.integrations.providers.IntegrationSupport.Reminder
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.built_in
+import coreapp.ring.generated.resources.google_tasks
+import coreapp.ring.generated.resources.iphone_reminders
+import coreapp.ring.generated.resources.notion
+import coreapp.ring.generated.resources.obsidian
+import coreapp.ring.generated.resources.tasker
 
 /**
  * The providers that ship with the app. To add one, implement [IntegrationProvider] here and add

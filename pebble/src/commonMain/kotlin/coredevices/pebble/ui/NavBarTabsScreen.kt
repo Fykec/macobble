@@ -35,6 +35,10 @@ import org.koin.compose.koinInject
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.ReorderableLazyListState
 import sh.calvin.reorderable.rememberReorderableLazyListState
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.items_in_bar
+import coreapp.pebble.generated.resources.reorder
+import coreapp.pebble.generated.resources.start_on_first_tab
 
 @Composable
 fun NavBarTabsScreen(topBarParams: TopBarParams) {
@@ -71,7 +75,7 @@ fun NavBarTabsScreen(topBarParams: TopBarParams) {
         item(key = "gap") { Spacer(Modifier.height(16.dp)) }
         item(key = "count") {
             basicSettingsDropdownItem(
-                title = "Items in bar",
+                title = stringResource(PebbleRes.string.items_in_bar),
                 topLevelType = TopLevelType.Phone,
                 section = Section.Appearance,
                 items = (2..WatchHomeNavTab.MAX_BAR_SLOTS).toList(),
@@ -82,7 +86,7 @@ fun NavBarTabsScreen(topBarParams: TopBarParams) {
         }
         item(key = "startOnFirst") {
             basicSettingsToggleItem(
-                title = "Start on first tab",
+                title = stringResource(PebbleRes.string.start_on_first_tab),
                 description = "Otherwise the app opens to the most useful tab for your devices",
                 topLevelType = TopLevelType.Phone,
                 section = Section.Appearance,
@@ -130,7 +134,7 @@ private fun LazyListScope.tabItems(
                     trailingContent = {
                         Icon(
                             Icons.Default.DragHandle,
-                            contentDescription = "Reorder",
+                            contentDescription = stringResource(PebbleRes.string.reorder),
                             modifier = Modifier.draggableHandle(onDragStopped = { onDragStopped() }),
                         )
                     },

@@ -77,6 +77,13 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.cancel
+import coreapp.pebble.generated.resources.download_required
+import coreapp.pebble.generated.resources.recommended_for_your_device
+import coreapp.pebble.generated.resources.your_device_may_struggle_with_larger
+import coreapp.pebble.generated.resources.delete
 
 class ModelManagementScreenViewModel(
     private val modelManager: ModelManager,
@@ -232,7 +239,7 @@ fun ModelDownloadPromptDialog(
 
             )
         },
-        title = { Text("Download Required") },
+        title = { Text(stringResource(PebbleRes.string.download_required)) },
         verticalButtons = {
             TextButton(
                 onClick = onGetRecommended,
@@ -246,7 +253,7 @@ fun ModelDownloadPromptDialog(
             TextButton(
                 onClick = onDismiss,
             ) {
-                Text("Cancel")
+                Text(stringResource(PebbleRes.string.cancel))
             }
         }
     ) {
@@ -258,7 +265,7 @@ fun ModelDownloadPromptDialog(
         )
         if (isLite) {
             Spacer(modifier = Modifier.height(8.dp))
-            Text("Your device may struggle with larger models, a reduced accuracy model will be used.")
+            Text(stringResource(PebbleRes.string.your_device_may_struggle_with_larger))
         }
     }
 }
@@ -382,7 +389,7 @@ private fun ModelListItem(
             .clickable(enabled = downloadState == DownloadState.Downloaded) {
                 onSelect()
             },
-        overlineContent = { if (isRecommended) { Text("Recommended for your device") } },
+        overlineContent = { if (isRecommended) { Text(stringResource(PebbleRes.string.recommended_for_your_device)) } },
         headlineContent = { Text(model.slug) },
         supportingContent = { model.intendedTask?.let { Text(it) } },
         leadingContent = {
@@ -438,7 +445,7 @@ private fun ModelListItem(
                         ) {
                             Icon(
                                 Icons.Default.Delete,
-                                contentDescription = "Delete",
+                                contentDescription = stringResource(PebbleRes.string.delete),
                                 tint = MaterialTheme.colorScheme.error
                             )
                         }

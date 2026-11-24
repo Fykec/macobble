@@ -44,6 +44,9 @@ import kotlinx.coroutines.withContext
 import kotlin.time.Clock
 import kotlin.time.Duration
 import kotlin.time.Instant
+import org.jetbrains.compose.resources.stringResource
+import coreapp.composeapp.generated.resources.Res as AppRes
+import coreapp.composeapp.generated.resources.offline_voice_recognition
 
 internal const val STT_UPDATE_NOTIFIED_VERSION_KEY = "stt_update_notified_version"
 internal const val STT_MODE_BEFORE_UPDATE_KEY = "stt_mode_before_update"

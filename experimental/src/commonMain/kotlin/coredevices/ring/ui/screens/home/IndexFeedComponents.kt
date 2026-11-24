@@ -121,6 +121,20 @@ import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.abs
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.click_ring_to_sync
+import coreapp.ring.generated.resources.index
+import coreapp.ring.generated.resources.no_yet
+import coreapp.ring.generated.resources.retry
+import coreapp.ring.generated.resources.search_2
+import coreapp.ring.generated.resources.see_all
+import coreapp.ring.generated.resources.transcription_error
+import coreapp.ring.generated.resources.processed_offline
+import coreapp.ring.generated.resources.sync_hint_alpha
+import coreapp.ring.generated.resources.sync_hint_pulse
+import coreapp.ring.generated.resources.task_row_fade
 
 // Helper composables for the Index home feed — split out of
 // IndexFeedScreen.kt to keep that file focused on the route entry.
@@ -175,7 +189,7 @@ internal fun IndexHeader(
                     }),
                     decorationBox = { inner ->
                         if (query.isEmpty()) {
-                            Text("Search…", color = colors.onSurfaceVariant, fontSize = 15.sp)
+                            Text(stringResource(RingRes.string.search_2), color = colors.onSurfaceVariant, fontSize = 15.sp)
                         }
                         inner()
                     },
@@ -187,7 +201,7 @@ internal fun IndexHeader(
                 }
             }
             Text(
-                "Cancel",
+                stringResource(RingRes.string.cancel),
                 color = colors.primary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -206,7 +220,7 @@ internal fun IndexHeader(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    "Index",
+                    stringResource(RingRes.string.index),
                     color = colors.onSurface,
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold,
@@ -253,7 +267,7 @@ internal fun PulsingSyncHint(modifier: Modifier = Modifier) {
             modifier = modifier.padding(end = 4.dp),
         )
     } else {
-        val transition = rememberInfiniteTransition(label = "sync-hint-pulse")
+        val transition = rememberInfiniteTransition(label = stringResource(RingRes.string.sync_hint_pulse))
         val alpha by transition.animateFloat(
             initialValue = 0.45f,
             targetValue = 1f,
@@ -261,10 +275,10 @@ internal fun PulsingSyncHint(modifier: Modifier = Modifier) {
                 animation = tween(durationMillis = 550, easing = LinearEasing),
                 repeatMode = RepeatMode.Reverse,
             ),
-            label = "sync-hint-alpha",
+            label = stringResource(RingRes.string.sync_hint_alpha),
         )
         Text(
-            "Click ring to sync",
+            stringResource(RingRes.string.click_ring_to_sync),
             color = colors.onSurfaceVariant,
             fontSize = 12.sp,
             letterSpacing = (-0.05).sp,
@@ -315,7 +329,7 @@ internal fun PeekSectionHeader(
         Spacer(Modifier.weight(1f))
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                "See all",
+                stringResource(RingRes.string.see_all),
                 color = colors.primary,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Medium,
@@ -534,7 +548,7 @@ internal fun PeekCard(
                 Spacer(Modifier.weight(1f))
                 Icon(
                     Icons.Outlined.CloudOff,
-                    contentDescription = "Processed offline",
+                    contentDescription = stringResource(RingRes.string.processed_offline),
                     tint = colors.onSurfaceVariant,
                     modifier = Modifier.size(13.dp),
                 )
@@ -565,7 +579,7 @@ internal fun PeekCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    "Transcription error",
+                    stringResource(RingRes.string.transcription_error),
                     color = colors.error,
                     fontSize = 11.sp,
                     lineHeight = 13.sp,
@@ -576,7 +590,7 @@ internal fun PeekCard(
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
-                    "Retry",
+                    stringResource(RingRes.string.retry),
                     color = colors.primary,
                     fontSize = 11.sp,
                     lineHeight = 13.sp,
@@ -666,7 +680,7 @@ internal fun TaskRow(
             val rowAlpha by animateFloatAsState(
                 targetValue = if (task.done) 0.45f else 1f,
                 animationSpec = tween(durationMillis = 600),
-                label = "task-row-fade",
+                label = stringResource(RingRes.string.task_row_fade),
             )
             Column(
                 modifier = Modifier
@@ -932,7 +946,7 @@ fun NoteListCard(
         }
         Spacer(Modifier.height(8.dp))
         if (items.isEmpty()) {
-            Text("No 🎶 yet", color = colors.onSurfaceVariant, fontSize = 12.sp)
+            Text(stringResource(RingRes.string.no_yet), color = colors.onSurfaceVariant, fontSize = 12.sp)
         } else {
             items.take(3).forEach { item ->
                 // Bullet glyph rendered as Text at the same fontSize as the

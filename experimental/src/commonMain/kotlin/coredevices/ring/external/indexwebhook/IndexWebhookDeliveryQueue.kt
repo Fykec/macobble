@@ -16,6 +16,9 @@ import kotlinx.io.buffered
 import kotlinx.io.readShortLe
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.indexwebhookdelivery
 
 /**
  * Sends recordings to their gesture's webhook, retrying network errors and 408/429/5xx

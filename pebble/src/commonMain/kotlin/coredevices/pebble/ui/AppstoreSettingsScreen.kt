@@ -66,6 +66,15 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.add
+import coreapp.pebble.generated.resources.add_appstore_source
+import coreapp.pebble.generated.resources.cancel
+import coreapp.pebble.generated.resources.name
+import coreapp.pebble.generated.resources.source_url
+import coreapp.pebble.generated.resources.add_source
+import coreapp.pebble.generated.resources.delete_source
 
 class AppstoreSettingsScreenViewModel(
     private val sourceDao: AppstoreSourceDao,
@@ -193,7 +202,7 @@ fun AppstoreSettingsScreen(
                     createSourceOpen = true
                 }
             ) {
-                Icon(Icons.Filled.Add, contentDescription = "Add Source")
+                Icon(Icons.Filled.Add, contentDescription = stringResource(PebbleRes.string.add_source))
             }
         }
     ) { insets ->
@@ -261,7 +270,7 @@ fun AppstoreSourceItem(
                                     onRemove(source.id)
                                 }
                             ) {
-                                Icon(Icons.Default.Delete, contentDescription = "Delete Source")
+                                Icon(Icons.Default.Delete, contentDescription = stringResource(PebbleRes.string.delete_source))
                             }
                         }
                         Checkbox(
@@ -342,13 +351,13 @@ fun CreateAppstoreSourceDialog(
             Icon(Icons.Filled.Link, contentDescription = null)
         },
         title = {
-            Text("Add Appstore Source")
+            Text(stringResource(PebbleRes.string.add_appstore_source))
         },
         buttons = {
             TextButton(
                 onClick = onDismissRequest
             ) {
-                Text("Cancel")
+                Text(stringResource(PebbleRes.string.cancel))
             }
             TextButton(
                 onClick = {
@@ -356,14 +365,14 @@ fun CreateAppstoreSourceDialog(
                 },
                 enabled = title.isNotBlank() && urlValid
             ) {
-                Text("Add")
+                Text(stringResource(PebbleRes.string.add))
             }
         }
     ) {
         Column {
-            TextField(title, onValueChange = { title = it }, label = { Text("Name") })
+            TextField(title, onValueChange = { title = it }, label = { Text(stringResource(PebbleRes.string.name)) })
             Spacer(Modifier.height(8.dp))
-            TextField(url, onValueChange = { url = it }, label = { Text("Source URL") })
+            TextField(url, onValueChange = { url = it }, label = { Text(stringResource(PebbleRes.string.source_url)) })
         }
     }
 }

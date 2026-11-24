@@ -61,6 +61,9 @@ import io.rebble.libpebblecommon.plugin.PluginMetadata
 import io.rebble.libpebblecommon.plugin.WatchSettingsPlugin
 import io.rebble.libpebblecommon.plugin.WatchStatePlugin
 import kotlin.uuid.Uuid
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.settings
 
 // Built-in plugins have no pbw, so the UI maps each to an icon rather than reading one from a bundle.
 fun PluginMetadata.builtInIcon(): ImageVector = when (pluginUuid) {
@@ -206,11 +209,11 @@ fun NativePluginScreen(navBarNav: NavBarNav, topBarParams: TopBarParams, uuid: U
                     color = Color.Gray,
                 )
                 PebbleElevatedButton(
-                    text = "Settings",
+                    text = stringResource(PebbleRes.string.settings),
                     onClick = { settingsRoute?.let { navBarNav.navigateTo(it) } },
                     enabled = settingsRoute != null,
                     icon = Icons.Default.Settings,
-                    contentDescription = "Settings",
+                    contentDescription = stringResource(PebbleRes.string.settings),
                     primaryColor = false,
                     modifier = Modifier.padding(5.dp),
                 )

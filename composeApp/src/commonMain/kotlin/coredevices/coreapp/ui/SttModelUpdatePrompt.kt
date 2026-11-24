@@ -38,6 +38,13 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.stringResource
+import coreapp.composeapp.generated.resources.Res as AppRes
+import coreapp.composeapp.generated.resources.cancel
+import coreapp.composeapp.generated.resources.downloading_the_updated_model_this_may
+import coreapp.composeapp.generated.resources.later
+import coreapp.composeapp.generated.resources.the_download_didn_t_finish_check
+import coreapp.composeapp.generated.resources.we_ve_improved_on_device_voice
 
 @Composable
 fun SttModelUpdatePrompt() {
@@ -129,21 +136,21 @@ fun SttModelUpdatePrompt() {
                 TextButton(onClick = {
                     modelManager.cancelDownload()
                     downloading = false
-                }) { Text("Cancel") }
+                }) { Text(stringResource(AppRes.string.cancel)) }
             } else {
-                TextButton(onClick = { needsUpdate = false }) { Text("Later") }
+                TextButton(onClick = { needsUpdate = false }) { Text(stringResource(AppRes.string.later)) }
                 TextButton(onClick = { startDownload() }) { Text(if (failed) "Retry" else "Update") }
             }
         },
     ) {
         when {
             downloading -> {
-                Text("Downloading the updated model. This may take a few minutes.")
+                Text(stringResource(AppRes.string.downloading_the_updated_model_this_may))
                 Spacer(Modifier.height(24.dp))
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
             }
-            failed -> Text("The download didn't finish. Check your connection and try again.")
-            else -> Text("We've improved on-device voice recognition. Update the model to keep transcribing offline.")
+            failed -> Text(stringResource(AppRes.string.the_download_didn_t_finish_check))
+            else -> Text(stringResource(AppRes.string.we_ve_improved_on_device_voice))
         }
     }
 }

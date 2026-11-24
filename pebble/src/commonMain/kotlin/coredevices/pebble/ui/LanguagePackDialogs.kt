@@ -58,6 +58,19 @@ import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import theme.coreOrange
 import kotlin.coroutines.cancellation.CancellationException
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.add_language_pack
+import coreapp.pebble.generated.resources.cancel
+import coreapp.pebble.generated.resources.could_not_load_language_packs_please
+import coreapp.pebble.generated.resources.done
+import coreapp.pebble.generated.resources.help_translate
+import coreapp.pebble.generated.resources.loading_language_packs
+import coreapp.pebble.generated.resources.refresh
+import coreapp.pebble.generated.resources.remove_a_pack_to_add_another
+import coreapp.pebble.generated.resources.use_as_watch_language
+import coreapp.pebble.generated.resources.watch_language
+import coreapp.pebble.generated.resources.english
 
 private val logger = Logger.withTag("LanguagePackDialogs")
 
@@ -132,13 +145,13 @@ private fun LanguagePacksDialog(watch: ConnectedPebbleDevice, onDismissRequest: 
     val packs = installedPacks.orEmpty()
     AlertDialog(
         onDismissRequest = { if (!talkingToWatch) onDismissRequest() },
-        title = { Text("Watch Language") },
+        title = { Text(stringResource(PebbleRes.string.watch_language)) },
         text = {
             LazyColumn {
                 if (installedPacks != null) {
                     item {
                         LanguageOption(
-                            title = "English",
+                            title = stringResource(PebbleRes.string.english),
                             subtitle = "Built-in",
                             selected = packs.none { it.isActive },
                             enabled = enabled,
@@ -179,22 +192,22 @@ private fun LanguagePacksDialog(watch: ConnectedPebbleDevice, onDismissRequest: 
                         }
                         error?.let { message ->
                             Text(message, color = MaterialTheme.colorScheme.error)
-                            TextButton(enabled = !busy && !loading, onClick = { refresh++ }) { Text("Refresh") }
+                            TextButton(enabled = !busy && !loading, onClick = { refresh++ }) { Text(stringResource(PebbleRes.string.refresh)) }
                         }
                         OutlinedButton(
                             enabled = enabled && packs.size < MAX_LANGUAGE_PACKS,
                             onClick = { showPicker = true },
                             modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
-                        ) { Text("Add language pack") }
+                        ) { Text(stringResource(PebbleRes.string.add_language_pack)) }
                         if (installedPacks != null && packs.size >= MAX_LANGUAGE_PACKS) {
-                            Text("Remove a pack to add another.", style = MaterialTheme.typography.bodySmall)
+                            Text(stringResource(PebbleRes.string.remove_a_pack_to_add_another), style = MaterialTheme.typography.bodySmall)
                         }
                     }
                 }
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismissRequest, enabled = !talkingToWatch) { Text("Done") }
+            TextButton(onClick = onDismissRequest, enabled = !talkingToWatch) { Text(stringResource(PebbleRes.string.done)) }
         },
     )
     if (showPicker) {
@@ -227,7 +240,7 @@ private fun LanguagePacksDialog(watch: ConnectedPebbleDevice, onDismissRequest: 
                     ) { it.removeLanguagePack(pack) }
                 }) { Text(if (removing) "Removing…" else "Remove") }
             },
-            dismissButton = { TextButton(enabled = !removing, onClick = { packToRemove = null }) { Text("Cancel") } },
+            dismissButton = { TextButton(enabled = !removing, onClick = { packToRemove = null }) { Text(stringResource(PebbleRes.string.cancel)) } },
         )
     }
 }
@@ -335,9 +348,9 @@ private fun LanguagePackPickerDialog(
                 error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
                 if (languagePacks == null) {
                     if (manifestFetchFailed) {
-                        Text("Could not load language packs. Please try again.", color = MaterialTheme.colorScheme.error)
+                        Text(stringResource(PebbleRes.string.could_not_load_language_packs_please), color = MaterialTheme.colorScheme.error)
                     } else {
-                        Text("Loading language packs…")
+                        Text(stringResource(PebbleRes.string.loading_language_packs))
                     }
                 }
                 LazyColumn(
@@ -375,12 +388,12 @@ private fun LanguagePackPickerDialog(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Checkbox(checked = useAsWatchLanguage, onCheckedChange = { useAsWatchLanguage = it }, enabled = !busy)
-                        Text("Use as watch language")
+                        Text(stringResource(PebbleRes.string.use_as_watch_language))
                     }
                 }
                 selected?.takeIf { it.canContribute() }?.published?.let { published ->
                     TextButton(onClick = { uriHandler.openUri(published.translationUrl) }) {
-                        Text("Help translate")
+                        Text(stringResource(PebbleRes.string.help_translate))
                     }
                 }
             }
@@ -412,7 +425,7 @@ private fun LanguagePackPickerDialog(
             ) { Text(if (preparing) "Downloading…" else if (addToExisting) "Add" else "Install") }
         },
         dismissButton = {
-            TextButton(onClick = onDismissRequest, enabled = !preparing) { Text("Cancel") }
+            TextButton(onClick = onDismissRequest, enabled = !preparing) { Text(stringResource(PebbleRes.string.cancel)) }
         },
     )
 }

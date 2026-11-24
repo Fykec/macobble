@@ -105,6 +105,17 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import coreapp.util.generated.resources.Res as UtilRes
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.delete
+import coreapp.ring.generated.resources.delete_recording
+import coreapp.ring.generated.resources.delete_recording_2
+import coreapp.ring.generated.resources.error_loading_recording
+import coreapp.ring.generated.resources.retry
+import coreapp.ring.generated.resources.thinking
+import coreapp.ring.generated.resources.this_will_permanently_delete_the_recording
+import coreapp.ring.generated.resources.transcription_error
+import coreapp.ring.generated.resources.delete_recording_only
+import coreapp.ring.generated.resources.retry_transcription
 
 @Composable
 fun RecordingDetails(id: Long, coreNav: CoreNav) {
@@ -201,7 +212,7 @@ fun RecordingDetails(id: Long, coreNav: CoreNav) {
                             )
                         }
                         DropdownMenuItem(
-                            text = { Text("Delete recording", color = indexColors.error) },
+                            text = { Text(stringResource(Res.string.delete_recording), color = indexColors.error) },
                             onClick = { viewModel.dismissMoreMenu(); viewModel.requestDelete() },
                         )
                     }
@@ -217,7 +228,7 @@ fun RecordingDetails(id: Long, coreNav: CoreNav) {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
                 is RecordingDetailsViewModel.ItemState.Error -> {
-                    Text("Error loading recording", color = indexColors.onSurfaceVariant, modifier = Modifier.align(Alignment.Center))
+                    Text(stringResource(Res.string.error_loading_recording), color = indexColors.onSurfaceVariant, modifier = Modifier.align(Alignment.Center))
                 }
                 is RecordingDetailsViewModel.ItemState.Loaded -> {
                     RecordingDetailsContents(
@@ -271,22 +282,22 @@ private fun DeleteRecordingDialog(
     if (linkedItemCount == 0) {
         AlertDialog(
             onDismissRequest = onDismiss,
-            title = { Text("Delete recording?") },
-            text = { Text("This will permanently delete the recording.") },
+            title = { Text(stringResource(Res.string.delete_recording_2)) },
+            text = { Text(stringResource(Res.string.this_will_permanently_delete_the_recording)) },
             confirmButton = {
                 TextButton(onClick = onDeleteRecordingOnly) {
-                    Text("Delete", color = colors.error)
+                    Text(stringResource(Res.string.delete), color = colors.error)
                 }
             },
             dismissButton = {
-                TextButton(onClick = onDismiss) { Text("Cancel") }
+                TextButton(onClick = onDismiss) { Text(stringResource(Res.string.cancel)) }
             },
         )
     } else {
         val itemWord = if (linkedItemCount == 1) "item" else "items"
         AlertDialog(
             onDismissRequest = onDismiss,
-            title = { Text("Delete recording?") },
+            title = { Text(stringResource(Res.string.delete_recording_2)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Text(
@@ -301,7 +312,7 @@ private fun DeleteRecordingDialog(
                         verticalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
                         DeleteChoiceRow(
-                            label = "Delete recording only",
+                            label = stringResource(Res.string.delete_recording_only),
                             sublabel = "Keep the $itemWord in your feed",
                             color = colors.error,
                             onClick = onDeleteRecordingOnly,
@@ -317,7 +328,7 @@ private fun DeleteRecordingDialog(
             },
             confirmButton = {},
             dismissButton = {
-                TextButton(onClick = onDismiss) { Text("Cancel") }
+                TextButton(onClick = onDismiss) { Text(stringResource(Res.string.cancel)) }
             },
         )
     }
@@ -712,7 +723,7 @@ private fun ThinkingRow() {
     ) {
         AssistantAvatar()
         ShimmerText(
-            "Thinking",
+            stringResource(Res.string.thinking),
             baseColor = colors.onSurfaceVariant,
             highlightColor = colors.onSurface,
             fontWeight = FontWeight.Medium,
@@ -770,7 +781,7 @@ private fun TranscriptionErrorRow(onRetry: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                "Transcription error",
+                stringResource(Res.string.transcription_error),
                 color = colors.onErrorContainer,
                 fontSize = 14.5.sp,
                 lineHeight = 21.sp,
@@ -786,13 +797,13 @@ private fun TranscriptionErrorRow(onRetry: () -> Unit) {
             ) {
                 Icon(
                     Icons.Filled.Refresh,
-                    contentDescription = "Retry transcription",
+                    contentDescription = stringResource(Res.string.retry_transcription),
                     tint = colors.onPrimary,
                     modifier = Modifier.size(14.dp),
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
-                    "Retry",
+                    stringResource(Res.string.retry),
                     color = colors.onPrimary,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.SemiBold,

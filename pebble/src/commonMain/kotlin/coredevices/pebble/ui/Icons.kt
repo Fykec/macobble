@@ -31,6 +31,14 @@ import coredevices.ui.PebbleElevatedButton
 import io.rebble.libpebblecommon.packets.blobdb.TimelineIcon
 import io.rebble.libpebblecommon.packets.blobdb.TimelineIcon.Companion.key
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.cancel
+import coreapp.pebble.generated.resources.icon
+import coreapp.pebble.generated.resources.none
+import coreapp.pebble.generated.resources.search_icons
+import coreapp.pebble.generated.resources.select
+import coreapp.pebble.generated.resources.select_icon
 
 private val logger = Logger.withTag("Icons")
 
@@ -49,7 +57,7 @@ fun IconPickerDialog(
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
-                    label = { Text("Search Icons") },
+                    label = { Text(stringResource(PebbleRes.string.search_icons)) },
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
                     singleLine = true
                 )
@@ -79,7 +87,7 @@ fun IconPickerDialog(
                             onDismissWithoutResult()
                         },
                         content = {
-                            Text("Cancel")
+                            Text(stringResource(PebbleRes.string.cancel))
                         },
                         modifier = Modifier.weight(1f),
                     )
@@ -88,7 +96,7 @@ fun IconPickerDialog(
                             onIconSelected(null)
                         },
                         content = {
-                            Text("None")
+                            Text(stringResource(PebbleRes.string.none))
                         },
                         modifier = Modifier.weight(1f),
                     )
@@ -127,7 +135,7 @@ fun SelectIconOrNone(
     }
     ListItem(
         headlineContent = {
-            Text("Icon")
+            Text(stringResource(PebbleRes.string.icon))
         },
         supportingContent = {
             Column {
@@ -139,12 +147,12 @@ fun SelectIconOrNone(
         },
         trailingContent = {
             PebbleElevatedButton(
-                text = "Select",
+                text = stringResource(PebbleRes.string.select),
                 onClick = {
                     showIconChooser = true
                 },
                 icon = Icons.Default.AppShortcut,
-                contentDescription = "Select icon",
+                contentDescription = stringResource(PebbleRes.string.select_icon),
                 primaryColor = true,
                 modifier = Modifier.padding(8.dp),
             )

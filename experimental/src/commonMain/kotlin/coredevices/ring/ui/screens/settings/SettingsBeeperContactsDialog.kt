@@ -65,6 +65,22 @@ import kotlinx.datetime.toLocalDateTime
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.add_contact
+import coreapp.ring.generated.resources.back
+import coreapp.ring.generated.resources.beeper_permission_is_required_to_access
+import coreapp.ring.generated.resources.contacts_index_is_allowed_to_message
+import coreapp.ring.generated.resources.dms_only
+import coreapp.ring.generated.resources.done
+import coreapp.ring.generated.resources.grant_permission
+import coreapp.ring.generated.resources.index_asks_you_before_messaging_someone
+import coreapp.ring.generated.resources.message_anyone
+import coreapp.ring.generated.resources.nickname
+import coreapp.ring.generated.resources.no_contacts_added_yet
+import coreapp.ring.generated.resources.save
+import coreapp.ring.generated.resources.search
+import coreapp.ring.generated.resources.remove
 
 expect class SettingsBeeperContactsDialogViewModel(): ViewModel {
     fun getContacts(query: String?): PagingSource<Int, SettingsBeeperContact>
@@ -131,11 +147,11 @@ fun SettingsBeeperContactsDialog(
         buttons = {
             if (isAddMode) {
                 TextButton(onClick = { isAddMode = false }) {
-                    Text("Back")
+                    Text(stringResource(RingRes.string.back))
                 }
             } else {
                 TextButton(onClick = onDismissRequest) {
-                    Text("Done")
+                    Text(stringResource(RingRes.string.done))
                 }
             }
         }
@@ -143,7 +159,7 @@ fun SettingsBeeperContactsDialog(
         Column {
             if (!hasPermission) {
                 Text(
-                    "Beeper permission is required to access your contacts.",
+                    stringResource(RingRes.string.beeper_permission_is_required_to_access),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.padding(bottom = 12.dp)
@@ -159,7 +175,7 @@ fun SettingsBeeperContactsDialog(
                     },
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
-                    Text("Grant Permission")
+                    Text(stringResource(RingRes.string.grant_permission))
                 }
             } else if (isAddMode) {
                 AddContactView(viewModel, approvedIds)
@@ -180,7 +196,7 @@ private fun ApprovedContactsView(
     var nicknameText by remember { mutableStateOf("") }
 
     Text(
-        "Contacts Index is allowed to message. Try saying \"Message Alice - What's up?\"",
+        stringResource(RingRes.string.contacts_index_is_allowed_to_message),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = Modifier.padding(bottom = 12.dp)
@@ -190,8 +206,8 @@ private fun ApprovedContactsView(
     val messageAnyone by prefs.beeperMessageAnyone.collectAsState()
     ListItem(
         modifier = Modifier.clickable { prefs.setBeeperMessageAnyone(!messageAnyone) },
-        headlineContent = { Text("Message anyone") },
-        supportingContent = { Text("Index asks you before messaging someone not on this list") },
+        headlineContent = { Text(stringResource(RingRes.string.message_anyone)) },
+        supportingContent = { Text(stringResource(RingRes.string.index_asks_you_before_messaging_someone)) },
         trailingContent = {
             Switch(checked = messageAnyone, onCheckedChange = prefs::setBeeperMessageAnyone)
         },
@@ -200,7 +216,7 @@ private fun ApprovedContactsView(
 
     if (approvedContacts.isEmpty()) {
         Text(
-            "No contacts added yet.",
+            stringResource(RingRes.string.no_contacts_added_yet),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(vertical = 24.dp).fillMaxWidth(),
@@ -252,7 +268,7 @@ private fun ApprovedContactsView(
                             }) {
                                 Icon(
                                     Icons.Default.Close,
-                                    contentDescription = "Remove",
+                                    contentDescription = stringResource(RingRes.string.remove),
                                     tint = MaterialTheme.colorScheme.error
                                 )
                             }
@@ -267,7 +283,7 @@ private fun ApprovedContactsView(
                             TextField(
                                 value = nicknameText,
                                 onValueChange = { nicknameText = it },
-                                label = { Text("Nickname") },
+                                label = { Text(stringResource(RingRes.string.nickname)) },
                                 singleLine = true,
                                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                                 keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
@@ -280,7 +296,7 @@ private fun ApprovedContactsView(
                                 )
                                 editingNicknameFor = null
                             }) {
-                                Text("Save")
+                                Text(stringResource(RingRes.string.save))
                             }
                         }
                     }
@@ -294,7 +310,7 @@ private fun ApprovedContactsView(
         modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
     ) {
         Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(18.dp))
-        Text("  Add Contact", style = MaterialTheme.typography.labelLarge)
+        Text(stringResource(RingRes.string.add_contact), style = MaterialTheme.typography.labelLarge)
     }
 }
 
@@ -323,7 +339,7 @@ private fun AddContactView(
     TextField(
         value = query,
         onValueChange = { query = it },
-        label = { Text("Search") },
+        label = { Text(stringResource(RingRes.string.search)) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(onSearch = { focusManager.clearFocus() }),
@@ -337,7 +353,7 @@ private fun AddContactView(
             checked = dmOnly,
             onCheckedChange = { dmOnly = it }
         )
-        Text("DMs only", style = MaterialTheme.typography.bodySmall)
+        Text(stringResource(RingRes.string.dms_only), style = MaterialTheme.typography.bodySmall)
     }
 
     if (pager.loadState.refresh is LoadState.Loading) {

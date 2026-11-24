@@ -30,6 +30,10 @@ import kotlinx.io.buffered
 import org.koin.compose.koinInject
 import rememberOpenDocumentLauncher
 import kotlin.time.Clock
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.debug
+import coreapp.ring.generated.resources.settings
 
 @Composable
 fun IndexScreen(coreNav: CoreNav, topBarParams: TopBarParams) {
@@ -83,14 +87,14 @@ fun IndexScreen(coreNav: CoreNav, topBarParams: TopBarParams) {
                     IconButton(
                         onClick = { launchWavImportDialog(listOf("audio/*")) },
                     ) {
-                        Icon(Icons.Default.AudioFile, contentDescription = "Debug")
+                        Icon(Icons.Default.AudioFile, contentDescription = stringResource(RingRes.string.debug))
                     }
                 }
                 IconButton(
                     onClick = { coreNav.navigateTo(RingRoutes.Settings) },
                 ) {
                     BadgedBox(badge = { if (settingsBadgeCount > 0) Badge() }) {
-                        Icon(Icons.Default.Settings, contentDescription = "Settings")
+                        Icon(Icons.Default.Settings, contentDescription = stringResource(RingRes.string.settings))
                     }
                 }
             },

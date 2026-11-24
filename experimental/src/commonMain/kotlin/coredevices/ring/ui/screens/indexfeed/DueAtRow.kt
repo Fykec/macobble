@@ -34,6 +34,12 @@ import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.clear
+import coreapp.ring.generated.resources.next
+import coreapp.ring.generated.resources.save
 
 /** Tappable due-date row: tap opens a date picker that chains into a time picker. */
 @Composable
@@ -60,7 +66,7 @@ internal fun DueAtRow(label: String, dueAt: Instant?, onChange: (Instant?) -> Un
         )
         if (dueAt != null) {
             Text(
-                "Clear",
+                stringResource(RingRes.string.clear),
                 color = colors.primary,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -114,10 +120,10 @@ internal fun DueAtPickerFlow(
                         pickedDate, kotlinx.datetime.LocalTime(existing.hour, existing.minute),
                     ).toInstant(tz)
                     showTime = true
-                }) { Text("Next") }
+                }) { Text(stringResource(RingRes.string.next)) }
             },
             dismissButton = {
-                TextButton(onClick = onDismiss) { Text("Cancel") }
+                TextButton(onClick = onDismiss) { Text(stringResource(RingRes.string.cancel)) }
             },
         ) {
             DatePicker(state = datePickerState)
@@ -141,14 +147,14 @@ internal fun DueAtPickerFlow(
                     modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
                     horizontalArrangement = Arrangement.End,
                 ) {
-                    TextButton(onClick = onDismiss) { Text("Cancel") }
+                    TextButton(onClick = onDismiss) { Text(stringResource(RingRes.string.cancel)) }
                     TextButton(onClick = {
                         onPicked(
                             kotlinx.datetime.LocalDateTime(
                                 ldt.date, kotlinx.datetime.LocalTime(timeState.hour, timeState.minute),
                             ).toInstant(tz),
                         )
-                    }) { Text("Save") }
+                    }) { Text(stringResource(RingRes.string.save)) }
                 }
             }
         }

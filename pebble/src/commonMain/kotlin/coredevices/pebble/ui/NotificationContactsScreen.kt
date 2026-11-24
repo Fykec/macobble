@@ -52,6 +52,12 @@ import io.rebble.libpebblecommon.database.dao.ContactWithCount
 import io.rebble.libpebblecommon.database.entity.MuteState
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.notified_only
+import coreapp.pebble.generated.resources.done_icon
+import coreapp.pebble.generated.resources.star
+import coreapp.pebble.generated.resources.star_a_contact_to_always_receive
 
 class ContactsViewModel(
 ) : ViewModel() {
@@ -107,14 +113,14 @@ fun NotificationContactsScreen(topBarParams: TopBarParams, nav: NavBarNav, gotoD
                                 !viewModel.onlyNotified.value
                         },
                         label = {
-                            Text("Notified only")
+                            Text(stringResource(PebbleRes.string.notified_only))
                         },
                         selected = viewModel.onlyNotified.value,
                         leadingIcon = if (viewModel.onlyNotified.value) {
                             {
                                 Icon(
                                     imageVector = Icons.Filled.Done,
-                                    contentDescription = "Done icon",
+                                    contentDescription = stringResource(PebbleRes.string.done_icon),
                                     modifier = Modifier.size(FilterChipDefaults.IconSize)
                                 )
                             }
@@ -230,7 +236,7 @@ fun ContactCard(entry: ContactWithCount, nav: NavBarNav, firstOrOnlyItem: Boolea
                     settingsKey = "shown_starred_contact_tooltip",
                     persistent = true,
                     firstOrOnlyItem = firstOrOnlyItem,
-                    text = "Star a contact to always receive notifications from them, even if e.g. the app is muted",
+                    text = stringResource(PebbleRes.string.star_a_contact_to_always_receive),
                 ) {
                     IconToggleButton(
                         checked = favorite,
@@ -247,7 +253,7 @@ fun ContactCard(entry: ContactWithCount, nav: NavBarNav, firstOrOnlyItem: Boolea
                     ) {
                         Icon(
                             if (favorite) Icons.Outlined.Star else Icons.Outlined.StarOutline,
-                            contentDescription = "Star"
+                            contentDescription = stringResource(PebbleRes.string.star)
                         )
                     }
                 }

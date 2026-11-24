@@ -29,6 +29,13 @@ import coredevices.ring.agent.integrations.NotionIntegration
 import coredevices.ui.M3Dialog
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.choose_the_page_to_place_your
+import coreapp.ring.generated.resources.no_pages_found_give_index_access
+import coreapp.ring.generated.resources.notion_page
+import coreapp.ring.generated.resources.ok
 
 /**
  * Lets the user pick which Notion page to-do block is placed
@@ -56,9 +63,9 @@ fun NotionPageDialog(onDismiss: () -> Unit) {
         onDismissRequest = onDismiss,
         // The page list can be long; scroll it so the buttons stay reachable.
         scrollableContent = true,
-        title = { Text("Notion Page") },
+        title = { Text(stringResource(RingRes.string.notion_page)) },
         buttons = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(RingRes.string.cancel)) }
             TextButton(
                 enabled = selectedId != null && !saving,
                 onClick = {
@@ -69,12 +76,12 @@ fun NotionPageDialog(onDismiss: () -> Unit) {
                         onDismiss()
                     }
                 }
-            ) { Text("OK") }
+            ) { Text(stringResource(RingRes.string.ok)) }
         }
     ) {
         Column {
             Text(
-                "Choose the page to place your notes' Reminders list in.",
+                stringResource(RingRes.string.choose_the_page_to_place_your),
                 style = MaterialTheme.typography.bodySmall
             )
             Spacer(Modifier.height(12.dp))
@@ -88,7 +95,7 @@ fun NotionPageDialog(onDismiss: () -> Unit) {
                     CircularProgressIndicator()
                 }
                 loadedPages.isEmpty() -> Text(
-                    "No pages found. Give Index access to a page in Notion, then try again."
+                    stringResource(RingRes.string.no_pages_found_give_index_access)
                 )
                 else -> Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     loadedPages.forEach { page ->

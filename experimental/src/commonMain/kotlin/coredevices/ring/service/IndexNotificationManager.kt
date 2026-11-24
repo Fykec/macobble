@@ -67,6 +67,18 @@ import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.DurationUnit
 import kotlin.time.Instant
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.assistant_running
+import coreapp.ring.generated.resources.error
+import coreapp.ring.generated.resources.index_01_pairing_issue
+import coreapp.ring.generated.resources.no_audio_detected
+import coreapp.ring.generated.resources.recovering_your_index_01
+import coreapp.ring.generated.resources.some_index_01_recordings_were_lost
+import coreapp.ring.generated.resources.speech_model_download_required
+import coreapp.ring.generated.resources.speech_model_still_downloading
+import coreapp.ring.generated.resources.transcribing
+import coreapp.ring.generated.resources.transferring_recording
 
 data class GenericNotification(
     val id: Int,

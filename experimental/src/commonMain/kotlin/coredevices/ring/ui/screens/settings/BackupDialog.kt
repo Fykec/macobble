@@ -48,6 +48,42 @@ import coredevices.ui.dismissKeyboardOnTapOutside
 import coredevices.util.rememberUiContext
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.automatically_sync_recordings_to_cloud
+import coreapp.ring.generated.resources.backup
+import coreapp.ring.generated.resources.backup_enabled
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.danger_zone
+import coreapp.ring.generated.resources.delete
+import coreapp.ring.generated.resources.delete_2
+import coreapp.ring.generated.resources.delete_backup
+import coreapp.ring.generated.resources.delete_cloud_backup
+import coreapp.ring.generated.resources.delete_local_feed
+import coreapp.ring.generated.resources.delete_local_feed_2
+import coreapp.ring.generated.resources.done
+import coreapp.ring.generated.resources.download_full_backup
+import coreapp.ring.generated.resources.encryption
+import coreapp.ring.generated.resources.encryption_key
+import coreapp.ring.generated.resources.enter_encryption_key
+import coreapp.ring.generated.resources.enter_key_manually
+import coreapp.ring.generated.resources.generate_encryption_key
+import coreapp.ring.generated.resources.import
+import coreapp.ring.generated.resources.import_backup
+import coreapp.ring.generated.resources.import_key_from_qr_code
+import coreapp.ring.generated.resources.items_in_backup
+import coreapp.ring.generated.resources.loading
+import coreapp.ring.generated.resources.overwrite
+import coreapp.ring.generated.resources.overwrite_encryption_key
+import coreapp.ring.generated.resources.pick_your_key_s_qr_code
+import coreapp.ring.generated.resources.read_key_from_google_password_manager
+import coreapp.ring.generated.resources.remove_all_recordings_from_this_device
+import coreapp.ring.generated.resources.restore_key_from_password_manager
+import coreapp.ring.generated.resources.this_will_delete_all_recordings_from
+import coreapp.ring.generated.resources.this_will_permanently_delete_all_your
+import coreapp.ring.generated.resources.type_delete_to_confirm
+import coreapp.ring.generated.resources.type_or_paste_the_encryption_key
+import coreapp.ring.generated.resources.type_or_paste_your_encryption_key
 
 @Composable
 fun BackupDialog(
@@ -91,7 +127,7 @@ fun BackupDialog(
     if (showOverwriteKeyConfirm) {
         AlertDialog(
             onDismissRequest = { showOverwriteKeyConfirm = false },
-            title = { Text("Overwrite Encryption Key?") },
+            title = { Text(stringResource(RingRes.string.overwrite_encryption_key)) },
             text = {
                 Text(buildAnnotatedString {
                     append("An encryption key already exists. Generating a new one will overwrite it.\n\n")
@@ -105,12 +141,12 @@ fun BackupDialog(
                     showOverwriteKeyConfirm = false
                     uiContext?.let { encryptionViewModel.generateAndStoreKey(it) }
                 }) {
-                    Text("Overwrite", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(RingRes.string.overwrite), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showOverwriteKeyConfirm = false }) {
-                    Text("Cancel")
+                    Text(stringResource(RingRes.string.cancel))
                 }
             }
         )
@@ -119,17 +155,17 @@ fun BackupDialog(
         AlertDialog(
             onDismissRequest = { showEnterKeyDialog = false; enterKeyInput = "" },
             modifier = Modifier.dismissKeyboardOnTapOutside(),
-            title = { Text("Enter Encryption Key") },
+            title = { Text(stringResource(RingRes.string.enter_encryption_key)) },
             text = {
                 Column {
                     val focusManager = LocalFocusManager.current
-                    Text("Type or paste the encryption key from another device.")
+                    Text(stringResource(RingRes.string.type_or_paste_the_encryption_key))
                     Spacer(Modifier.height(8.dp))
                     OutlinedTextField(
                         value = enterKeyInput,
                         onValueChange = { enterKeyInput = it },
                         singleLine = true,
-                        label = { Text("Encryption key") },
+                        label = { Text(stringResource(RingRes.string.encryption_key)) },
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
                         modifier = Modifier.fillMaxWidth()
@@ -145,12 +181,12 @@ fun BackupDialog(
                         enterKeyInput = ""
                     }
                 ) {
-                    Text("Import")
+                    Text(stringResource(RingRes.string.import))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showEnterKeyDialog = false; enterKeyInput = "" }) {
-                    Text("Cancel")
+                    Text(stringResource(RingRes.string.cancel))
                 }
             }
         )
@@ -160,22 +196,22 @@ fun BackupDialog(
         AlertDialog(
             onDismissRequest = { showDeleteConfirm = false; deleteInput = "" },
             modifier = Modifier.dismissKeyboardOnTapOutside(),
-            title = { Text("Delete Backup") },
+            title = { Text(stringResource(RingRes.string.delete_backup)) },
             text = {
                 Column {
                     val focusManager = LocalFocusManager.current
                     Text(
-                        "This will permanently delete all your cloud backup data. This cannot be undone.",
+                        stringResource(RingRes.string.this_will_permanently_delete_all_your),
                         color = MaterialTheme.colorScheme.error
                     )
                     Spacer(Modifier.height(16.dp))
-                    Text("Type \"delete\" to confirm:")
+                    Text(stringResource(RingRes.string.type_delete_to_confirm))
                     Spacer(Modifier.height(8.dp))
                     OutlinedTextField(
                         value = deleteInput,
                         onValueChange = { deleteInput = it },
                         singleLine = true,
-                        placeholder = { Text("delete") },
+                        placeholder = { Text(stringResource(RingRes.string.delete_2)) },
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
                     )
@@ -190,12 +226,12 @@ fun BackupDialog(
                         deleteInput = ""
                     }
                 ) {
-                    Text("Delete", color = if (deleteInput.equals("delete", ignoreCase = true)) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f))
+                    Text(stringResource(RingRes.string.delete), color = if (deleteInput.equals("delete", ignoreCase = true)) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteConfirm = false; deleteInput = "" }) {
-                    Text("Cancel")
+                    Text(stringResource(RingRes.string.cancel))
                 }
             }
         )
@@ -204,22 +240,22 @@ fun BackupDialog(
         AlertDialog(
             onDismissRequest = { showDeleteLocalConfirm = false; deleteLocalInput = "" },
             modifier = Modifier.dismissKeyboardOnTapOutside(),
-            title = { Text("Delete Local Feed") },
+            title = { Text(stringResource(RingRes.string.delete_local_feed)) },
             text = {
                 Column {
                     val focusManager = LocalFocusManager.current
                     Text(
-                        "This will delete all recordings from the local feed on this device. Cloud backup is not affected. You can restore from cloud with Sync or from a backup zip with Import.",
+                        stringResource(RingRes.string.this_will_delete_all_recordings_from),
                         color = MaterialTheme.colorScheme.error
                     )
                     Spacer(Modifier.height(16.dp))
-                    Text("Type \"delete\" to confirm:")
+                    Text(stringResource(RingRes.string.type_delete_to_confirm))
                     Spacer(Modifier.height(8.dp))
                     OutlinedTextField(
                         value = deleteLocalInput,
                         onValueChange = { deleteLocalInput = it },
                         singleLine = true,
-                        placeholder = { Text("delete") },
+                        placeholder = { Text(stringResource(RingRes.string.delete_2)) },
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
                     )
@@ -234,12 +270,12 @@ fun BackupDialog(
                         deleteLocalInput = ""
                     }
                 ) {
-                    Text("Delete", color = if (deleteLocalInput.equals("delete", ignoreCase = true)) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f))
+                    Text(stringResource(RingRes.string.delete), color = if (deleteLocalInput.equals("delete", ignoreCase = true)) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteLocalConfirm = false; deleteLocalInput = "" }) {
-                    Text("Cancel")
+                    Text(stringResource(RingRes.string.cancel))
                 }
             }
         )
@@ -247,9 +283,9 @@ fun BackupDialog(
 
     M3Dialog(
         onDismissRequest = onDismiss,
-        title = { Text("Backup") },
+        title = { Text(stringResource(RingRes.string.backup)) },
         buttons = {
-            TextButton(onClick = onDismiss) { Text("Done") }
+            TextButton(onClick = onDismiss) { Text(stringResource(RingRes.string.done)) }
         }
     ) {
         Column(
@@ -258,10 +294,10 @@ fun BackupDialog(
         ) {
             // Backup count
             ListItem(
-                headlineContent = { Text("Items in backup") },
+                headlineContent = { Text(stringResource(RingRes.string.items_in_backup)) },
                 supportingContent = {
                     if (backupLoading && backupCount == null) {
-                        Text("Loading...")
+                        Text(stringResource(RingRes.string.loading))
                     } else {
                         Column {
                             Text("${backupCount ?: "—"} recordings across all devices")
@@ -282,8 +318,8 @@ fun BackupDialog(
             // Backup enabled toggle
             ListItem(
                 modifier = Modifier.clickable { backupViewModel.setBackupEnabled(!backupEnabled) },
-                headlineContent = { Text("Backup enabled") },
-                supportingContent = { Text("Automatically sync recordings to cloud") },
+                headlineContent = { Text(stringResource(RingRes.string.backup_enabled)) },
+                supportingContent = { Text(stringResource(RingRes.string.automatically_sync_recordings_to_cloud)) },
                 trailingContent = {
                     Switch(
                         checked = backupEnabled,
@@ -298,7 +334,7 @@ fun BackupDialog(
                 modifier = Modifier.clickable(enabled = !backupDownloading && uiContext != null) {
                     uiContext?.let { backupViewModel.downloadFullBackup(it) }
                 },
-                headlineContent = { Text("Download Full Backup") },
+                headlineContent = { Text(stringResource(RingRes.string.download_full_backup)) },
                 supportingContent = {
                     Text(backupDownloadStatus ?: "Download all recordings and data as a zip file")
                 },
@@ -320,7 +356,7 @@ fun BackupDialog(
                             }
                         }
                     },
-                    headlineContent = { Text("Import Backup") },
+                    headlineContent = { Text(stringResource(RingRes.string.import_backup)) },
                     supportingContent = {
                         Text(importStatus ?: "Restore recordings from a backup zip file")
                     },
@@ -340,7 +376,7 @@ fun BackupDialog(
                     showDeleteConfirm = true
                 },
                 headlineContent = {
-                    Text("Delete cloud backup", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(RingRes.string.delete_cloud_backup), color = MaterialTheme.colorScheme.error)
                 },
                 supportingContent = {
                     Text(backupStatus ?: "Permanently delete all cloud data")
@@ -350,7 +386,7 @@ fun BackupDialog(
 
             // --- Encryption section ---
             Text(
-                "Encryption",
+                stringResource(RingRes.string.encryption),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -368,7 +404,7 @@ fun BackupDialog(
                         uiContext?.let { encryptionViewModel.generateAndStoreKey(it) }
                     }
                 },
-                headlineContent = { Text("Generate Encryption Key") },
+                headlineContent = { Text(stringResource(RingRes.string.generate_encryption_key)) },
                 supportingContent = {
                     Text(
                         encryptionKeyStatus?.let { AnnotatedString(it) } ?: when (keyStorageStatus) {
@@ -400,9 +436,9 @@ fun BackupDialog(
                 modifier = Modifier.clickable(enabled = !encryptionKeyLoading && uiContext != null) {
                     uiContext?.let { encryptionViewModel.readKeyFromCloudKeychain(it) }
                 },
-                headlineContent = { Text("Restore Key from Password Manager") },
+                headlineContent = { Text(stringResource(RingRes.string.restore_key_from_password_manager)) },
                 supportingContent = {
-                    Text("Read key from Google Password Manager or iCloud Keychain")
+                    Text(stringResource(RingRes.string.read_key_from_google_password_manager))
                 }
             )
 
@@ -411,9 +447,9 @@ fun BackupDialog(
                 modifier = Modifier.clickable(enabled = !encryptionKeyLoading && uiContext != null) {
                     uiContext?.let { encryptionViewModel.importKeyFromQrPhoto(it) }
                 },
-                headlineContent = { Text("Import Key from QR Code") },
+                headlineContent = { Text(stringResource(RingRes.string.import_key_from_qr_code)) },
                 supportingContent = {
-                    Text("Pick your key's QR code from your photos")
+                    Text(stringResource(RingRes.string.pick_your_key_s_qr_code))
                 }
             )
 
@@ -423,9 +459,9 @@ fun BackupDialog(
                     enterKeyInput = ""
                     showEnterKeyDialog = true
                 },
-                headlineContent = { Text("Enter Key Manually") },
+                headlineContent = { Text(stringResource(RingRes.string.enter_key_manually)) },
                 supportingContent = {
-                    Text("Type or paste your encryption key as text")
+                    Text(stringResource(RingRes.string.type_or_paste_your_encryption_key))
                 }
             )
 
@@ -466,7 +502,7 @@ fun BackupDialog(
             // --- Danger zone ---
             if (debugDetailsEnabled) {
                 Text(
-                    "Danger Zone",
+                    stringResource(RingRes.string.danger_zone),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -476,10 +512,10 @@ fun BackupDialog(
                         showDeleteLocalConfirm = true
                     },
                     headlineContent = {
-                        Text("Delete local feed", color = MaterialTheme.colorScheme.error)
+                        Text(stringResource(RingRes.string.delete_local_feed_2), color = MaterialTheme.colorScheme.error)
                     },
                     supportingContent = {
-                        Text("Remove all recordings from this device (cloud unaffected)")
+                        Text(stringResource(RingRes.string.remove_all_recordings_from_this_device))
                     }
                 )
             }

@@ -14,6 +14,11 @@ import coredevices.ring.battery.RingBatteryLifeState
 import coredevices.ring.ui.components.SectionHeader
 import coredevices.ring.ui.theme.IndexTheme
 import kotlin.math.roundToInt
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.learning_your_usage
+import coreapp.ring.generated.resources.index_01_battery_life_estimate
+import coreapp.ring.generated.resources.not_enough_data_yet
 
 /** "Index 01 Battery Life Estimate"; absent while loading or when no Index 01 is known (Index also runs with just a Pebble). */
 @Composable
@@ -21,7 +26,7 @@ internal fun BatteryLifeSection(state: RingBatteryLifeState?) {
     if (state == null || state == RingBatteryLifeState.NoRing) return
     Column {
         SectionHeader(
-            title = "Index 01 Battery Life Estimate",
+            title = stringResource(RingRes.string.index_01_battery_life_estimate),
             modifier = Modifier.padding(top = 22.dp, bottom = 2.dp, start = 16.dp, end = 16.dp),
         )
         BatteryLifeRows(state)
@@ -33,7 +38,7 @@ private fun BatteryLifeRows(state: RingBatteryLifeState) {
     when (val s = state) {
         RingBatteryLifeState.NoRing -> Unit
         RingBatteryLifeState.NoData -> SettingsRow(
-            title = "Not enough data yet",
+            title = stringResource(RingRes.string.not_enough_data_yet),
             subtitle = "Use your Index and we'll estimate how long its battery will last.",
         )
         is RingBatteryLifeState.Learning -> LearningRow(s)
@@ -55,7 +60,7 @@ private fun BatteryLifeRows(state: RingBatteryLifeState) {
 private fun LearningRow(s: RingBatteryLifeState.Learning) {
     val colors = IndexTheme.colors
     Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp)) {
-        Text("Learning your usage", fontSize = 16.sp, color = colors.onSurface)
+        Text(stringResource(RingRes.string.learning_your_usage), fontSize = 16.sp, color = colors.onSurface)
         Text(
             "Day ${s.daysCollected} of ${s.daysNeeded} — keep using your Index and an estimate will appear here.",
             fontSize = 14.sp,

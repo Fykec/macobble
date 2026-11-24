@@ -51,6 +51,10 @@ import kotlinx.datetime.toLocalDateTime
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Instant
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.no_timers_or_alarms_ask_your
+import coreapp.ring.generated.resources.timers_alarms
 
 /** Timers and alarms set by the Index agent on this device, with a cancel button on each. */
 @Composable
@@ -73,7 +77,7 @@ fun TimersAndAlarms(coreNav: CoreNav) {
                 Icon(Icons.AutoMirrored.Default.ArrowBack, "Back", tint = colors.onSurface)
             }
             Text(
-                "Timers & alarms",
+                stringResource(RingRes.string.timers_alarms),
                 color = colors.onSurface,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -91,7 +95,7 @@ fun TimersAndAlarms(coreNav: CoreNav) {
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
-                            "No timers or alarms. Ask your Index to set one.",
+                            stringResource(RingRes.string.no_timers_or_alarms_ask_your),
                             color = colors.onSurfaceVariant,
                             fontSize = 14.sp,
                         )

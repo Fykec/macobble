@@ -125,6 +125,28 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.change_list_type
+import coreapp.ring.generated.resources.delete_list
+import coreapp.ring.generated.resources.delete_list_2
+import coreapp.ring.generated.resources.emoji
+import coreapp.ring.generated.resources.list_type
+import coreapp.ring.generated.resources.new_list
+import coreapp.ring.generated.resources.no_emoji
+import coreapp.ring.generated.resources.rename_list
+import coreapp.ring.generated.resources.save
+import coreapp.ring.generated.resources.search_emojis
+import coreapp.ring.generated.resources.select_a_default_type_for_new
+import coreapp.ring.generated.resources.add_note
+import coreapp.ring.generated.resources.checkbox
+import coreapp.ring.generated.resources.child_row_fade
+import coreapp.ring.generated.resources.convert_to_reminder
+import coreapp.ring.generated.resources.delete_all_subitems
+import coreapp.ring.generated.resources.move_subitems
+import coreapp.ring.generated.resources.note
+import coreapp.ring.generated.resources.open
 
 // List kind detail (children rows, sort/search, done section) — split
 // out of ObjectDetail.kt for review-friendliness.
@@ -301,7 +323,7 @@ internal fun ListView(
                                     Box {
                                         if (draftTitle.text.isBlank()) {
                                             Text(
-                                                "New list",
+                                                stringResource(RingRes.string.new_list),
                                                 color = colors.onSurfaceVariant.copy(alpha = 0.55f),
                                                 fontSize = 16.sp,
                                                 fontWeight = FontWeight.SemiBold,
@@ -356,7 +378,7 @@ internal fun ListView(
                 right = {
                     if (editing) {
                         Text(
-                            "Save",
+                            stringResource(RingRes.string.save),
                             color = colors.primary,
                             fontSize = 14.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -374,14 +396,14 @@ internal fun ListView(
                             DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
                                 if (!isTodos) {
                                     DropdownMenuItem(
-                                        text = { Text("Rename list") },
+                                        text = { Text(stringResource(RingRes.string.rename_list)) },
                                         onClick = {
                                             menuOpen = false
                                             startTitleEdit()
                                         },
                                     )
                                     DropdownMenuItem(
-                                        text = { Text("Change list type") },
+                                        text = { Text(stringResource(RingRes.string.change_list_type)) },
                                         onClick = {
                                             menuOpen = false
                                             entryTypeDialogOpen = true
@@ -390,7 +412,7 @@ internal fun ListView(
                                 }
                                 if (!isCoreList) {
                                     DropdownMenuItem(
-                                        text = { Text("Delete list", color = colors.error) },
+                                        text = { Text(stringResource(RingRes.string.delete_list), color = colors.error) },
                                         onClick = {
                                             menuOpen = false
                                             if (s.childCount == 0) {
@@ -584,7 +606,7 @@ private fun EntryTypeDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                "List Type",
+                stringResource(RingRes.string.list_type),
                 color = colors.onSurface,
                 fontWeight = FontWeight.SemiBold,
             )
@@ -592,7 +614,7 @@ private fun EntryTypeDialog(
         contents = {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(
-                    "Select a default type for new entries:",
+                    stringResource(RingRes.string.select_a_default_type_for_new),
                     color = colors.onSurfaceVariant,
                     fontSize = 14.sp,
                     lineHeight = 19.sp,
@@ -600,12 +622,12 @@ private fun EntryTypeDialog(
                 Spacer(Modifier.height(4.dp))
                 EntryTypeButton(
                     selected = listKind != "checklist",
-                    label = "Note",
+                    label = stringResource(RingRes.string.note),
                     onClick = { onSelect("note") },
                 )
                 EntryTypeButton(
                     selected = listKind == "checklist",
-                    label = "Checkbox",
+                    label = stringResource(RingRes.string.checkbox),
                     onClick = { onSelect("checklist") },
                 )
             }
@@ -653,7 +675,7 @@ private fun DeleteListDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                "Delete list?",
+                stringResource(RingRes.string.delete_list_2),
                 color = colors.onSurface,
                 fontWeight = FontWeight.SemiBold,
             )
@@ -671,7 +693,7 @@ private fun DeleteListDialog(
                     if (targetLists.isNotEmpty()) {
                         ChoiceRow(
                             selected = selectedAction == DeleteListAction.MoveItems,
-                            title = "Move subitems",
+                            title = stringResource(RingRes.string.move_subitems),
                             subtitle = "Add them to another list before deleting this one.",
                             onClick = { onAction(DeleteListAction.MoveItems) },
                         )
@@ -729,7 +751,7 @@ private fun DeleteListDialog(
                     }
                     ChoiceRow(
                         selected = selectedAction == DeleteListAction.DeleteItems,
-                        title = "Delete all subitems",
+                        title = stringResource(RingRes.string.delete_all_subitems),
                         subtitle = "Remove every subitem in this list.",
                         onClick = { onAction(DeleteListAction.DeleteItems) },
                     )
@@ -738,12 +760,12 @@ private fun DeleteListDialog(
         } else null,
         confirmButton = {
             TextButton(onClick = onConfirm) {
-                Text("Delete list", color = colors.error, fontWeight = FontWeight.SemiBold)
+                Text(stringResource(RingRes.string.delete_list), color = colors.error, fontWeight = FontWeight.SemiBold)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel", color = colors.onSurfaceVariant)
+                Text(stringResource(RingRes.string.cancel), color = colors.onSurfaceVariant)
             }
         },
     )
@@ -803,7 +825,7 @@ private fun ListChildRow(
     val rowAlpha by androidx.compose.animation.core.animateFloatAsState(
         targetValue = if (child.done) 0.45f else 1f,
         animationSpec = androidx.compose.animation.core.tween(durationMillis = 600),
-        label = "child-row-fade",
+        label = stringResource(RingRes.string.child_row_fade),
     )
     Column(modifier = Modifier.graphicsLayer { alpha = rowAlpha }) {
         Row(
@@ -994,14 +1016,14 @@ private fun ListEmojiPicker(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            "Emoji",
+                            stringResource(RingRes.string.emoji),
                             color = colors.onSurface,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.SemiBold,
                             modifier = Modifier.weight(1f),
                         )
                         Text(
-                            "No emoji",
+                            stringResource(RingRes.string.no_emoji),
                             color = colors.primary,
                             fontSize = 13.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -1047,7 +1069,7 @@ private fun ListEmojiPicker(
                                 Box(Modifier.weight(1f)) {
                                     if (query.isBlank()) {
                                         Text(
-                                            "Search emojis",
+                                            stringResource(RingRes.string.search_emojis),
                                             color = colors.onSurfaceVariant,
                                             fontSize = 14.sp,
                                         )
@@ -1223,7 +1245,7 @@ private fun EditableNoteRow(
         ) {
             Icon(
                 Icons.AutoMirrored.Filled.ArrowForward,
-                contentDescription = "Open",
+                contentDescription = stringResource(RingRes.string.open),
                 tint = colors.onSurfaceVariant,
                 modifier = Modifier.size(17.dp),
             )
@@ -1268,7 +1290,7 @@ private fun NewNoteRow(
     ) {
         Icon(
             Icons.Default.Add,
-            contentDescription = "Add note",
+            contentDescription = stringResource(RingRes.string.add_note),
             tint = colors.onSurfaceVariant.copy(alpha = 0.58f),
             modifier = Modifier.size(18.dp),
         )

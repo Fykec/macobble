@@ -82,6 +82,23 @@ import kotlinx.serialization.json.decodeFromJsonElement
 import org.koin.compose.koinInject
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.automatic
+import coreapp.pebble.generated.resources.cancel
+import coreapp.pebble.generated.resources.choose_which_data_you_would_like
+import coreapp.pebble.generated.resources.complication
+import coreapp.pebble.generated.resources.complications
+import coreapp.pebble.generated.resources.ok
+import coreapp.pebble.generated.resources.reset
+import coreapp.pebble.generated.resources.reset_to_defaults
+import coreapp.pebble.generated.resources.save
+import coreapp.pebble.generated.resources.when_more_than_one_plugin_offers
+import coreapp.pebble.generated.resources.your_complication_slots_will_be_replaced
+import coreapp.pebble.generated.resources.about_complications
+import coreapp.pebble.generated.resources.reorder
+import coreapp.pebble.generated.resources.source
+import coreapp.pebble.generated.resources.which
 
 private data class SourceRef(val category: String, val item: String) {
     val label get() = "${humanize(category)}: ${humanize(item).lowercase()}"
@@ -124,22 +141,22 @@ fun ComplicationsScreen(nav: NavBarNav, topBarParams: TopBarParams) {
     if (confirmingReset) {
         AlertDialog(
             onDismissRequest = { confirmingReset = false },
-            title = { Text("Reset to defaults?") },
-            text = { Text("Your complication slots will be replaced with the default readings.") },
+            title = { Text(stringResource(PebbleRes.string.reset_to_defaults)) },
+            text = { Text(stringResource(PebbleRes.string.your_complication_slots_will_be_replaced)) },
             confirmButton = {
                 TextButton(onClick = {
                     preferences.resetComplications()
                     confirmingReset = false
-                }) { Text("Reset") }
+                }) { Text(stringResource(PebbleRes.string.reset)) }
             },
-            dismissButton = { TextButton(onClick = { confirmingReset = false }) { Text("Cancel") } },
+            dismissButton = { TextButton(onClick = { confirmingReset = false }) { Text(stringResource(PebbleRes.string.cancel)) } },
         )
     }
     var showingInfo by remember { mutableStateOf(false) }
     if (showingInfo) {
         AlertDialog(
             onDismissRequest = { showingInfo = false },
-            title = { Text("Complications") },
+            title = { Text(stringResource(PebbleRes.string.complications)) },
             text = {
                 Text(
                     "Complications are small pieces of information a watchface shows alongside the time, " +
@@ -151,7 +168,7 @@ fun ComplicationsScreen(nav: NavBarNav, topBarParams: TopBarParams) {
                         "choices or have their own settings instead."
                 )
             },
-            confirmButton = { TextButton(onClick = { showingInfo = false }) { Text("OK") } },
+            confirmButton = { TextButton(onClick = { showingInfo = false }) { Text(stringResource(PebbleRes.string.ok)) } },
         )
     }
     editing?.let { position ->
@@ -183,13 +200,13 @@ fun ComplicationsScreen(nav: NavBarNav, topBarParams: TopBarParams) {
                 modifier = Modifier.padding(start = 16.dp, end = 4.dp, top = 8.dp, bottom = 8.dp),
             ) {
                 Text(
-                    "Choose which data you would like watchfaces to display in complication slots, in order",
+                    stringResource(PebbleRes.string.choose_which_data_you_would_like),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.weight(1f),
                 )
                 IconButton(onClick = { showingInfo = true }) {
-                    Icon(Icons.Outlined.Info, contentDescription = "About complications")
+                    Icon(Icons.Outlined.Info, contentDescription = stringResource(PebbleRes.string.about_complications))
                 }
             }
         }
@@ -213,7 +230,7 @@ fun ComplicationsScreen(nav: NavBarNav, topBarParams: TopBarParams) {
                                     onDragStopped = { hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd) },
                                 ),
                             ) {
-                                Icon(Icons.Default.DragHandle, contentDescription = "Reorder")
+                                Icon(Icons.Default.DragHandle, contentDescription = stringResource(PebbleRes.string.reorder))
                             }
                         }
                     },
@@ -265,14 +282,14 @@ private fun ComplicationEditor(slot: ComplicationSlot?, onSave: (ComplicationSlo
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Complication") },
+        title = { Text(stringResource(PebbleRes.string.complication)) },
         text = {
             Column(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier.verticalScroll(rememberScrollState()),
             ) {
                 Picker(
-                    label = "Source",
+                    label = stringResource(PebbleRes.string.source),
                     options = listOf<SourceRef?>(null) + served,
                     selected = source,
                     text = { it?.label ?: "Nothing" },
@@ -284,7 +301,7 @@ private fun ComplicationEditor(slot: ComplicationSlot?, onSave: (ComplicationSlo
                 )
                 if (readings.size > 1 || index > 0) {
                     Picker(
-                        label = "Which",
+                        label = stringResource(PebbleRes.string.which),
                         options = readings.indices.toList().ifEmpty { listOf(index) },
                         selected = index,
                         text = { i ->
@@ -314,9 +331,9 @@ private fun ComplicationEditor(slot: ComplicationSlot?, onSave: (ComplicationSlo
         confirmButton = {
             TextButton(onClick = {
                 onSave(source?.let { ref -> chosenProperty?.let { ComplicationSlot(ref.category, ref.item, index, it) } })
-            }) { Text("Save") }
+            }) { Text(stringResource(PebbleRes.string.save)) }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(PebbleRes.string.cancel)) } },
     )
 }
 
@@ -433,7 +450,7 @@ fun PreferredSourcesScreen(nav: NavBarNav, topBarParams: TopBarParams) {
     LazyColumn(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
         item {
             Text(
-                "When more than one plugin offers the same thing, apps that don't ask for a particular one get the plugin chosen here.",
+                stringResource(PebbleRes.string.when_more_than_one_plugin_offers),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
@@ -452,7 +469,7 @@ fun PreferredSourcesScreen(nav: NavBarNav, topBarParams: TopBarParams) {
                         }
                         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                             DropdownMenuItem(
-                                text = { Text("Automatic") },
+                                text = { Text(stringResource(PebbleRes.string.automatic)) },
                                 onClick = {
                                     libPebble.setPreferredSourcePlugin(ref.category, ref.item, null)
                                     expanded = false

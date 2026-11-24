@@ -12,6 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.continue_label
+import coreapp.ring.generated.resources.notion_link_failed
+import coreapp.ring.generated.resources.notion_linked
 
 @Composable
 fun NotionOAuthResult(success: Boolean, onContinue: () -> Unit) {
@@ -22,12 +27,12 @@ fun NotionOAuthResult(success: Boolean, onContinue: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (success) {
-                Text("Notion Linked", style = MaterialTheme.typography.headlineMedium)
+                Text(stringResource(RingRes.string.notion_linked), style = MaterialTheme.typography.headlineMedium)
             } else {
-                Text("Notion Link Failed", style = MaterialTheme.typography.headlineMedium)
+                Text(stringResource(RingRes.string.notion_link_failed), style = MaterialTheme.typography.headlineMedium)
             }
             Button(onClick = onContinue) {
-                Text("Continue")
+                Text(stringResource(RingRes.string.continue_label))
             }
         }
     }

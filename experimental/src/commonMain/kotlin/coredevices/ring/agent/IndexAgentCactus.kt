@@ -37,6 +37,9 @@ import kotlinx.serialization.json.put
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import kotlin.time.Clock
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.cactus
 
 class IndexAgentCactus(
     private val modelProvider: CactusModelProvider,

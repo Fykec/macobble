@@ -71,6 +71,17 @@ import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.minutes
 import kotlin.uuid.Uuid
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.address
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.couldn_t_find_that_address
+import coreapp.ring.generated.resources.delete
+import coreapp.ring.generated.resources.delete_reminders
+import coreapp.ring.generated.resources.delete_saved_place
+import coreapp.ring.generated.resources.name
+import coreapp.ring.generated.resources.remove_association
+import coreapp.ring.generated.resources.save
+import coreapp.ring.generated.resources.search_for_an_address
 
 private val RADIUS_RANGE_METERS = 5f..100f
 private const val MAP_ZOOM = 18f
@@ -174,10 +185,10 @@ fun GeofenceLocationEditScreen(
         if (reminderCount == 0) {
             M3Dialog(
                 onDismissRequest = { deleteReminderCount = null },
-                title = { Text("Delete Saved Place") },
+                title = { Text(stringResource(RingRes.string.delete_saved_place)) },
                 buttons = {
-                    TextButton(onClick = { deleteReminderCount = null }) { Text("Cancel") }
-                    TextButton(onClick = { delete(deleteReminders = false) }) { Text("Delete") }
+                    TextButton(onClick = { deleteReminderCount = null }) { Text(stringResource(RingRes.string.cancel)) }
+                    TextButton(onClick = { delete(deleteReminders = false) }) { Text(stringResource(RingRes.string.delete)) }
                 },
             ) {
                 Text("Delete “${saved.name}”?")
@@ -186,14 +197,14 @@ fun GeofenceLocationEditScreen(
             val reminders = if (reminderCount == 1) "1 reminder" else "$reminderCount reminders"
             M3Dialog(
                 onDismissRequest = { deleteReminderCount = null },
-                title = { Text("Delete Saved Place") },
+                title = { Text(stringResource(RingRes.string.delete_saved_place)) },
                 verticalButtons = {
                     TextButton(
                         onClick = { delete(deleteReminders = true) },
                         colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
-                    ) { Text("Delete reminders") }
-                    TextButton(onClick = { delete(deleteReminders = false) }) { Text("Remove association") }
-                    TextButton(onClick = { deleteReminderCount = null }) { Text("Cancel") }
+                    ) { Text(stringResource(RingRes.string.delete_reminders)) }
+                    TextButton(onClick = { delete(deleteReminders = false) }) { Text(stringResource(RingRes.string.remove_association)) }
+                    TextButton(onClick = { deleteReminderCount = null }) { Text(stringResource(RingRes.string.cancel)) }
                 },
             ) {
                 Text(
@@ -247,7 +258,7 @@ fun GeofenceLocationEditScreen(
                         containerColor = MaterialTheme.colorScheme.errorContainer,
                         contentColor = MaterialTheme.colorScheme.onErrorContainer,
                     ) {
-                        Icon(Icons.Default.Delete, contentDescription = "Delete")
+                        Icon(Icons.Default.Delete, contentDescription = stringResource(RingRes.string.delete))
                     }
                 }
                 if (entity != null) {
@@ -259,7 +270,7 @@ fun GeofenceLocationEditScreen(
                             }
                         },
                         icon = { Icon(Icons.Default.Check, contentDescription = null) },
-                        text = { Text("Save") },
+                        text = { Text(stringResource(RingRes.string.save)) },
                     )
                 }
             }
@@ -308,7 +319,7 @@ fun GeofenceLocationEditScreen(
                         value = current.name,
                         onValueChange = { draft = current.copy(name = it) },
                         modifier = Modifier.fillMaxWidth(),
-                        label = { Text("Name") },
+                        label = { Text(stringResource(RingRes.string.name)) },
                         isError = current.name.isBlank(),
                         singleLine = true,
                     )
@@ -320,8 +331,8 @@ fun GeofenceLocationEditScreen(
                                 searchFailed = false
                             },
                             modifier = Modifier.fillMaxWidth(),
-                            label = { Text("Address") },
-                            placeholder = { Text("Search for an address") },
+                            label = { Text(stringResource(RingRes.string.address)) },
+                            placeholder = { Text(stringResource(RingRes.string.search_for_an_address)) },
                             trailingIcon = {
                                 if (searching) {
                                     CircularProgressIndicator(Modifier.padding(12.dp), strokeWidth = 2.dp)
@@ -333,7 +344,7 @@ fun GeofenceLocationEditScreen(
                             },
                             isError = searchFailed,
                             supportingText = if (searchFailed) {
-                                { Text("Couldn't find that address.") }
+                                { Text(stringResource(RingRes.string.couldn_t_find_that_address)) }
                             } else null,
                             singleLine = true,
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),

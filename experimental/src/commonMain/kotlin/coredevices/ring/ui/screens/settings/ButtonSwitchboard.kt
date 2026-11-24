@@ -80,6 +80,17 @@ import coredevices.ring.service.button.RingGesture
 import coredevices.ring.ui.theme.IndexTheme
 import coredevices.ring.ui.viewmodel.DestinationItem
 import coredevices.ring.ui.viewmodel.isConnected
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.also
+import coreapp.ring.generated.resources.command
+import coreapp.ring.generated.resources.connect
+import coreapp.ring.generated.resources.send_to_webhook
+import coreapp.ring.generated.resources.unlock_front_door
+import coreapp.ring.generated.resources.also_send_to_webhook
+import coreapp.ring.generated.resources.configure
+import coreapp.ring.generated.resources.other_agents
+import coreapp.ring.generated.resources.webhook_settings
 
 private val DOT = 9.dp
 private val TILE_WIDTH = 168.dp
@@ -383,7 +394,7 @@ private fun GestureRow(
                 if (onConfigure != null) {
                     Icon(
                         Icons.Default.Settings,
-                        contentDescription = "Configure",
+                        contentDescription = stringResource(RingRes.string.configure),
                         tint = colors.onSurfaceVariant,
                         modifier = Modifier
                             .size(18.dp)
@@ -418,7 +429,7 @@ private fun WebhookCopyRow(onClick: () -> Unit) {
     ) {
         Box(modifier = Modifier.width(LABEL_WIDTH), contentAlignment = Alignment.CenterEnd) {
             Text(
-                "also",
+                stringResource(RingRes.string.also),
                 fontSize = 11.sp,
                 color = colors.outline,
                 modifier = Modifier.padding(end = 8.dp),
@@ -447,7 +458,7 @@ private fun WebhookCopyRow(onClick: () -> Unit) {
                 modifier = Modifier.size(16.dp),
             )
             Text(
-                "send to webhook",
+                stringResource(RingRes.string.send_to_webhook),
                 fontSize = 12.sp,
                 color = colors.onSurfaceVariant,
             )
@@ -537,8 +548,8 @@ private fun GestureDestinationSheet(
                     value = commandDraft,
                     onValueChange = { commandDraft = it },
                     singleLine = true,
-                    label = { Text("Command") },
-                    placeholder = { Text("Unlock front door") },
+                    label = { Text(stringResource(RingRes.string.command)) },
+                    placeholder = { Text(stringResource(RingRes.string.unlock_front_door)) },
                     supportingText = {
                         Text(
                             "Runs as if you'd said it to Index, using your plugins and actions. " +
@@ -559,7 +570,7 @@ private fun GestureDestinationSheet(
                 )
                 WebhookSheetRow(
                     icon = Icons.Default.Webhook,
-                    title = "Also send to webhook",
+                    title = stringResource(RingRes.string.also_send_to_webhook),
                     webhookUrl = webhookUrl,
                     onClick = onOpenWebhookSettings,
                 ) {
@@ -572,7 +583,7 @@ private fun GestureDestinationSheet(
             ) {
                 WebhookSheetRow(
                     icon = Icons.Default.SettingsEthernet,
-                    title = "Webhook settings",
+                    title = stringResource(RingRes.string.webhook_settings),
                     webhookUrl = webhookUrl,
                     onClick = onOpenWebhookSettings,
                 ) {
@@ -606,7 +617,7 @@ private fun OtherAgentsGroup(
     val chevron by animateFloatAsState(if (expanded) 180f else 0f)
     SheetChoiceRow(
         icon = Icons.AutoMirrored.Filled.Send,
-        title = "Other agents",
+        title = stringResource(RingRes.string.other_agents),
         subtitle = when {
             agents == null -> "Loading…"
             routed != null -> routed.tileLabel(agentTitles)
@@ -679,7 +690,7 @@ private fun OtherAgentChoiceRow(
         onClick = onClick,
         onLongClick = onLongClick,
         trailing = if (onConnect == null) null else {
-            { TextButton(onClick = onConnect) { Text("Connect") } }
+            { TextButton(onClick = onConnect) { Text(stringResource(RingRes.string.connect)) } }
         },
         modifier = Modifier.padding(start = 34.dp),
     )

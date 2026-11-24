@@ -47,6 +47,13 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.stringResource
+import coreapp.composeapp.generated.resources.Res as AppRes
+import coreapp.composeapp.generated.resources.my_bug_reports
+import coreapp.composeapp.generated.resources.back
+import coreapp.composeapp.generated.resources.no_bug_reports_found
+import coreapp.composeapp.generated.resources.refresh
+import coreapp.composeapp.generated.resources.retry
 
 @Composable
 fun BugReportsListScreen(
@@ -89,12 +96,12 @@ fun BugReportsListScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("My Bug Reports") },
+                    title = { Text(stringResource(AppRes.string.my_bug_reports)) },
                     navigationIcon = {
                         IconButton(onClick = coreNav::goBack) {
                             Icon(
                                 Icons.AutoMirrored.Default.ArrowBack,
-                                contentDescription = "Back"
+                                contentDescription = stringResource(AppRes.string.back)
                             )
                         }
                     },
@@ -102,7 +109,7 @@ fun BugReportsListScreen(
                         IconButton(onClick = { loadBugReports() }) {
                             Icon(
                                 Icons.Default.Refresh,
-                                contentDescription = "Refresh"
+                                contentDescription = stringResource(AppRes.string.refresh)
                             )
                         }
                     }
@@ -146,7 +153,7 @@ fun BugReportsListScreen(
                                 } else {
                                     // Show refresh button if user is authenticated but there was an error
                                     IconButton(onClick = { loadBugReports() }) {
-                                        Icon(Icons.Default.Refresh, contentDescription = "Retry")
+                                        Icon(Icons.Default.Refresh, contentDescription = stringResource(AppRes.string.retry))
                                     }
                                 }
                             }
@@ -159,7 +166,7 @@ fun BugReportsListScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "No bug reports found",
+                                text = stringResource(AppRes.string.no_bug_reports_found),
                                 style = MaterialTheme.typography.bodyLarge
                             )
                         }

@@ -25,6 +25,12 @@ import coredevices.util.Platform
 import coredevices.util.isIOS
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.error
+import coreapp.ring.generated.resources.finish
+import coreapp.ring.generated.resources.processing
+import coreapp.ring.generated.resources.recording
 
 @Composable
 fun ListenDialog(onDismissRequest: () -> Unit) {
@@ -46,7 +52,7 @@ fun ListenDialog(onDismissRequest: () -> Unit) {
             ) {
                 when (val it = state) {
                     is ManualTranscriptionState.Recording -> {
-                        Text("Recording", style = MaterialTheme.typography.titleLarge)
+                        Text(stringResource(RingRes.string.recording), style = MaterialTheme.typography.titleLarge)
                         if (it.partial != null) {
                             Text(it.partial)
                         }
@@ -56,15 +62,15 @@ fun ListenDialog(onDismissRequest: () -> Unit) {
                                     listenDialogViewModel.completeManualRecording()
                                 }
                             ) {
-                                Text("Finish")
+                                Text(stringResource(RingRes.string.finish))
                             }
                         }
                     }
                     ManualTranscriptionState.Processing -> {
-                        Text("Processing", style = MaterialTheme.typography.titleLarge)
+                        Text(stringResource(RingRes.string.processing), style = MaterialTheme.typography.titleLarge)
                     }
                     is ManualTranscriptionState.Error -> {
-                        Text("Error", style = MaterialTheme.typography.titleLarge)
+                        Text(stringResource(RingRes.string.error), style = MaterialTheme.typography.titleLarge)
                         Text(it.message)
                     }
                     else -> {

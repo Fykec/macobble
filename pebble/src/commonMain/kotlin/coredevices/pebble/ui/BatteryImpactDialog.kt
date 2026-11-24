@@ -28,6 +28,11 @@ import androidx.compose.ui.unit.dp
 import coredevices.pebble.services.StoreBatteryImpact
 import coredevices.pebble.services.StoreBatteryImpactMode
 import io.rebble.libpebblecommon.metadata.WatchType
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.battery_impact
+import coreapp.pebble.generated.resources.dismiss
+import coreapp.pebble.generated.resources.selected
 
 internal fun String.capitalized() = replaceFirstChar { it.uppercase() }
 
@@ -58,7 +63,7 @@ fun BatteryImpactDialog(
     val impact = impacts.getValue(platform)
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Battery Impact") },
+        title = { Text(stringResource(PebbleRes.string.battery_impact)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 if (impacts.size > 1) {
@@ -79,7 +84,7 @@ fun BatteryImpactDialog(
                                         expanded = false
                                     },
                                     leadingIcon = if (option == platform) {
-                                        { Icon(Icons.Filled.Done, contentDescription = "Selected") }
+                                        { Icon(Icons.Filled.Done, contentDescription = stringResource(PebbleRes.string.selected)) }
                                     } else null,
                                 )
                             }
@@ -112,7 +117,7 @@ fun BatteryImpactDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) { Text("Dismiss") }
+            TextButton(onClick = onDismiss) { Text(stringResource(PebbleRes.string.dismiss)) }
         },
     )
 }

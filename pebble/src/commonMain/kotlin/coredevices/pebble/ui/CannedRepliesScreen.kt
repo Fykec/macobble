@@ -45,6 +45,17 @@ import coredevices.pebble.rememberLibPebble
 import kotlinx.coroutines.flow.collectLatest
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.add_reply
+import coreapp.pebble.generated.resources.cancel
+import coreapp.pebble.generated.resources.discard
+import coreapp.pebble.generated.resources.save
+import coreapp.pebble.generated.resources.unsaved_changes
+import coreapp.pebble.generated.resources.you_have_unsaved_changes_to_your
+import coreapp.pebble.generated.resources.custom_replies_appear_in_the_canned
+import coreapp.pebble.generated.resources.remove
+import coreapp.pebble.generated.resources.reorder
 
 private const val MAX_RESPONSES = 8
 private const val MAX_RESPONSE_LENGTH = 30
@@ -153,7 +164,7 @@ fun CannedRepliesScreen(nav: NavBarNav, topBarParams: TopBarParams) {
         ) {
             item(key = "header") {
                 Text(
-                    text = "Custom replies appear in the \"Canned messages\" menu when replying to notifications on the watch.",
+                    text = stringResource(PebbleRes.string.custom_replies_appear_in_the_canned),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(vertical = 8.dp),
@@ -190,7 +201,7 @@ fun CannedRepliesScreen(nav: NavBarNav, topBarParams: TopBarParams) {
                                 },
                             ),
                         ) {
-                            Icon(Icons.Default.DragHandle, contentDescription = "Reorder")
+                            Icon(Icons.Default.DragHandle, contentDescription = stringResource(PebbleRes.string.reorder))
                         }
                         OutlinedTextField(
                             value = text,
@@ -211,7 +222,7 @@ fun CannedRepliesScreen(nav: NavBarNav, topBarParams: TopBarParams) {
                             responseKeys.removeAt(index)
                             dirty = true
                         }) {
-                            Icon(Icons.Default.Close, contentDescription = "Remove")
+                            Icon(Icons.Default.Close, contentDescription = stringResource(PebbleRes.string.remove))
                         }
                     }
                 }
@@ -234,13 +245,13 @@ fun CannedRepliesScreen(nav: NavBarNav, topBarParams: TopBarParams) {
                 enabled = responses.size < MAX_RESPONSES,
             ) {
                 Icon(Icons.Default.Add, contentDescription = null)
-                Text("Add reply", modifier = Modifier.padding(start = 4.dp))
+                Text(stringResource(PebbleRes.string.add_reply), modifier = Modifier.padding(start = 4.dp))
             }
             Button(
                 onClick = { save() },
                 enabled = dirty,
             ) {
-                Text("Save")
+                Text(stringResource(PebbleRes.string.save))
             }
         }
     }
@@ -254,15 +265,15 @@ fun UnsavedRepliesDialog(
 ) {
     AlertDialog(
         onDismissRequest = onCancel,
-        title = { Text("Unsaved changes") },
-        text = { Text("You have unsaved changes to your quick replies.") },
+        title = { Text(stringResource(PebbleRes.string.unsaved_changes)) },
+        text = { Text(stringResource(PebbleRes.string.you_have_unsaved_changes_to_your)) },
         confirmButton = {
-            TextButton(onClick = onSave) { Text("Save") }
+            TextButton(onClick = onSave) { Text(stringResource(PebbleRes.string.save)) }
         },
         dismissButton = {
             Row {
-                TextButton(onClick = onCancel) { Text("Cancel") }
-                TextButton(onClick = onDiscard) { Text("Discard") }
+                TextButton(onClick = onCancel) { Text(stringResource(PebbleRes.string.cancel)) }
+                TextButton(onClick = onDiscard) { Text(stringResource(PebbleRes.string.discard)) }
             }
         },
     )

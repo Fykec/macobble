@@ -76,6 +76,28 @@ import kotlinx.coroutines.flow.map
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.allow_duplicate_notifications
+import coreapp.pebble.generated.resources.body
+import coreapp.pebble.generated.resources.both
+import coreapp.pebble.generated.resources.cancel
+import coreapp.pebble.generated.resources.case_sensitive
+import coreapp.pebble.generated.resources.channels
+import coreapp.pebble.generated.resources.match_field
+import coreapp.pebble.generated.resources.match_type
+import coreapp.pebble.generated.resources.notification_filter_rules
+import coreapp.pebble.generated.resources.notified_only
+import coreapp.pebble.generated.resources.pattern
+import coreapp.pebble.generated.resources.regex
+import coreapp.pebble.generated.resources.save
+import coreapp.pebble.generated.resources.send_images
+import coreapp.pebble.generated.resources.text
+import coreapp.pebble.generated.resources.title
+import coreapp.pebble.generated.resources.add_rule
+import coreapp.pebble.generated.resources.delete_rule
+import coreapp.pebble.generated.resources.done_icon
+import coreapp.pebble.generated.resources.edit_rule
 
 class NotificationAppScreenViewModel : ViewModel() {
     val onlyNotified = mutableStateOf(false)
@@ -200,20 +222,20 @@ fun NotificationAppScreen(
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                                 ) {
-                                    Text("Channels", fontSize = 20.sp)
+                                    Text(stringResource(PebbleRes.string.channels), fontSize = 20.sp)
                                     FilterChip(
                                         onClick = {
                                             viewModel.onlyNotified.value = !viewModel.onlyNotified.value
                                         },
                                         label = {
-                                            Text("Notified only")
+                                            Text(stringResource(PebbleRes.string.notified_only))
                                         },
                                         selected = viewModel.onlyNotified.value,
                                         leadingIcon = if (viewModel.onlyNotified.value) {
                                             {
                                                 Icon(
                                                     imageVector = Icons.Filled.Done,
-                                                    contentDescription = "Done icon",
+                                                    contentDescription = stringResource(PebbleRes.string.done_icon),
                                                     modifier = Modifier.size(FilterChipDefaults.IconSize)
                                                 )
                                             }
@@ -257,7 +279,7 @@ fun NotificationAppScreen(
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 modifier = Modifier.fillMaxWidth().padding(16.dp),
                             ) {
-                                Text("Allow duplicate notifications", fontSize = 17.sp)
+                                Text(stringResource(PebbleRes.string.allow_duplicate_notifications), fontSize = 17.sp)
                                 Switch(
                                     checked = appWrapper.app.allowDuplicates,
                                     onCheckedChange = { newValue ->
@@ -280,7 +302,7 @@ fun NotificationAppScreen(
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 modifier = Modifier.fillMaxWidth().padding(16.dp),
                             ) {
-                                Text("Send images", fontSize = 17.sp)
+                                Text(stringResource(PebbleRes.string.send_images), fontSize = 17.sp)
                                 Switch(
                                     checked = appWrapper.app.sendImages,
                                     enabled = sendImagesEnabledGlobally,
@@ -363,7 +385,7 @@ private fun NotificationRulesSection(
         modifier = Modifier.padding(10.dp).fillMaxWidth(),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Notification filter rules", fontSize = 20.sp, modifier = Modifier.padding(bottom = 8.dp))
+            Text(stringResource(PebbleRes.string.notification_filter_rules), fontSize = 20.sp, modifier = Modifier.padding(bottom = 8.dp))
             Text(
                 if (rules.isEmpty()) "No notification rules"
                 else "Matching notifications will be blocked:",
@@ -403,24 +425,24 @@ private fun NotificationRulesSection(
                         editingRule = rule
                         showDialog = true
                     }) {
-                        Icon(Icons.Filled.Edit, contentDescription = "Edit rule")
+                        Icon(Icons.Filled.Edit, contentDescription = stringResource(PebbleRes.string.edit_rule))
                     }
                     IconButton(onClick = {
                         notificationApps.deleteNotificationRule(rule)
                     }) {
-                        Icon(Icons.Filled.Delete, contentDescription = "Delete rule")
+                        Icon(Icons.Filled.Delete, contentDescription = stringResource(PebbleRes.string.delete_rule))
                     }
                 }
             }
             Spacer(Modifier.height(8.dp))
             PebbleElevatedButton(
-                text = "Add rule",
+                text = stringResource(PebbleRes.string.add_rule),
                 onClick = {
                     editingRule = null
                     showDialog = true
                 },
                 icon = Icons.Filled.Add,
-                contentDescription = "Add rule",
+                contentDescription = stringResource(PebbleRes.string.add_rule),
                 primaryColor = true,
                 modifier = Modifier.align(Alignment.End),
             )
@@ -467,44 +489,44 @@ private fun NotificationRuleDialog(
         title = { Text(if (existing != null) "Edit rule" else "Add rule") },
         text = {
             Column {
-                Text("Match type", style = MaterialTheme.typography.labelMedium, modifier = Modifier.padding(bottom = 4.dp))
+                Text(stringResource(PebbleRes.string.match_type), style = MaterialTheme.typography.labelMedium, modifier = Modifier.padding(bottom = 4.dp))
                 SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
                     SegmentedButton(
                         selected = matchType == MatchType.Text,
                         onClick = { matchType = MatchType.Text },
                         shape = SegmentedButtonDefaults.itemShape(index = 0, count = 2),
-                    ) { Text("Text") }
+                    ) { Text(stringResource(PebbleRes.string.text)) }
                     SegmentedButton(
                         selected = matchType == MatchType.Regex,
                         onClick = { matchType = MatchType.Regex },
                         shape = SegmentedButtonDefaults.itemShape(index = 1, count = 2),
                         enabled = platform != Platform.IOS
-                    ) { Text("Regex") }
+                    ) { Text(stringResource(PebbleRes.string.regex)) }
                 }
                 Spacer(Modifier.height(12.dp))
-                Text("Match field", style = MaterialTheme.typography.labelMedium, modifier = Modifier.padding(bottom = 4.dp))
+                Text(stringResource(PebbleRes.string.match_field), style = MaterialTheme.typography.labelMedium, modifier = Modifier.padding(bottom = 4.dp))
                 SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
                     SegmentedButton(
                         selected = matchField == MatchField.Both,
                         onClick = { matchField = MatchField.Both },
                         shape = SegmentedButtonDefaults.itemShape(index = 0, count = 3),
-                    ) { Text("Both") }
+                    ) { Text(stringResource(PebbleRes.string.both)) }
                     SegmentedButton(
                         selected = matchField == MatchField.Title,
                         onClick = { matchField = MatchField.Title },
                         shape = SegmentedButtonDefaults.itemShape(index = 1, count = 3),
-                    ) { Text("Title") }
+                    ) { Text(stringResource(PebbleRes.string.title)) }
                     SegmentedButton(
                         selected = matchField == MatchField.Body,
                         onClick = { matchField = MatchField.Body },
                         shape = SegmentedButtonDefaults.itemShape(index = 2, count = 3),
-                    ) { Text("Body") }
+                    ) { Text(stringResource(PebbleRes.string.body)) }
                 }
                 Spacer(Modifier.height(12.dp))
                 OutlinedTextField(
                     value = pattern,
                     onValueChange = { pattern = it },
-                    label = { Text("Pattern") },
+                    label = { Text(stringResource(PebbleRes.string.pattern)) },
                     isError = regexError != null,
                     supportingText = if (regexError != null) {{ Text(regexError) }} else null,
                     singleLine = true,
@@ -519,7 +541,7 @@ private fun NotificationRuleDialog(
                         checked = caseSensitive,
                         onCheckedChange = null,
                     )
-                    Text("Case sensitive", modifier = Modifier.padding(start = 4.dp))
+                    Text(stringResource(PebbleRes.string.case_sensitive), modifier = Modifier.padding(start = 4.dp))
                 }
             }
         },
@@ -539,10 +561,10 @@ private fun NotificationRuleDialog(
                     )
                 },
                 enabled = pattern.isNotBlank() && regexError == null,
-            ) { Text("Save") }
+            ) { Text(stringResource(PebbleRes.string.save)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(PebbleRes.string.cancel)) }
         },
     )
 }

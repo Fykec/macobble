@@ -28,6 +28,12 @@ import coredevices.indexai.database.dao.LocalRecordingDao
 import coredevices.libindex.database.entity.RingTransferStatus
 import coredevices.libindex.database.repository.RingTransferRepository
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.discarded
+import coreapp.ring.generated.resources.loading
+import coreapp.ring.generated.resources.ring_sync_inspector
+import coreapp.ring.generated.resources.go_back
 
 @Composable
 fun RingSyncInspectorScreen(nav: CoreNav) {
@@ -54,10 +60,10 @@ fun RingSyncInspectorScreen(nav: CoreNav) {
                     IconButton(
                         onClick = { nav.goBack() }
                     ) {
-                        Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = "Go Back")
+                        Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = stringResource(RingRes.string.go_back))
                     }
                 },
-                title = { Text("Ring Sync Inspector") }
+                title = { Text(stringResource(RingRes.string.ring_sync_inspector)) }
             )
         }
     ) { insets ->
@@ -72,7 +78,7 @@ fun RingSyncInspectorScreen(nav: CoreNav) {
                     ListItem(
                         overlineContent = {
                             if (transfer?.status == RingTransferStatus.Discarded) {
-                                Text("DISCARDED")
+                                Text(stringResource(RingRes.string.discarded))
                             }
                         },
                         headlineContent = { Text(buildString {
@@ -98,7 +104,7 @@ fun RingSyncInspectorScreen(nav: CoreNav) {
                     )
                 } else {
                     ListItem(
-                        headlineContent = { Text("Loading...") }
+                        headlineContent = { Text(stringResource(RingRes.string.loading)) }
                     )
                 }
             }

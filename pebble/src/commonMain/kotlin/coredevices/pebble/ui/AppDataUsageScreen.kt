@@ -47,6 +47,9 @@ import io.rebble.libpebblecommon.plugin.PluginPermissions
 import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.map
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.ok
 
 private const val LEGACY_INFO = "This app was made before apps had to declare which websites they use, so it can " +
     "reach any website and its data usage can't be split up by website."
@@ -176,7 +179,7 @@ private fun UsageDetailRow(
             onDismissRequest = { showInfo = false },
             title = { Text(label) },
             text = { Text(info) },
-            confirmButton = { TextButton(onClick = { showInfo = false }) { Text("OK") } },
+            confirmButton = { TextButton(onClick = { showInfo = false }) { Text(stringResource(PebbleRes.string.ok)) } },
         )
     }
     Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)) {

@@ -65,6 +65,11 @@ import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import org.koin.compose.viewmodel.koinViewModel
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.search_2
+import coreapp.ring.generated.resources.you_asked
 
 /**
  * Full-screen list of every Q&A capture, newest first. Mirrors the
@@ -94,7 +99,7 @@ fun AllAnswers(coreNav: CoreNav) {
             )
         } else {
             TopBar(
-                title = "You asked",
+                title = stringResource(RingRes.string.you_asked),
                 coreNav = coreNav,
                 right = {
                     IconButton(onClick = { searching = true }) {
@@ -237,7 +242,7 @@ private fun AnswersSearchTopBar(value: String, onChange: (String) -> Unit, onCan
                     keyboard?.hide()
                 }),
                 decorationBox = { inner ->
-                    if (value.isEmpty()) Text("Search…", color = colors.onSurfaceVariant, fontSize = 15.sp)
+                    if (value.isEmpty()) Text(stringResource(RingRes.string.search_2), color = colors.onSurfaceVariant, fontSize = 15.sp)
                     inner()
                 },
             )
@@ -248,7 +253,7 @@ private fun AnswersSearchTopBar(value: String, onChange: (String) -> Unit, onCan
             }
         }
         Text(
-            "Cancel",
+            stringResource(RingRes.string.cancel),
             color = colors.primary,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,

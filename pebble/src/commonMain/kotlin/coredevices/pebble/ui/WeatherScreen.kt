@@ -63,6 +63,22 @@ import org.koin.compose.koinInject
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 import kotlin.uuid.Uuid
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.add
+import coreapp.pebble.generated.resources.address
+import coreapp.pebble.generated.resources.cancel
+import coreapp.pebble.generated.resources.couldn_t_search_for_locations_check
+import coreapp.pebble.generated.resources.enter_city_or_address
+import coreapp.pebble.generated.resources.latitude
+import coreapp.pebble.generated.resources.longitude
+import coreapp.pebble.generated.resources.name
+import coreapp.pebble.generated.resources.remove
+import coreapp.pebble.generated.resources.remove_location
+import coreapp.pebble.generated.resources.type_to_search_for_locations
+import coreapp.pebble.generated.resources.current_location
+import coreapp.pebble.generated.resources.fixed_location
+import coreapp.pebble.generated.resources.manual_coordinates
 
 private const val MAX_WEATHER_LOCATIONS = 5
 private val logger = Logger.withTag("WeatherScreen")
@@ -260,13 +276,13 @@ private fun AddWeatherLocationDialog(
             )
         },
         buttons = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(PebbleRes.string.cancel)) }
             if (mode == AddLocationMode.Manual) {
                 Spacer(Modifier.width(8.dp))
                 TextButton(
                     onClick = { addLocation(manualName.trim(), parsedLatitude, parsedLongitude, manual = true) },
                     enabled = manualName.isNotBlank() && parsedLatitude != null && parsedLongitude != null,
-                ) { Text("Add") }
+                ) { Text(stringResource(PebbleRes.string.add)) }
             }
         },
     ) {
@@ -275,7 +291,7 @@ private fun AddWeatherLocationDialog(
                 if (allowCurrentLocation) {
                     AddLocationOption(
                         icon = Icons.Default.MyLocation,
-                        title = "Current Location",
+                        title = stringResource(PebbleRes.string.current_location),
                         description = "Uses your device's location",
                         onClick = { addLocation("Current Location", null, null, currentLocation = true) },
                     )
@@ -283,14 +299,14 @@ private fun AddWeatherLocationDialog(
                 if (searchAvailable) {
                     AddLocationOption(
                         icon = Icons.Default.LocationOn,
-                        title = "Fixed Location",
+                        title = stringResource(PebbleRes.string.fixed_location),
                         description = "Search for a specific address",
                         onClick = { mode = AddLocationMode.Search },
                     )
                 }
                 AddLocationOption(
                     icon = Icons.Default.EditLocation,
-                    title = "Manual Coordinates",
+                    title = stringResource(PebbleRes.string.manual_coordinates),
                     description = "Enter latitude and longitude",
                     onClick = { mode = AddLocationMode.Manual },
                 )
@@ -301,14 +317,14 @@ private fun AddWeatherLocationDialog(
                     value = manualName,
                     onValueChange = { manualName = it },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Name") },
+                    label = { Text(stringResource(PebbleRes.string.name)) },
                     singleLine = true,
                 )
                 OutlinedTextField(
                     value = manualLatitude,
                     onValueChange = { manualLatitude = it },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Latitude") },
+                    label = { Text(stringResource(PebbleRes.string.latitude)) },
                     placeholder = { Text("e.g. 51.5074") },
                     isError = manualLatitude.isNotBlank() && parsedLatitude == null,
                     singleLine = true,
@@ -318,7 +334,7 @@ private fun AddWeatherLocationDialog(
                     value = manualLongitude,
                     onValueChange = { manualLongitude = it },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Longitude") },
+                    label = { Text(stringResource(PebbleRes.string.longitude)) },
                     placeholder = { Text("e.g. -0.1278") },
                     isError = manualLongitude.isNotBlank() && parsedLongitude == null,
                     singleLine = true,
@@ -331,8 +347,8 @@ private fun AddWeatherLocationDialog(
                     value = addressQuery,
                     onValueChange = { addressQuery = it },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Address") },
-                    placeholder = { Text("Enter city or address") },
+                    label = { Text(stringResource(PebbleRes.string.address)) },
+                    placeholder = { Text(stringResource(PebbleRes.string.enter_city_or_address)) },
                     leadingIcon = {
                         Icon(Icons.Default.Search, contentDescription = null)
                     },
@@ -375,14 +391,14 @@ private fun AddWeatherLocationDialog(
                     }
                 } else if (searchFailed) {
                     Text(
-                        "Couldn't search for locations. Check your connection and try again.",
+                        stringResource(PebbleRes.string.couldn_t_search_for_locations_check),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.error,
                         modifier = Modifier.padding(top = 12.dp),
                     )
                 } else if (addressQuery.length >= 3) {
                     Text(
-                        "Type to search for locations...",
+                        stringResource(PebbleRes.string.type_to_search_for_locations),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(top = 12.dp),
@@ -436,11 +452,11 @@ private fun DeleteLocationConfirmDialog(
 ) {
     M3Dialog(
         onDismissRequest = onDismiss,
-        title = { Text("Remove Location") },
+        title = { Text(stringResource(PebbleRes.string.remove_location)) },
         buttons = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(PebbleRes.string.cancel)) }
             Spacer(Modifier.width(8.dp))
-            TextButton(onClick = onConfirm) { Text("Remove") }
+            TextButton(onClick = onConfirm) { Text(stringResource(PebbleRes.string.remove)) }
         },
     ) {
         Text("Are you sure you want to remove \"$locationName\"?")

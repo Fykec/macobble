@@ -30,6 +30,9 @@ import kotlinx.serialization.json.put
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.time.Clock
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.nenya
 
 /**
  * Online agent backed by the Nenya HTTP API. Iterative: tool results are fed

@@ -32,6 +32,12 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.no_trace_data_found_for_this
+import coreapp.ring.generated.resources.trace_timeline
+import coreapp.ring.generated.resources.button_press
+import coreapp.ring.generated.resources.button_release
 
 data class TraceMilestone(
     val label: String,
@@ -186,14 +192,14 @@ fun RecordingTraceTimeline(
         milestones?.let { milestones ->
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                "Trace Timeline",
+                stringResource(RingRes.string.trace_timeline),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
             if (milestones.isEmpty()) {
                 Text(
-                    "No trace data found for this recording",
+                    stringResource(RingRes.string.no_trace_data_found_for_this),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(16.dp),
                     color = MaterialTheme.colorScheme.onSurfaceVariant

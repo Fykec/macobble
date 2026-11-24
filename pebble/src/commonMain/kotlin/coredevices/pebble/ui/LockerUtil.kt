@@ -105,6 +105,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlin.uuid.Uuid
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.order
+import coreapp.pebble.generated.resources.show_incompatible
+import coreapp.pebble.generated.resources.not_compatible_with_this_watch
+import coreapp.pebble.generated.resources.not_natively_compatible_with_this_watch
+import coreapp.pebble.generated.resources.selected
+import coreapp.pebble.generated.resources.settings
 
 private val logger = Logger.withTag("LockerUtil")
 
@@ -310,7 +318,7 @@ fun CommonApp.SettingsButton(
             }
 
         PebbleElevatedButton(
-            text = "Settings",
+            text = stringResource(PebbleRes.string.settings),
             onClick = {
                 scope.launch {
                     showSettings(navBarNav, libPebble, topBarParams)
@@ -318,7 +326,7 @@ fun CommonApp.SettingsButton(
             },
             enabled = settingsEnabled,
             icon = Icons.Default.Settings,
-            contentDescription = "Settings",
+            contentDescription = stringResource(PebbleRes.string.settings),
             primaryColor = false,
             modifier = Modifier.padding(5.dp),
         )
@@ -336,7 +344,7 @@ fun CommonApp.CompatibilityWarning(topBarParams: TopBarParams) {
         ) {
             Icon(
                 Icons.Filled.Block,
-                contentDescription = "Not compatible with this watch",
+                contentDescription = stringResource(PebbleRes.string.not_compatible_with_this_watch),
                 modifier = Modifier.fillMaxSize(),
                 tint = coreOrange,
             )
@@ -350,7 +358,7 @@ fun CommonApp.CompatibilityWarning(topBarParams: TopBarParams) {
         ) {
             Icon(
                 Icons.Filled.AspectRatio,
-                contentDescription = "Not natively compatible with this watch, but can be scaled",
+                contentDescription = stringResource(PebbleRes.string.not_natively_compatible_with_this_watch),
                 modifier = Modifier.fillMaxSize(),
             )
         }
@@ -997,7 +1005,7 @@ fun AppsFilterRow(
                 Box(modifier = Modifier.padding(horizontal = 4.dp)) {
                     FilterChip(
                         onClick = { orderExpanded.value = !orderExpanded.value },
-                        label = { Text("Order") },
+                        label = { Text(stringResource(PebbleRes.string.order)) },
                         selected = false,
                         leadingIcon = {
                             Icon(
@@ -1035,7 +1043,7 @@ fun AppsFilterRow(
                                     {
                                         Icon(
                                             imageVector = Icons.Filled.Done,
-                                            contentDescription = "Selected",
+                                            contentDescription = stringResource(PebbleRes.string.selected),
                                             tint = MaterialTheme.colorScheme.primary,
                                         )
                                     }
@@ -1065,7 +1073,7 @@ fun AppsFilterRow(
                                     {
                                         Icon(
                                             imageVector = Icons.Filled.Done,
-                                            contentDescription = "Selected",
+                                            contentDescription = stringResource(PebbleRes.string.selected),
                                             tint = MaterialTheme.colorScheme.primary,
                                         )
                                     }
@@ -1081,13 +1089,13 @@ fun AppsFilterRow(
                     sharedLockerViewModel.showIncompatible.value =
                         !sharedLockerViewModel.showIncompatible.value
                 },
-                label = { Text("Show Incompatible") },
+                label = { Text(stringResource(PebbleRes.string.show_incompatible)) },
                 modifier = Modifier.padding(horizontal = 4.dp),
                 leadingIcon = if (sharedLockerViewModel.showIncompatible.value) {
                     {
                         Icon(
                             imageVector = Icons.Filled.Done,
-                            contentDescription = "Show Incompatible",
+                            contentDescription = stringResource(PebbleRes.string.show_incompatible),
                             modifier = Modifier.size(FilterChipDefaults.IconSize)
                         )
                     }

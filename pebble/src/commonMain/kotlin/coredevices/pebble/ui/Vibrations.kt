@@ -61,6 +61,20 @@ import theme.coreOrange
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
 import kotlin.uuid.Uuid
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.cancel
+import coreapp.pebble.generated.resources.delete
+import coreapp.pebble.generated.resources.delete_pattern
+import coreapp.pebble.generated.resources.none
+import coreapp.pebble.generated.resources.pattern_name
+import coreapp.pebble.generated.resources.save
+import coreapp.pebble.generated.resources.add_custom_pattern
+import coreapp.pebble.generated.resources.choose_vibration_pattern
+import coreapp.pebble.generated.resources.select
+import coreapp.pebble.generated.resources.select_vibration_pattern
+import coreapp.pebble.generated.resources.tap_custom_pattern
+import coreapp.pebble.generated.resources.test
 
 private val logger = Logger.withTag("Vibrations")
 
@@ -112,19 +126,19 @@ fun VibePatternPickerDialog(
         patternToDelete?.let { pattern ->
             AlertDialog(
                 onDismissRequest = { patternToDelete = null },
-                title = { Text("Delete Pattern") },
+                title = { Text(stringResource(PebbleRes.string.delete_pattern)) },
                 text = { Text("Are you sure you want to delete the vibration pattern \"${pattern.name}\"?") },
                 confirmButton = {
                     TextButton(onClick = {
                         libPebble.deleteCustomPattern(pattern.name)
                         patternToDelete = null
                     }) {
-                        Text("Delete")
+                        Text(stringResource(PebbleRes.string.delete))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { patternToDelete = null }) {
-                        Text("Cancel")
+                        Text(stringResource(PebbleRes.string.cancel))
                     }
                 }
             )
@@ -136,7 +150,7 @@ fun VibePatternPickerDialog(
                     horizontalArrangement = Center,
                 ) {
                     Text(
-                        text = "Choose Vibration Pattern",
+                        text = stringResource(PebbleRes.string.choose_vibration_pattern),
                         modifier = Modifier.padding(12.dp)
                     )
                 }
@@ -145,7 +159,7 @@ fun VibePatternPickerDialog(
                     horizontalArrangement = Center,
                 ) {
                     PebbleElevatedButton(
-                        text = "Add Custom Pattern",
+                        text = stringResource(PebbleRes.string.add_custom_pattern),
                         onClick = { showCustomVibeDialog = true },
                         primaryColor = true,
                         modifier = Modifier.padding(12.dp),
@@ -162,7 +176,7 @@ fun VibePatternPickerDialog(
                                 ) {
                                     Icon(
                                         Icons.Default.PlayCircle,
-                                        contentDescription = "Test",
+                                        contentDescription = stringResource(PebbleRes.string.test),
                                     )
                                 }
                             },
@@ -178,7 +192,7 @@ fun VibePatternPickerDialog(
                                     ) {
                                         Icon(
                                             Icons.Default.Delete,
-                                            contentDescription = "Delete",
+                                            contentDescription = stringResource(PebbleRes.string.delete),
                                         )
                                     }
                                 }
@@ -201,7 +215,7 @@ fun VibePatternPickerDialog(
                             onDismissWithoutResult()
                         },
                         content = {
-                            Text("Cancel")
+                            Text(stringResource(PebbleRes.string.cancel))
                         },
                         modifier = Modifier.weight(1f),
                     )
@@ -210,7 +224,7 @@ fun VibePatternPickerDialog(
                             onResult(null)
                         },
                         content = {
-                            Text("None")
+                            Text(stringResource(PebbleRes.string.none))
                         },
                         modifier = Modifier.weight(1f),
                     )
@@ -310,7 +324,7 @@ fun CustomVibeTapperDialog(onDismiss: () -> Unit) {
                         .background(tapBackgroundColor)
                 ) {
                     Text(
-                        text = "Tap custom pattern",
+                        text = stringResource(PebbleRes.string.tap_custom_pattern),
                         modifier = Modifier.padding(vertical = 100.dp).align(Alignment.Center),
                         color = tapTextColor,
                     )
@@ -330,14 +344,14 @@ fun CustomVibeTapperDialog(onDismiss: () -> Unit) {
                     ) {
                         Icon(
                             Icons.Default.PlayCircle,
-                            contentDescription = "Test",
+                            contentDescription = stringResource(PebbleRes.string.test),
                         )
                     }
 
                     TextField(
                         value = patternName,
                         onValueChange = { patternName = it },
-                        label = { Text("Pattern Name") },
+                        label = { Text(stringResource(PebbleRes.string.pattern_name)) },
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.Sentences
                         ),
@@ -352,7 +366,7 @@ fun CustomVibeTapperDialog(onDismiss: () -> Unit) {
                             onDismiss()
                         },
                         content = {
-                            Text("Cancel")
+                            Text(stringResource(PebbleRes.string.cancel))
                         },
                         modifier = Modifier.weight(1f)
                     )
@@ -369,7 +383,7 @@ fun CustomVibeTapperDialog(onDismiss: () -> Unit) {
                             }
                         },
                         content = {
-                            Text("Save")
+                            Text(stringResource(PebbleRes.string.save))
                         },
                         enabled = lastTappedPattern != null && patternName.isNotBlank(),
                         modifier = Modifier.weight(1f)
@@ -414,12 +428,12 @@ fun SelectVibePatternOrNone(
         },
         trailingContent = {
             PebbleElevatedButton(
-                text = "Select",
+                text = stringResource(PebbleRes.string.select),
                 onClick = {
                     showVibePatternChooser = true
                 },
                 icon = Icons.Default.Vibration,
-                contentDescription = "Select vibration pattern",
+                contentDescription = stringResource(PebbleRes.string.select_vibration_pattern),
                 primaryColor = true,
                 modifier = Modifier.padding(8.dp),
             )

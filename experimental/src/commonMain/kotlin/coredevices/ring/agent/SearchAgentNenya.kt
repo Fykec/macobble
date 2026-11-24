@@ -19,6 +19,9 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.time.Clock
 import kotlin.time.Instant
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.nenya
 
 /**
  * Online agent backed by the Nenya Search model. A single inference produces an

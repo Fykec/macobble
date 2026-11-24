@@ -38,6 +38,10 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.couldn_t_export_recording
+import coreapp.ring.generated.resources.no_recording_file_to_export
 
 class RecordingDetailsViewModel(
     private val recordingId: Long,

@@ -37,6 +37,17 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DayOfWeek
 import kotlin.time.Duration.Companion.seconds
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.average
+import coreapp.pebble.generated.resources.close
+import coreapp.pebble.generated.resources.health_debug_stats
+import coreapp.pebble.generated.resources.last_night_s_sleep
+import coreapp.pebble.generated.resources.loading_health_statistics
+import coreapp.pebble.generated.resources.today_s_steps
+import coreapp.pebble.generated.resources.typical_sleep_by_weekday
+import coreapp.pebble.generated.resources.typical_steps_by_weekday
+import coreapp.pebble.generated.resources.refresh_health_data
 
 private val logger = Logger.withTag("HealthStatsDialog")
 
@@ -84,7 +95,7 @@ fun HealthStatsDialog(libPebble: LibPebble, onDismissRequest: () -> Unit) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text("Health Debug Stats")
+                Text(stringResource(PebbleRes.string.health_debug_stats))
                 if (isRefreshing) {
                     CircularProgressIndicator(
                         modifier = Modifier.height(20.dp).width(20.dp),
@@ -92,13 +103,13 @@ fun HealthStatsDialog(libPebble: LibPebble, onDismissRequest: () -> Unit) {
                     )
                 } else {
                     IconButton(onClick = { syncAndRefresh() }) {
-                        Icon(Icons.Default.Refresh, contentDescription = "Refresh health data")
+                        Icon(Icons.Default.Refresh, contentDescription = stringResource(PebbleRes.string.refresh_health_data))
                     }
                 }
             }
         },
         buttons = {
-            TextButton(onClick = onDismissRequest) { Text("Close") }
+            TextButton(onClick = onDismissRequest) { Text(stringResource(PebbleRes.string.close)) }
         },
     ) {
         Box(Modifier.heightIn(max = 400.dp)) {
@@ -111,7 +122,7 @@ fun HealthStatsDialog(libPebble: LibPebble, onDismissRequest: () -> Unit) {
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("Today's Steps", style = MaterialTheme.typography.bodyMedium)
+                            Text(stringResource(PebbleRes.string.today_s_steps), style = MaterialTheme.typography.bodyMedium)
                             Text("${s.todaySteps}", style = MaterialTheme.typography.bodyMedium)
                         }
 
@@ -121,7 +132,7 @@ fun HealthStatsDialog(libPebble: LibPebble, onDismissRequest: () -> Unit) {
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                "Average",
+                                stringResource(PebbleRes.string.average),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
@@ -139,7 +150,7 @@ fun HealthStatsDialog(libPebble: LibPebble, onDismissRequest: () -> Unit) {
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("Last Night's Sleep", style = MaterialTheme.typography.bodyMedium)
+                            Text(stringResource(PebbleRes.string.last_night_s_sleep), style = MaterialTheme.typography.bodyMedium)
                             Text(
                                 s.lastNightSleepHours?.let {
                                     "${it.format(1)}h"
@@ -162,7 +173,7 @@ fun HealthStatsDialog(libPebble: LibPebble, onDismissRequest: () -> Unit) {
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                "Average",
+                                stringResource(PebbleRes.string.average),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
@@ -176,7 +187,7 @@ fun HealthStatsDialog(libPebble: LibPebble, onDismissRequest: () -> Unit) {
                         Spacer(Modifier.height(4.dp))
 
                         Text(
-                            "Typical steps by weekday",
+                            stringResource(PebbleRes.string.typical_steps_by_weekday),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                         for (wd in DayOfWeek.entries) {
@@ -205,7 +216,7 @@ fun HealthStatsDialog(libPebble: LibPebble, onDismissRequest: () -> Unit) {
                         Spacer(Modifier.height(4.dp))
 
                         Text(
-                            "Typical sleep by weekday",
+                            stringResource(PebbleRes.string.typical_sleep_by_weekday),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                         for (wd in DayOfWeek.entries) {
@@ -235,7 +246,7 @@ fun HealthStatsDialog(libPebble: LibPebble, onDismissRequest: () -> Unit) {
                     }
                 } else {
                     Text(
-                        "Loading health statistics...",
+                        stringResource(PebbleRes.string.loading_health_statistics),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

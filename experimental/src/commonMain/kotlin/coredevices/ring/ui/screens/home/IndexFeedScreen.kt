@@ -90,6 +90,10 @@ import kotlin.time.Instant
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.you_re_all_done
+import coreapp.ring.generated.resources.index_feed
 
 /**
  * Index home: peek strip of recent recordings, Todos / Notes / Q&A
@@ -185,7 +189,7 @@ fun IndexFeedScreen(
             if (state.recordings.isNotEmpty() || state.pendingTransfers.isNotEmpty()) {
                 item("peek-header") {
                     PeekSectionHeader(
-                        title = "Index feed",
+                        title = stringResource(RingRes.string.index_feed),
                         count = state.recordings.size,
                         onSeeAll = { coreNav.navigateTo(RingRoutes.FullFeed) },
                     )
@@ -212,7 +216,7 @@ fun IndexFeedScreen(
                 if (state.todosPreview.isEmpty() && !state.searching) {
                     item("todos-empty") {
                         Text(
-                            "You're all done!",
+                            stringResource(RingRes.string.you_re_all_done),
                             color = colors.onSurfaceVariant,
                             fontSize = 14.sp,
                             modifier = Modifier.padding(start = 22.dp, end = 22.dp, top = 12.dp, bottom = 4.dp),

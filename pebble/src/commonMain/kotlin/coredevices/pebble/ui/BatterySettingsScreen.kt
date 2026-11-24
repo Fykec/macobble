@@ -42,6 +42,15 @@ import io.ktor.http.encodeURLParameter
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.couldn_t_load_your_battery_usage
+import coreapp.pebble.generated.resources.you_must_be_signed_into_your
+import coreapp.pebble.generated.resources.you_need_send_watch_analytics_enabled
+import coreapp.pebble.generated.resources.open_settings
+import coreapp.pebble.generated.resources.refresh
+import coreapp.pebble.generated.resources.retry
+import coreapp.pebble.generated.resources.sign_in
 
 private const val MOBILE_BATTERY_PATH = "/m/battery"
 
@@ -168,7 +177,7 @@ fun BatterySettingsScreen(navBarNav: NavBarNav, topBarParams: TopBarParams) {
     LaunchedEffect(interceptor) {
         topBarParams.actions {
             IconButton(onClick = { interceptor.navigator?.reload() }) {
-                Icon(Icons.Default.Refresh, contentDescription = "Refresh")
+                Icon(Icons.Default.Refresh, contentDescription = stringResource(PebbleRes.string.refresh))
             }
         }
     }
@@ -212,14 +221,14 @@ private fun SignedOutBatteryContent(onSignIn: () -> Unit) {
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            "You must be signed into your Pebble account to view your Battery usage.",
+            stringResource(PebbleRes.string.you_must_be_signed_into_your),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
         )
         Box(Modifier.height(12.dp))
         PebbleElevatedButton(
             onClick = onSignIn,
-            text = "Sign in",
+            text = stringResource(PebbleRes.string.sign_in),
             primaryColor = true,
         )
     }
@@ -236,14 +245,14 @@ private fun BatteryLoadErrorContent(onRetry: () -> Unit) {
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            "Couldn't load your Battery usage. Check your connection and try again.",
+            stringResource(PebbleRes.string.couldn_t_load_your_battery_usage),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
         )
         Box(Modifier.height(12.dp))
         PebbleElevatedButton(
             onClick = onRetry,
-            text = "Retry",
+            text = stringResource(PebbleRes.string.retry),
             primaryColor = true,
         )
     }
@@ -260,14 +269,14 @@ private fun AnalyticsDisabledBatteryContent(onOpenSettings: () -> Unit) {
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            "You need 'Send watch analytics' enabled to view your Battery usage.",
+            stringResource(PebbleRes.string.you_need_send_watch_analytics_enabled),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
         )
         Box(Modifier.height(12.dp))
         PebbleElevatedButton(
             onClick = onOpenSettings,
-            text = "Open settings",
+            text = stringResource(PebbleRes.string.open_settings),
             primaryColor = true,
         )
     }

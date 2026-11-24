@@ -146,6 +146,15 @@ import org.koin.compose.viewmodel.koinViewModel
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
+import coreapp.pebble.generated.resources.cancel
+import coreapp.pebble.generated.resources.change_pebble_services
+import coreapp.pebble.generated.resources.continue_label
+import coreapp.pebble.generated.resources.index_permissions
+import coreapp.pebble.generated.resources.install
+import coreapp.pebble.generated.resources.more
+import coreapp.pebble.generated.resources.search
+import coreapp.pebble.generated.resources.sideload_firmware
+import coreapp.pebble.generated.resources.clear_search
 
 fun LibPebble.haveSeenFullyConnectedWatch() = watches.value.any {
     it.isFullyConnected()
@@ -337,7 +346,7 @@ fun WatchHomeScreen(
         pendingFirmwareSideload?.let { pending ->
             AlertDialog(
                 onDismissRequest = deepLinkHandler::dismissPendingFirmwareSideload,
-                title = { Text("Sideload firmware?") },
+                title = { Text(stringResource(Res.string.sideload_firmware)) },
                 text = {
                     Text(
                         "Install ${pending.fileName} on every connected watch? Only install " +
@@ -346,12 +355,12 @@ fun WatchHomeScreen(
                 },
                 confirmButton = {
                     TextButton(onClick = deepLinkHandler::confirmPendingFirmwareSideload) {
-                        Text("Install")
+                        Text(stringResource(Res.string.install))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = deepLinkHandler::dismissPendingFirmwareSideload) {
-                        Text("Cancel")
+                        Text(stringResource(Res.string.cancel))
                     }
                 },
             )
@@ -360,7 +369,7 @@ fun WatchHomeScreen(
         pendingBootConfig?.let { pending ->
             AlertDialog(
                 onDismissRequest = deepLinkHandler::dismissPendingBootConfig,
-                title = { Text("Change Pebble services?") },
+                title = { Text(stringResource(Res.string.change_pebble_services)) },
                 text = {
                     Text(
                         "A link wants to sign you in to Pebble web services at ${pending.host}. " +
@@ -370,12 +379,12 @@ fun WatchHomeScreen(
                 },
                 confirmButton = {
                     TextButton(onClick = deepLinkHandler::confirmPendingBootConfig) {
-                        Text("Continue")
+                        Text(stringResource(Res.string.continue_label))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = deepLinkHandler::dismissPendingBootConfig) {
-                        Text("Cancel")
+                        Text(stringResource(Res.string.cancel))
                     }
                 },
             )
@@ -442,12 +451,12 @@ fun WatchHomeScreen(
                 onDismissRequest = {
                     coreConfigHolder.update(coreConfig.copy(enableIndex = false))
                 },
-                title = { Text("Index Permissions") },
+                title = { Text(stringResource(Res.string.index_permissions)) },
                 buttons = {
                     TextButton(onClick = {
                         coreConfigHolder.update(coreConfig.copy(enableIndex = false))
                     }) {
-                        Text("Cancel")
+                        Text(stringResource(Res.string.cancel))
                     }
                     Spacer(Modifier.width(8.dp))
                     TextButton(onClick = {
@@ -460,7 +469,7 @@ fun WatchHomeScreen(
                             }
                         }
                     }) {
-                        Text("Continue")
+                        Text(stringResource(Res.string.continue_label))
                     }
                 },
             ) {
@@ -529,7 +538,7 @@ fun WatchHomeScreen(
                 Crossfade(
                     modifier = Modifier.animateContentSize(),
                     targetState = params.searchState?.show == true,
-                    label = "Search"
+                    label = stringResource(Res.string.search)
                 ) { showSearch ->
                     val focusRequester = remember { FocusRequester() }
                     val focusManager = LocalFocusManager.current
@@ -561,7 +570,7 @@ fun WatchHomeScreen(
                                     },
                                     expanded = false,
                                     onExpandedChange = { },
-                                    placeholder = { Text("Search") },
+                                    placeholder = { Text(stringResource(Res.string.search)) },
                                     modifier = Modifier.focusRequester(focusRequester),
                                     trailingIcon = {
                                         IconButton(onClick = {
@@ -570,7 +579,7 @@ fun WatchHomeScreen(
                                         }) {
                                             Icon(
                                                 Icons.Outlined.Close,
-                                                contentDescription = "Clear search"
+                                                contentDescription = stringResource(Res.string.clear_search)
                                             )
                                         }
                                     },
@@ -578,7 +587,7 @@ fun WatchHomeScreen(
                                         IconButton(onClick = onSearchDone) {
                                             Icon(
                                                 Icons.Outlined.Search,
-                                                contentDescription = "Search"
+                                                contentDescription = stringResource(Res.string.search)
                                             )
                                         }
                                     },
@@ -723,7 +732,7 @@ fun WatchHomeScreen(
                                 }
                             },
                             label = {
-                                Text("More", fontSize = 9.sp, color = color, maxLines = 1)
+                                Text(stringResource(Res.string.more), fontSize = 9.sp, color = color, maxLines = 1)
                             },
                             colors = NavigationBarItemDefaults.colors(
                                 indicatorColor = Color.Transparent

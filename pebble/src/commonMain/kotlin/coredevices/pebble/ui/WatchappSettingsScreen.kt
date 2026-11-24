@@ -98,6 +98,12 @@ import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import kotlin.uuid.Uuid
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.app_settings
+import coreapp.pebble.generated.resources.cancel
+import coreapp.pebble.generated.resources.open
+import coreapp.pebble.generated.resources.open_in_browser
+import coreapp.pebble.generated.resources.these_settings_can_t_be_opened
 
 private const val URL_DATA_PREFIX = "data:text/html;charset=utf-8,"
 
@@ -265,7 +271,7 @@ fun WatchappSettingsScreen(
             }
             AlertDialog(
                 onDismissRequest = { close(false) },
-                title = { Text("Open in browser?") },
+                title = { Text(stringResource(PebbleRes.string.open_in_browser)) },
                 text = {
                     Column(Modifier.heightIn(max = 240.dp).verticalScroll(rememberScrollState())) {
                         Text("$title wants to open a page on")
@@ -275,11 +281,11 @@ fun WatchappSettingsScreen(
                 },
                 confirmButton = {
                     TextButton(onClick = { close(runCatching { uriHandler.openUri(request.url) }.isSuccess) }) {
-                        Text("Open")
+                        Text(stringResource(PebbleRes.string.open))
                     }
                 },
                 dismissButton = {
-                    TextButton(onClick = { close(false) }) { Text("Cancel") }
+                    TextButton(onClick = { close(false) }) { Text(stringResource(PebbleRes.string.cancel)) }
                 },
             )
         }
@@ -357,7 +363,7 @@ fun WatchappSettingsScreen(
                 TopAppBar(
                     title = {
                         Column {
-                            Text("App Settings")
+                            Text(stringResource(PebbleRes.string.app_settings))
                             Text("Configuring $title", style = MaterialTheme.typography.labelMedium)
                         }
                     },
@@ -396,7 +402,7 @@ fun WatchappSettingsScreen(
             if (webViewUuid != null && pageNetwork != null) {
                 if (!pageNetwork.enforced) {
                     Text(
-                        "These settings can't be opened safely on this device.",
+                        stringResource(PebbleRes.string.these_settings_can_t_be_opened),
                         modifier = Modifier.padding(paddingValues).padding(16.dp),
                     )
                 } else {

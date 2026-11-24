@@ -36,6 +36,9 @@ import io.rebble.libpebblecommon.plugin.PluginPermissions
 import kotlinx.coroutines.flow.map
 import org.koin.compose.koinInject
 import kotlin.time.Instant
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.no_app_can_use_any_permissions
 
 /** The statuses of apps that can use each permission, by permission name (domains, packages and files folded in). */
 internal fun holdersByPermission(all: List<AppPermissionStatus>?): Map<String, List<AppPermissionStatus>> =
@@ -74,7 +77,7 @@ fun PermissionUsageScreen(nav: NavBarNav, topBarParams: TopBarParams) {
         if (names.isEmpty()) {
             item {
                 Text(
-                    "No app can use any permissions yet.",
+                    stringResource(PebbleRes.string.no_app_can_use_any_permissions),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),

@@ -14,6 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.bread
+import coreapp.ring.generated.resources.shopping_list_2
 
 @Composable
 fun ListsGrid(modifier: Modifier = Modifier) {
@@ -25,22 +29,22 @@ fun ListsGrid(modifier: Modifier = Modifier) {
     ) {
         items(10) {
             ListsGridItem(
-                title = "Shopping List",
+                title = stringResource(RingRes.string.shopping_list_2),
                 trailing = { Icon(Icons.Filled.Bookmark, contentDescription = null) },
                 content = {
                     Column(modifier = Modifier.padding(horizontal = 8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Row { Checkbox(false, onCheckedChange = null); Text("Bread") }
-                        Row { Checkbox(false, onCheckedChange = null); Text("Bread") }
-                        Row { Checkbox(false, onCheckedChange = null); Text("Bread") }
-                        Row { Checkbox(false, onCheckedChange = null); Text("Bread") }
-                        Row { Checkbox(false, onCheckedChange = null); Text("Bread") }
-                        Row { Checkbox(false, onCheckedChange = null); Text("Bread") }
-                        Row { Checkbox(false, onCheckedChange = null); Text("Bread") }
-                        Row { Checkbox(false, onCheckedChange = null); Text("Bread") }
-                        Row { Checkbox(false, onCheckedChange = null); Text("Bread") }
-                        Row { Checkbox(false, onCheckedChange = null); Text("Bread") }
-                        Row { Checkbox(false, onCheckedChange = null); Text("Bread") }
-                        Row { Checkbox(false, onCheckedChange = null); Text("Bread") }
+                        Row { Checkbox(false, onCheckedChange = null); Text(stringResource(RingRes.string.bread)) }
+                        Row { Checkbox(false, onCheckedChange = null); Text(stringResource(RingRes.string.bread)) }
+                        Row { Checkbox(false, onCheckedChange = null); Text(stringResource(RingRes.string.bread)) }
+                        Row { Checkbox(false, onCheckedChange = null); Text(stringResource(RingRes.string.bread)) }
+                        Row { Checkbox(false, onCheckedChange = null); Text(stringResource(RingRes.string.bread)) }
+                        Row { Checkbox(false, onCheckedChange = null); Text(stringResource(RingRes.string.bread)) }
+                        Row { Checkbox(false, onCheckedChange = null); Text(stringResource(RingRes.string.bread)) }
+                        Row { Checkbox(false, onCheckedChange = null); Text(stringResource(RingRes.string.bread)) }
+                        Row { Checkbox(false, onCheckedChange = null); Text(stringResource(RingRes.string.bread)) }
+                        Row { Checkbox(false, onCheckedChange = null); Text(stringResource(RingRes.string.bread)) }
+                        Row { Checkbox(false, onCheckedChange = null); Text(stringResource(RingRes.string.bread)) }
+                        Row { Checkbox(false, onCheckedChange = null); Text(stringResource(RingRes.string.bread)) }
                     }
                 }
             )

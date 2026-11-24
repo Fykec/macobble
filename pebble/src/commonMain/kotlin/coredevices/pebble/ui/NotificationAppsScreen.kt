@@ -57,6 +57,17 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.all_apps
+import coreapp.pebble.generated.resources.new_app_default
+import coreapp.pebble.generated.resources.notified_only
+import coreapp.pebble.generated.resources.show_system_apps
+import coreapp.pebble.generated.resources.done
+import coreapp.pebble.generated.resources.done_icon
+import coreapp.pebble.generated.resources.enable_all
+import coreapp.pebble.generated.resources.mute_all
+import coreapp.pebble.generated.resources.sort_options
 
 class NotificationAppsScreenViewModel : ViewModel() {
     val onlyNotified = mutableStateOf(false)
@@ -193,7 +204,7 @@ fun NotificationAppsScreen(topBarParams: TopBarParams, nav: NavBarNav, gotoDefau
                                 }
                             },
                             label = {
-                                Text("Notified only")
+                                Text(stringResource(PebbleRes.string.notified_only))
                             },
                             selected = viewModel.onlyNotified.value,
                             enabled = notifiedOnlyEnabled,
@@ -201,7 +212,7 @@ fun NotificationAppsScreen(topBarParams: TopBarParams, nav: NavBarNav, gotoDefau
                                 {
                                     Icon(
                                         imageVector = Icons.Filled.Done,
-                                        contentDescription = "Done icon",
+                                        contentDescription = stringResource(PebbleRes.string.done_icon),
                                         modifier = Modifier.size(FilterChipDefaults.IconSize)
                                     )
                                 }
@@ -245,7 +256,7 @@ fun NotificationAppsScreen(topBarParams: TopBarParams, nav: NavBarNav, gotoDefau
                                         leadingIcon = {
                                             if (viewModel.enabledFilter.value == filterOption) Icon(
                                                 imageVector = Icons.Filled.Done,
-                                                contentDescription = "Done"
+                                                contentDescription = stringResource(PebbleRes.string.done)
                                             )
                                         }
                                     )
@@ -265,7 +276,7 @@ fun NotificationAppsScreen(topBarParams: TopBarParams, nav: NavBarNav, gotoDefau
                                 leadingIcon = {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.Sort,
-                                        contentDescription = "Sort Options",
+                                        contentDescription = stringResource(PebbleRes.string.sort_options),
                                         modifier = Modifier
                                             .size(FilterChipDefaults.IconSize)
                                             .graphicsLayer {
@@ -307,7 +318,7 @@ fun NotificationAppsScreen(topBarParams: TopBarParams, nav: NavBarNav, gotoDefau
                                         leadingIcon = {
                                             if (viewModel.sortBy.value == sortOption) Icon(
                                                 imageVector = Icons.Filled.Done,
-                                                contentDescription = "Done"
+                                                contentDescription = stringResource(PebbleRes.string.done)
                                             )
                                         }
                                     )
@@ -320,13 +331,13 @@ fun NotificationAppsScreen(topBarParams: TopBarParams, nav: NavBarNav, gotoDefau
                                     viewModel.showSystemApps.value =
                                         !viewModel.showSystemApps.value
                                 },
-                                label = { Text("Show system apps") },
+                                label = { Text(stringResource(PebbleRes.string.show_system_apps)) },
                                 selected = viewModel.showSystemApps.value,
                                 leadingIcon = if (viewModel.showSystemApps.value) {
                                     {
                                         Icon(
                                             imageVector = Icons.Filled.Done,
-                                            contentDescription = "Done icon",
+                                            contentDescription = stringResource(PebbleRes.string.done_icon),
                                             modifier = Modifier.size(FilterChipDefaults.IconSize)
                                         )
                                     }
@@ -349,13 +360,13 @@ fun NotificationAppsScreen(topBarParams: TopBarParams, nav: NavBarNav, gotoDefau
                     ListItem(
                         headlineContent = {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text("All Apps", fontSize = 17.sp)
+                                Text(stringResource(PebbleRes.string.all_apps), fontSize = 17.sp)
                             }
                         },
                         trailingContent = {
                             Row {
                                 PebbleElevatedButton(
-                                    text = "Mute All",
+                                    text = stringResource(PebbleRes.string.mute_all),
                                     onClick = {
                                         libPebble.updateNotificationAppMuteState(
                                             packageName = null,
@@ -366,7 +377,7 @@ fun NotificationAppsScreen(topBarParams: TopBarParams, nav: NavBarNav, gotoDefau
                                     modifier = Modifier.padding(horizontal = 5.dp),
                                 )
                                 PebbleElevatedButton(
-                                    text = "Enable All",
+                                    text = stringResource(PebbleRes.string.enable_all),
                                     onClick = {
                                         libPebble.updateNotificationAppMuteState(
                                             packageName = null,
@@ -386,7 +397,7 @@ fun NotificationAppsScreen(topBarParams: TopBarParams, nav: NavBarNav, gotoDefau
                         ListItem(
                             headlineContent = {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text("New app default", fontSize = 17.sp)
+                                    Text(stringResource(PebbleRes.string.new_app_default), fontSize = 17.sp)
                                 }
                             },
                             trailingContent = {

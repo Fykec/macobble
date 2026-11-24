@@ -95,6 +95,13 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
+import org.jetbrains.compose.resources.stringResource
+import coreapp.ring.generated.resources.Res as RingRes
+import coreapp.ring.generated.resources.cancel
+import coreapp.ring.generated.resources.index_feed
+import coreapp.ring.generated.resources.search_2
+import coreapp.ring.generated.resources.recording_timestamp_reveal
+import coreapp.ring.generated.resources.retry_transcription
 
 /**
  * Chronological recordings stream — pixel-mirror of the JSX prototype's
@@ -271,7 +278,7 @@ private fun FullFeedTopBar(coreNav: CoreNav, onSearch: () -> Unit) {
             Icon(Icons.AutoMirrored.Default.ArrowBack, "Back", tint = colors.onSurface)
         }
         Text(
-            "Index feed",
+            stringResource(RingRes.string.index_feed),
             color = colors.onSurface,
             fontSize = 16.sp,
             fontWeight = FontWeight.SemiBold,
@@ -326,7 +333,7 @@ private fun FeedSearchTopBar(
                     keyboard?.hide()
                 }),
                 decorationBox = { inner ->
-                    if (value.isEmpty()) Text("Search…", color = colors.onSurfaceVariant, fontSize = 15.sp)
+                    if (value.isEmpty()) Text(stringResource(RingRes.string.search_2), color = colors.onSurfaceVariant, fontSize = 15.sp)
                     inner()
                 },
             )
@@ -337,7 +344,7 @@ private fun FeedSearchTopBar(
             }
         }
         Text(
-            "Cancel",
+            stringResource(RingRes.string.cancel),
             color = colors.primary,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
@@ -544,7 +551,7 @@ private fun SwipeRevealRecordingBubble(
     val revealWidthPx = with(LocalDensity.current) { 82.dp.toPx() }
     val animatedOffsetPx by animateFloatAsState(
         targetValue = if (revealState.dragging) revealState.dragOffsetPx else revealState.settledOffsetPx,
-        label = "recording timestamp reveal",
+        label = stringResource(RingRes.string.recording_timestamp_reveal),
     )
     val revealProgress = (animatedOffsetPx.absoluteValue / revealWidthPx).coerceIn(0f, 1f)
 
@@ -607,7 +614,7 @@ private fun SwipeRevealRecordingBubble(
                     ) {
                         Icon(
                             Icons.Default.Refresh,
-                            contentDescription = "Retry transcription",
+                            contentDescription = stringResource(RingRes.string.retry_transcription),
                             tint = colors.onPrimary,
                             modifier = Modifier.size(17.dp),
                         )

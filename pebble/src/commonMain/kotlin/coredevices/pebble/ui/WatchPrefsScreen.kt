@@ -49,6 +49,16 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import kotlin.uuid.Uuid
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.cancel
+import coreapp.pebble.generated.resources.from
+import coreapp.pebble.generated.resources.set
+import coreapp.pebble.generated.resources.to
+import coreapp.pebble.generated.resources.automatic_sunrise_sunset
+import coreapp.pebble.generated.resources.reset_all_settings_to_defaults
+import coreapp.pebble.generated.resources.reset_to_defaults_2
+import coreapp.pebble.generated.resources.reset_to_defaults_3
 
 // Snap the notification timeout slider to 15-second increments (40 stops across 15..600s)
 // so the displayed MM:SS value is always a clean quarter minute.
@@ -133,8 +143,8 @@ fun watchPrefs(): List<SettingsItem> {
     val showConfirmReset = remember { mutableStateOf(false) }
     ConfirmDialog(
         show = showConfirmReset,
-        title = "Reset To Defaults?",
-        text = "Reset all settings to defaults",
+        title = stringResource(PebbleRes.string.reset_to_defaults_2),
+        text = stringResource(PebbleRes.string.reset_all_settings_to_defaults),
         onConfirm = {
             settings.forEach { setting ->
                 if (setting.value != setting.pref.defaultValue) {
@@ -147,7 +157,7 @@ fun watchPrefs(): List<SettingsItem> {
         confirmText = "Reset",
     )
     val reset = basicSettingsActionItem(
-        title = "Reset To Defaults",
+        title = stringResource(PebbleRes.string.reset_to_defaults_3),
         topLevelType = TopLevelType.Watch,
         section = Section.Defaults,
         action = {
@@ -381,11 +391,11 @@ internal fun SelectTimeRange(
 ) {
     var editing by remember { mutableStateOf<ScheduleEdge?>(null) }
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Text("From", fontSize = 14.sp)
+        Text(stringResource(PebbleRes.string.from), fontSize = 14.sp)
         TextButton(onClick = { editing = ScheduleEdge.From }) {
             Text(schedule.fromTime())
         }
-        Text("to", fontSize = 14.sp)
+        Text(stringResource(PebbleRes.string.to), fontSize = 14.sp)
         TextButton(onClick = { editing = ScheduleEdge.To }) {
             Text(schedule.toTime())
         }
@@ -400,7 +410,7 @@ internal fun SelectTimeRange(
         title = { Text(edge.title) },
         dismissButton = {
             TextButton(onClick = { editing = null }) {
-                Text("Cancel")
+                Text(stringResource(PebbleRes.string.cancel))
             }
         },
         confirmButton = {
@@ -419,7 +429,7 @@ internal fun SelectTimeRange(
                     }
                 )
             }) {
-                Text("Set")
+                Text(stringResource(PebbleRes.string.set))
             }
         },
     ) {
@@ -580,12 +590,12 @@ private fun SelectTimeOfDay(label: String, minuteOfDay: Long, onChange: (Long) -
     TimePickerDialog(
         onDismissRequest = { editing = false },
         title = { Text(label) },
-        dismissButton = { TextButton(onClick = { editing = false }) { Text("Cancel") } },
+        dismissButton = { TextButton(onClick = { editing = false }) { Text(stringResource(PebbleRes.string.cancel)) } },
         confirmButton = {
             TextButton(onClick = {
                 editing = false
                 onChange((state.hour * 60 + state.minute).toLong())
-            }) { Text("Set") }
+            }) { Text(stringResource(PebbleRes.string.set)) }
         },
     ) {
         TimePicker(state = state)

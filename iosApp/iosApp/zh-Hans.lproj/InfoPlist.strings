@@ -1,0 +1,15 @@
+/* Localized Info.plist values shown in iOS permission prompts. */
+"NSHealthShareUsageDescription" = "Pebble 读取你 Pebble 手表记录的健康数据，例如步数和睡眠。";
+"NSHealthUpdateUsageDescription" = "Pebble 读取你 Pebble 手表记录的健康数据，例如步数和睡眠。";
+"NSAlarmKitUsageDescription" = "Pebble 会为你让 Index 设置的计时器和闹钟进行调度。";
+"NSBluetoothAlwaysUsageDescription" = "Pebble 需要蓝牙权限才能连接你的 Pebble 手表。";
+"NSCalendarsFullAccessUsageDescription" = "Pebble 需要访问你的日历，以便在 Pebble 手表的日程时间线上显示事件，并直接在手表上回复邀请。";
+"NSCalendarsUsageDescription" = "Pebble 需要访问你的日历，以便在 Pebble 手表的日程时间线上显示事件。";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Pebble 使用你的位置来提供天气及其他基于位置的服务。";
+"NSLocationUsageDescription" = "Pebble 使用你的位置来提供天气及其他基于位置的服务。";
+"NSLocationWhenInUseUsageDescription" = "Pebble 使用你的位置来提供天气及其他基于位置的服务。";
+"NSMicrophoneUsageDescription" = "Pebble 需要麦克风权限来创建语音笔记。";
+"NSPhotoLibraryAddUsageDescription" = "Pebble 会把加密密钥的二维码备份保存到你的照片中。";
+"NSRemindersFullAccessUsageDescription" = "Pebble 需要访问你的提醒事项，以便通过 Index 创建提醒。";
+"NSRemindersUsageDescription" = "Pebble 需要访问你的提醒事项，以便通过 Index 创建提醒。";
+"NSSpeechRecognitionUsageDescription" = "Pebble 会转录你的语音，用于创建语音笔记以及与 AI 对话。";

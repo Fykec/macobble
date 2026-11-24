@@ -1,0 +1,15 @@
+/* Localized Info.plist values shown in iOS permission prompts. */
+"NSHealthShareUsageDescription" = "Pebble reads health data recorded by your Pebble watch, such as steps and sleep.";
+"NSHealthUpdateUsageDescription" = "Pebble reads health data recorded by your Pebble watch, such as steps and sleep.";
+"NSAlarmKitUsageDescription" = "Pebble schedules the timers and alarms you ask your Index to set.";
+"NSBluetoothAlwaysUsageDescription" = "Pebble needs Bluetooth access to connect to your Pebble watch.";
+"NSCalendarsFullAccessUsageDescription" = "Pebble needs access to your calendar to display events on the timeline on your Pebble watch, and respond to invites from your watch.";
+"NSCalendarsUsageDescription" = "Pebble needs access to your calendar to display events on the timeline on your Pebble watch.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Pebble uses your location to provide weather and other location-based services.";
+"NSLocationUsageDescription" = "Pebble uses your location to provide weather and other location-based services.";
+"NSLocationWhenInUseUsageDescription" = "Pebble uses your location to provide weather and other location-based services.";
+"NSMicrophoneUsageDescription" = "Pebble needs microphone access to create voice notes.";
+"NSPhotoLibraryAddUsageDescription" = "Pebble saves a QR code backup of your encryption key to your photos.";
+"NSRemindersFullAccessUsageDescription" = "Pebble needs access to your reminders to create reminders from your Index.";
+"NSRemindersUsageDescription" = "Pebble needs access to your reminders to create reminders from your Index.";
+"NSSpeechRecognitionUsageDescription" = "Pebble transcribes your speech to create voice notes and chat with AI.";

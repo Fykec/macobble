@@ -431,4 +431,17 @@
     <string name="why_x">为什么是 %1$s</string>
     <string name="remove_location_title">确定要移除“%1$s”吗？</string>
     <string name="reply_n">回复 %1$s</string>
+    <string name="download_lite_model">下载精简模型：%1$sMB</string>
+    <string name="download_model_with_size">下载模型（%1$sMB）</string>
+    <string name="built_in">内置</string>
+    <string name="remove_x_title">移除 %1$s？</string>
+    <string name="translation_and_fonts">翻译与字体</string>
+    <string name="remove_x">移除 %1$s</string>
+    <string name="wants_to_x">%1$s 想要 %2$s</string>
+    <string name="pebbleos_version">PebbleOS %1$s</string>
+    <string name="dev_connection_failed">开发者连接失败：%1$s</string>
+    <string name="ipv4_address">IPv4：%1$s</string>
+    <string name="ipv6_address">IPv6：%1$s</string>
+    <string name="serial_number">序列号：%1$s</string>
+    <string name="install_pebbleos_version">安装 PebbleOS %1$s</string>
 </resources>

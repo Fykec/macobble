@@ -123,6 +123,7 @@ import com.russhwolf.settings.Settings
 import com.russhwolf.settings.serialization.decodeValue
 import com.russhwolf.settings.serialization.encodeValue
 import coreapp.pebble.generated.resources.Res
+import coreapp.pebble.generated.resources.battery
 import org.jetbrains.compose.resources.StringResource
 import coreapp.pebble.generated.resources.scan_action
 import coreapp.pebble.generated.resources.remove_device_title
@@ -311,6 +312,12 @@ import coreapp.pebble.generated.resources.this_will_reset_the_watch_into
 import coreapp.pebble.generated.resources.this_will_wipe_the_watch_completely
 import coreapp.pebble.generated.resources.update_pebbleos
 import coreapp.pebble.generated.resources.watch
+import coreapp.pebble.generated.resources.pebbleos_version
+import coreapp.pebble.generated.resources.dev_connection_failed
+import coreapp.pebble.generated.resources.ipv4_address
+import coreapp.pebble.generated.resources.ipv6_address
+import coreapp.pebble.generated.resources.serial_number
+import coreapp.pebble.generated.resources.install_pebbleos_version
 
 expect fun scanPermission(): Permission?
 
@@ -1529,7 +1536,7 @@ fun WatchMenu(watch: PebbleDevice, navBarNav: NavBarNav) {
                         .fillMaxWidth()
                 ) {
                     Text(
-                        text = "PebbleOS $firmwareVersion",
+                        text = stringResource(PebbleRes.string.pebbleos_version, firmwareVersion),
                         style = MaterialTheme.typography.labelMedium,
                     )
                 }
@@ -1685,7 +1692,7 @@ fun WatchMenu(watch: PebbleDevice, navBarNav: NavBarNav) {
                 val error by watch.devConnectionError.collectAsState()
                 if (!active && error != null) {
                     Text(
-                        text = "Dev connection failed: $error",
+                        text = stringResource(PebbleRes.string.dev_connection_failed, "$error"),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.error,
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp),
@@ -1702,7 +1709,7 @@ fun WatchMenu(watch: PebbleDevice, navBarNav: NavBarNav) {
                                     .fillMaxWidth()
                             ) {
                                 Text(
-                                    text = "IPv4: $v4",
+                                    text = stringResource(PebbleRes.string.ipv4_address, v4),
                                     style = MaterialTheme.typography.labelMedium,
                                 )
                             }
@@ -1714,7 +1721,7 @@ fun WatchMenu(watch: PebbleDevice, navBarNav: NavBarNav) {
                                     .fillMaxWidth()
                             ) {
                                 Text(
-                                    text = "IPv6: $v6",
+                                    text = stringResource(PebbleRes.string.ipv6_address, v6),
                                     style = MaterialTheme.typography.labelMedium,
                                 )
                             }
@@ -1882,7 +1889,7 @@ fun WatchMenu(watch: PebbleDevice, navBarNav: NavBarNav) {
                         .fillMaxWidth()
                 ) {
                     Text(
-                        text = "Serial: $serial",
+                        text = stringResource(PebbleRes.string.serial_number, serial),
                         style = MaterialTheme.typography.labelMedium,
                     )
                 }
@@ -1940,7 +1947,7 @@ fun WatchMenu(watch: PebbleDevice, navBarNav: NavBarNav) {
     if (showForgetDialog && watch is KnownPebbleDevice) {
         AlertDialog(
             onDismissRequest = { showForgetDialog = false },
-            title = { Text("Remove ${watch.displayName()}?") },
+            title = { Text(stringResource(PebbleRes.string.remove_device_title, watch.displayName())) },
             text = { Text(stringResource(Res.string.are_you_sure)) },
             confirmButton = {
                 TextButton(onClick = {
@@ -2288,7 +2295,7 @@ fun WatchDetails(
                 ) {
                     Icon(
                         imageVector = batteryLevel.batteryIcon(),
-                        contentDescription = "Battery",
+                        contentDescription = stringResource(PebbleRes.string.battery),
                         modifier = Modifier.size(18.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -2316,7 +2323,7 @@ fun WatchDetails(
         if (showFirmwareUpdateConfirmDialog) {
             AlertDialog(
                 onDismissRequest = { showFirmwareUpdateConfirmDialog = false },
-                title = { Text("Install PebbleOS ${firmwareUpdateAvailable.version.stringVersion}") },
+                title = { Text(stringResource(PebbleRes.string.install_pebbleos_version, firmwareUpdateAvailable.version.stringVersion)) },
                 text = {
                     Column(Modifier.verticalScroll(rememberScrollState())) {
                         Text(firmwareUpdateAvailable.notes)

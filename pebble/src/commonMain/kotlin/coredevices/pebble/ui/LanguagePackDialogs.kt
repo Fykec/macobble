@@ -71,6 +71,10 @@ import coreapp.pebble.generated.resources.remove_a_pack_to_add_another
 import coreapp.pebble.generated.resources.use_as_watch_language
 import coreapp.pebble.generated.resources.watch_language
 import coreapp.pebble.generated.resources.english
+import coreapp.pebble.generated.resources.built_in
+import coreapp.pebble.generated.resources.remove_x_title
+import coreapp.pebble.generated.resources.translation_and_fonts
+import coreapp.pebble.generated.resources.remove_x
 
 private val logger = Logger.withTag("LanguagePackDialogs")
 
@@ -152,7 +156,7 @@ private fun LanguagePacksDialog(watch: ConnectedPebbleDevice, onDismissRequest: 
                     item {
                         LanguageOption(
                             title = stringResource(PebbleRes.string.english),
-                            subtitle = "Built-in",
+                            subtitle = stringResource(PebbleRes.string.built_in),
                             selected = packs.none { it.isActive },
                             enabled = enabled,
                             onSelect = { select(null) },
@@ -222,7 +226,7 @@ private fun LanguagePacksDialog(watch: ConnectedPebbleDevice, onDismissRequest: 
     packToRemove?.let { pack ->
         AlertDialog(
             onDismissRequest = { if (!removing) packToRemove = null },
-            title = { Text("Remove ${pack.label()}?") },
+            title = { Text(stringResource(PebbleRes.string.remove_x_title, pack.label())) },
             text = {
                 Text(
                     if (pack.isActive) "The watch will switch to English and lose this pack's fonts."
@@ -263,7 +267,7 @@ private fun InstalledPackRow(
             if (pack.hasTranslation) {
                 LanguageOption(
                     title = pack.name,
-                    subtitle = "Translation and fonts",
+                    subtitle = stringResource(PebbleRes.string.translation_and_fonts),
                     selected = pack.isActive,
                     enabled = enabled,
                     onSelect = onSelect,
@@ -279,7 +283,7 @@ private fun InstalledPackRow(
             }
         }
         IconButton(enabled = enabled, onClick = onRemove) {
-            Icon(Icons.Outlined.Delete, contentDescription = "Remove ${pack.label()}")
+            Icon(Icons.Outlined.Delete, contentDescription = stringResource(PebbleRes.string.remove_x, pack.label()))
         }
     }
 }

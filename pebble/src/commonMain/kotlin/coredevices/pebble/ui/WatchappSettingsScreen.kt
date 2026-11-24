@@ -106,6 +106,7 @@ import coreapp.pebble.generated.resources.open_in_browser
 import coreapp.pebble.generated.resources.these_settings_can_t_be_opened
 import coreapp.pebble.generated.resources.wants_to_open_page
 import coreapp.pebble.generated.resources.configuring_app
+import coreapp.pebble.generated.resources.wants_to_x
 
 private const val URL_DATA_PREFIX = "data:text/html;charset=utf-8,"
 

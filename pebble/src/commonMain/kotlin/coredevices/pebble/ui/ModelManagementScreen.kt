@@ -79,11 +79,14 @@ import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
 import org.jetbrains.compose.resources.stringResource
 import coreapp.pebble.generated.resources.Res as PebbleRes
+import coreapp.pebble.generated.resources.download
 import coreapp.pebble.generated.resources.cancel
 import coreapp.pebble.generated.resources.download_required
 import coreapp.pebble.generated.resources.recommended_for_your_device
 import coreapp.pebble.generated.resources.your_device_may_struggle_with_larger
 import coreapp.pebble.generated.resources.delete
+import coreapp.pebble.generated.resources.download_lite_model
+import coreapp.pebble.generated.resources.download_model_with_size
 
 class ModelManagementScreenViewModel(
     private val modelManager: ModelManager,
@@ -245,9 +248,9 @@ fun ModelDownloadPromptDialog(
                 onClick = onGetRecommended,
             ) {
                 if (isLite) {
-                    Text("Download lite model: ${downloadSizeInMb}MB")
+                    Text(stringResource(PebbleRes.string.download_lite_model, downloadSizeInMb))
                 } else {
-                    Text("Download model (${downloadSizeInMb}MB)")
+                    Text(stringResource(PebbleRes.string.download_model_with_size, downloadSizeInMb))
                 }
             }
             TextButton(
@@ -427,7 +430,7 @@ private fun ModelListItem(
                             IconButton(
                                 onClick = onDownloadCancel,
                             ) {
-                                Icon(Icons.Default.Cancel, contentDescription = "Download")
+                                Icon(Icons.Default.Cancel, contentDescription = stringResource(PebbleRes.string.download))
                             }
                         }
                     }

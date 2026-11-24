@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="apps">应用</string>
+    <string name="app_store">应用商店</string>
+    <string name="devices">设备</string>
+    <string name="faces">表盘</string>
+    <string name="health">健康</string>
+    <string name="index">Index</string>
+    <string name="notifications">通知</string>
+    <string name="settings">设置</string>
+</resources>

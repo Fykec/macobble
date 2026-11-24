@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="account_exists_switch_explanation">该账号已存在。登录后会切换到该账号，此设备上以访客身份保存的应用和设置不会一并迁移。</string>
+    <string name="back">返回</string>
+    <string name="black">黑色</string>
+    <string name="cancel">取消</string>
+    <string name="dark">深色</string>
+    <string name="disable_sync">关闭同步</string>
+    <string name="download">下载</string>
+    <string name="download_required">需要下载</string>
+    <string name="downloading_models">正在下载模型</string>
+    <string name="keep_sync_on">保持同步开启</string>
+    <string name="light">浅色</string>
+    <string name="login_disabled_in_build">%1$s 登录在此版本中未启用</string>
+    <string name="models_download_explanation">此功能需要下载额外的机器学习模型。请避免使用按流量计费的网络下载。</string>
+    <string name="report_a_bug">反馈问题</string>
+    <string name="secondary_profile">次要配置文件</string>
+    <string name="settings">设置</string>
+    <string name="sign_in">登录</string>
+    <string name="sign_in_anyway">仍然登录</string>
+    <string name="sign_in_to_existing_account">登录到已有账号？</string>
+    <string name="sign_in_with_apple">使用 Apple 登录</string>
+    <string name="sign_in_with_github">使用 GitHub 登录</string>
+    <string name="sign_in_with_google">使用 Google 登录</string>
+    <string name="system">跟随系统</string>
+    <string name="this_might_take_a_few_minutes">网络较慢时可能需要几分钟…</string>
+</resources>

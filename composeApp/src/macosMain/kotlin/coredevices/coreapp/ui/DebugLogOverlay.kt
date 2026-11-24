@@ -61,7 +61,7 @@ fun DebugLogOverlay(modifier: Modifier = Modifier) {
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                "日志 ${lines.size}",
+                "LOG ${lines.size}",
                 color = AccentColor,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold,

@@ -36,6 +36,10 @@ import coreapp.pebble.generated.resources.lang_group_older_community_packs
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import coreapp.pebble.generated.resources.Res
+import coreapp.pebble.generated.resources.lang_english_with_fonts
+import coreapp.pebble.generated.resources.lang_from_rebble_archive
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import androidx.compose.runtime.Composable
 
 class LanguagePackRepository(
     private val json: Json,
@@ -149,10 +153,11 @@ data class LanguagePack(
     }
 }
 
+@Composable
 fun LanguagePack.description(): String = when {
-    isEnglishFontPack(isoLocal) -> "English with additional fonts"
+    isEnglishFontPack(isoLocal) -> stringResource(PebbleRes.string.lang_english_with_fonts)
     published != null -> published.completionLabel()
-    else -> "From the Rebble archive"
+    else -> stringResource(PebbleRes.string.lang_from_rebble_archive)
 }
 
 enum class LanguagePackGroup(val title: StringResource) {

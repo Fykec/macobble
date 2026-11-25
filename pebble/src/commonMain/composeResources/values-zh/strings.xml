@@ -582,4 +582,13 @@
     <string name="match_field_title">标题</string>
     <string name="match_field_body">正文</string>
     <string name="match_field_title_and_body">标题+正文</string>
+    <string name="watch_language_label">语言</string>
+    <string name="watch_language_label_value">语言：%1$s</string>
+    <string name="collections_watchapp">手表应用合集</string>
+    <string name="collections_watchface">表盘合集</string>
+    <string name="collections_plugin">插件合集</string>
+    <string name="lang_english_with_fonts">英语（含额外字体）</string>
+    <string name="lang_from_rebble_archive">来自 Rebble 归档</string>
+    <string name="lang_no_source_strings">无源字符串</string>
+    <string name="lang_percent_translated">已翻译 %1$s%%</string>
 </resources>

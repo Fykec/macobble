@@ -5,6 +5,12 @@ import io.rebble.libpebblecommon.metadata.WatchHardwarePlatform
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlin.time.Instant
+import coreapp.pebble.generated.resources.lang_english_with_fonts
+import coreapp.pebble.generated.resources.lang_no_source_strings
+import coreapp.pebble.generated.resources.lang_percent_translated
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
+import androidx.compose.runtime.Composable
 
 internal const val LANGUAGE_MANIFEST_URL =
     "https://github.com/coredevices/pebbleos-translations/releases/latest/download/manifest.json"
@@ -69,10 +75,14 @@ data class PublishedLanguagePack(
         published = this,
     )
 
-    fun completionLabel(): String = when {
-        isEnglishFontPack(locale) -> "English with additional fonts"
-        totalStrings == 0 -> "No source strings"
-        else -> "${translatedStrings.toLong() * 100 / totalStrings}% translated"
+    @Composable
+fun completionLabel(): String = when {
+        isEnglishFontPack(locale) -> stringResource(PebbleRes.string.lang_english_with_fonts)
+        totalStrings == 0 -> stringResource(PebbleRes.string.lang_no_source_strings)
+        else -> stringResource(
+            PebbleRes.string.lang_percent_translated,
+            translatedStrings.toLong() * 100 / totalStrings,
+        )
     }
 }
 
@@ -106,8 +116,8 @@ private fun requireValidPack(locale: String, name: String, nativeName: String, v
 internal fun canonicalLocale(locale: String): String = when (val normalized = locale.replace('-', '_').lowercase()) {
     "ca" -> "ca_es"
     "bg" -> "bg_bg"
-    "zh_tw" -> "zh_hant"
-    "ar_sa" -> "ar_aa"
+    "zh_tw" -> "zh_hant" // not-localized
+    "ar_sa" -> "ar_aa" // not-localized
     else -> normalized
 }
 

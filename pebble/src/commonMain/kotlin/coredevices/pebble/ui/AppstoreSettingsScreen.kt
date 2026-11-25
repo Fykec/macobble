@@ -75,6 +75,9 @@ import coreapp.pebble.generated.resources.name
 import coreapp.pebble.generated.resources.source_url
 import coreapp.pebble.generated.resources.add_source
 import coreapp.pebble.generated.resources.delete_source
+import coreapp.pebble.generated.resources.collections_watchapp
+import coreapp.pebble.generated.resources.collections_watchface
+import coreapp.pebble.generated.resources.collections_plugin
 
 class AppstoreSettingsScreenViewModel(
     private val sourceDao: AppstoreSourceDao,
@@ -291,9 +294,9 @@ fun AppstoreSourceItem(
                         if (cols.isNotEmpty()) {
                             CardGroup(
                                 title = when (appType) {
-                                    AppType.Watchapp -> "Watchapp Collections"
-                                    AppType.Watchface -> "Watchface Collections"
-                                    AppType.Plugin -> "Plugin Collections"
+                                    AppType.Watchapp -> stringResource(PebbleRes.string.collections_watchapp)
+                                    AppType.Watchface -> stringResource(PebbleRes.string.collections_watchface)
+                                    AppType.Plugin -> stringResource(PebbleRes.string.collections_plugin)
                                 },
                                 items = cols,
                                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),

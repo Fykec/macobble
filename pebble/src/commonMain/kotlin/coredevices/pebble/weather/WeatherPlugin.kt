@@ -366,15 +366,15 @@ class WeatherPlugin(
         mapOf(SourceShapeNames.LONG_TEXT to encode(LongTextShape(conditionCodeOf(code))))
 
     private fun conditionName(code: Byte) = when (WeatherType.entries.firstOrNull { it.code == code }) {
-        WeatherType.PartlyCloudy -> "Partly cloudy"
-        WeatherType.CloudyDay -> "Cloudy"
-        WeatherType.LightSnow -> "Light snow"
-        WeatherType.LightRain -> "Light rain"
-        WeatherType.HeavyRain -> "Heavy rain"
-        WeatherType.HeavySnow -> "Heavy snow"
-        WeatherType.Sun -> "Sunny"
-        WeatherType.RainAndSnow -> "Rain and snow"
-        else -> "Unknown"
+        WeatherType.PartlyCloudy -> "Partly cloudy" // not-localized
+        WeatherType.CloudyDay -> "Cloudy" // not-localized
+        WeatherType.LightSnow -> "Light snow" // not-localized
+        WeatherType.LightRain -> "Light rain" // not-localized
+        WeatherType.HeavyRain -> "Heavy rain" // not-localized
+        WeatherType.HeavySnow -> "Heavy snow" // not-localized
+        WeatherType.Sun -> "Sunny" // not-localized
+        WeatherType.RainAndSnow -> "Rain and snow" // not-localized
+        else -> "Unknown" // not-localized
     }
 
     private inline fun <reified T> encode(value: T): JsonElement = Json.encodeToJsonElement(value)

@@ -82,8 +82,8 @@ private fun extractHost(endpoint: String): String =
     endpoint.removePrefix("https://").removePrefix("http://").substringBefore('/')
 
 private fun TranscriptionResult.failureReason(): String = when (this) {
-    is TranscriptionResult.Success -> "empty_result"
-    is TranscriptionResult.ConnectionError -> "connection_error"
+    is TranscriptionResult.Success -> "empty_result" // not-localized
+    is TranscriptionResult.ConnectionError -> "connection_error" // not-localized
     is TranscriptionResult.Error -> message
     TranscriptionResult.Failed -> "failed"
     TranscriptionResult.Disabled -> "disabled"

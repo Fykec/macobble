@@ -334,6 +334,8 @@ import coreapp.pebble.generated.resources.ipv4_address
 import coreapp.pebble.generated.resources.ipv6_address
 import coreapp.pebble.generated.resources.serial_number
 import coreapp.pebble.generated.resources.install_pebbleos_version
+import coreapp.pebble.generated.resources.watch_language_label
+import coreapp.pebble.generated.resources.watch_language_label_value
 
 expect fun scanPermission(): Permission?
 
@@ -1623,8 +1625,8 @@ fun WatchMenu(watch: PebbleDevice, navBarNav: NavBarNav) {
                 val languagePackRepository: LanguagePackRepository = koinInject()
                 val languagePackInstalled = watch.languagePackInstalled(languagePackRepository)
                 val languageText = when  {
-                    languagePackInstalled.isNullOrBlank() -> "Language"
-                    else -> "Language: $languagePackInstalled"
+                    languagePackInstalled.isNullOrBlank() -> stringResource(PebbleRes.string.watch_language_label)
+                    else -> stringResource(PebbleRes.string.watch_language_label_value, languagePackInstalled)
                 }
                 DropdownMenuItem(
                     text = { Text(languageText) },

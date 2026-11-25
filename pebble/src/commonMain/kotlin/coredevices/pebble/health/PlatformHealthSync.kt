@@ -242,9 +242,9 @@ class PlatformHealthSync(
                 endTime = endTime,
                 exerciseType = exerciseType,
                 title = when (overlayType) {
-                    OverlayType.Walk -> "Walk"
-                    OverlayType.Run -> "Run"
-                    OverlayType.OpenWorkout -> "Workout"
+                    OverlayType.Walk -> "Walk" // not-localized
+                    OverlayType.Run -> "Run" // not-localized
+                    OverlayType.OpenWorkout -> "Workout" // not-localized
                     else -> null
                 },
                 exerciseRoute = null,

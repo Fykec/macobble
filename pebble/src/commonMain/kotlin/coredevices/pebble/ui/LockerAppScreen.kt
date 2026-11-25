@@ -133,6 +133,17 @@ import coreapp.pebble.generated.resources.screenshot
 import coreapp.pebble.generated.resources.this_app_s_settings_page_may
 import coreapp.pebble.generated.resources.remove_x_title
 import coreapp.pebble.generated.resources.developer_x
+import coreapp.pebble.generated.resources.capability_health
+import coreapp.pebble.generated.resources.capability_health_desc
+import coreapp.pebble.generated.resources.capability_location
+import coreapp.pebble.generated.resources.capability_location_desc
+import coreapp.pebble.generated.resources.capability_timeline
+import coreapp.pebble.generated.resources.capability_timeline_desc
+import coreapp.pebble.generated.resources.capability_web_sign_in
+import coreapp.pebble.generated.resources.capability_web_sign_in_desc
+import coreapp.pebble.generated.resources.entry_type_watchface
+import coreapp.pebble.generated.resources.entry_type_watchapp
+import coreapp.pebble.generated.resources.entry_type_plugin
 
 private val logger = Logger.withTag("LockerAppScreen")
 
@@ -1033,11 +1044,13 @@ private fun PropertyRow(
 
 @Composable
 fun PermissionItem(permission: AppCapability, topBarParams: TopBarParams) {
+    val description = permission.description()
+    val name = permission.name()
     AssistChip(
         onClick = {
-            topBarParams.showSnackbar(permission.description())
+            topBarParams.showSnackbar(description)
         },
-        label = { Text(permission.name()) },
+        label = { Text(name) },
         leadingIcon = { Icon(permission.icon(), null) },
         modifier = Modifier.padding(horizontal = 6.dp)
     )
@@ -1050,18 +1063,20 @@ fun AppCapability.icon(): ImageVector = when (this) {
     AppCapability.WebSignIn -> Icons.Default.AccountCircle
 }
 
+@Composable
 fun AppCapability.name(): String = when (this) {
-    AppCapability.Health -> "Health"
-    AppCapability.Location -> "Location"
-    AppCapability.Timeline -> "Timeline"
-    AppCapability.WebSignIn -> "Web sign-in"
+    AppCapability.Health -> stringResource(PebbleRes.string.capability_health)
+    AppCapability.Location -> stringResource(PebbleRes.string.capability_location)
+    AppCapability.Timeline -> stringResource(PebbleRes.string.capability_timeline)
+    AppCapability.WebSignIn -> stringResource(PebbleRes.string.capability_web_sign_in)
 }
 
+@Composable
 fun AppCapability.description(): String = when (this) {
-    AppCapability.Health -> "Can access health data"
-    AppCapability.Location -> "Can access location"
-    AppCapability.Timeline -> "Can create timeline pins"
-    AppCapability.WebSignIn -> "Can ask you to sign in to web accounts"
+    AppCapability.Health -> stringResource(PebbleRes.string.capability_health_desc)
+    AppCapability.Location -> stringResource(PebbleRes.string.capability_location_desc)
+    AppCapability.Timeline -> stringResource(PebbleRes.string.capability_timeline_desc)
+    AppCapability.WebSignIn -> stringResource(PebbleRes.string.capability_web_sign_in_desc)
 }
 
 suspend fun LibPebble.launchApp(
@@ -1070,11 +1085,13 @@ suspend fun LibPebble.launchApp(
     connectedIdentifier: PebbleIdentifier
 ): Boolean {
     logger.d { "launchApp: ${entry.uuid} - ${entry.title}" }
-    val typeText = when (entry.type) {
-        AppType.Watchface -> "Watchface"
-        AppType.Watchapp -> "Watchapp"
-        AppType.Plugin -> "Plugin"
-    }
+    val typeText = org.jetbrains.compose.resources.getString(
+        when (entry.type) {
+            AppType.Watchface -> PebbleRes.string.entry_type_watchface
+            AppType.Watchapp -> PebbleRes.string.entry_type_watchapp
+            AppType.Plugin -> PebbleRes.string.entry_type_plugin
+        }
+    )
     if (!entry.isSynced()) {
         try {
             withTimeout(15.seconds) {

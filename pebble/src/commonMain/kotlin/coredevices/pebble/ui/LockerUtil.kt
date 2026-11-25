@@ -122,6 +122,7 @@ import coreapp.pebble.generated.resources.collection_my_apps
 import coreapp.pebble.generated.resources.collection_my_plugins
 import org.jetbrains.compose.resources.StringResource
 import coreapp.pebble.generated.resources.Res
+import coreapp.pebble.generated.resources.an_app_store
 
 private val logger = Logger.withTag("LockerUtil")
 
@@ -375,13 +376,13 @@ fun CommonApp.CompatibilityWarning(topBarParams: TopBarParams) {
 }
 
 fun WatchType.modelDescription() = when (this) {
-    WatchType.APLITE -> "Pebble"
-    WatchType.BASALT -> "Pebble Time"
-    WatchType.CHALK -> "Pebble Time Round"
-    WatchType.DIORITE -> "Pebble 2"
-    WatchType.EMERY -> "Pebble Time 2"
-    WatchType.FLINT -> "Pebble 2 Duo"
-    WatchType.GABBRO -> "Pebble Round 2"
+    WatchType.APLITE -> "Pebble" // not-localized
+    WatchType.BASALT -> "Pebble Time" // not-localized
+    WatchType.CHALK -> "Pebble Time Round" // not-localized
+    WatchType.DIORITE -> "Pebble 2" // not-localized
+    WatchType.EMERY -> "Pebble Time 2" // not-localized
+    WatchType.FLINT -> "Pebble 2 Duo" // not-localized
+    WatchType.GABBRO -> "Pebble Round 2" // not-localized
 }
 
 @Composable
@@ -555,13 +556,13 @@ fun WatchType.performsScaling(): Boolean = when (this) {
 }
 
 fun WatchType.shortName(): String = when (this) {
-    WatchType.APLITE -> "OG"
-    WatchType.BASALT -> "PT"
-    WatchType.CHALK -> "PTR"
+    WatchType.APLITE -> "OG" // not-localized
+    WatchType.BASALT -> "PT" // not-localized
+    WatchType.CHALK -> "PTR" // not-localized
     WatchType.DIORITE -> "P2"
-    WatchType.FLINT -> "P2D"
-    WatchType.EMERY -> "PT2"
-    WatchType.GABBRO -> "PR2"
+    WatchType.FLINT -> "P2D" // not-localized
+    WatchType.EMERY -> "PT2" // not-localized
+    WatchType.GABBRO -> "PR2" // not-localized
 }
 
 fun StoreApplication.asCommonApp(
@@ -804,7 +805,10 @@ class AppReplacements(
         val installedSource = appstoreSourceDao.getAllSources().first().firstOrNull { it.url == installedSourceUrl }
         val installedFrom = when (installedSourceUrl) {
             null -> SIDELOADED
-            UNKNOWN_SOURCE -> "an app store"
+            UNKNOWN_SOURCE ->
+                org.jetbrains.compose.resources.getString(
+                    coreapp.pebble.generated.resources.Res.string.an_app_store
+                )
             else -> installedSource?.title ?: installedSourceUrl
         }
         return ReplacedApp(uuid, installed.properties.title, installedSource, installedFrom, newSource?.title ?: SIDELOADED)

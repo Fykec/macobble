@@ -558,4 +558,16 @@
     <string name="notif_decision_screen_on">屏幕已点亮</string>
     <string name="notif_decision_rule_filtered">已被规则过滤</string>
     <string name="notif_decision_empty">内容为空</string>
+    <string name="an_app_store">某个应用商店</string>
+    <string name="capability_health">健康</string>
+    <string name="capability_health_desc">可以访问健康数据</string>
+    <string name="capability_location">位置</string>
+    <string name="capability_location_desc">可以访问位置信息</string>
+    <string name="capability_timeline">时间线</string>
+    <string name="capability_timeline_desc">可以创建时间线卡片</string>
+    <string name="capability_web_sign_in">网页登录</string>
+    <string name="capability_web_sign_in_desc">可以请求你登录网页账号</string>
+    <string name="entry_type_watchface">表盘</string>
+    <string name="entry_type_watchapp">手表应用</string>
+    <string name="entry_type_plugin">插件</string>
 </resources>

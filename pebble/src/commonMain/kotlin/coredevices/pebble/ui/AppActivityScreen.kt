@@ -61,10 +61,16 @@ import coreapp.pebble.generated.resources.Res
 import coreapp.pebble.generated.resources.app_activity_summary
 import coreapp.pebble.generated.resources.show_all_n
 import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.activity_grouping_by_app
+import coreapp.pebble.generated.resources.activity_grouping_by_plugin
+import org.jetbrains.compose.resources.StringResource
 
 private const val PREVIEW_ACTIONS = 15
 
-private enum class ActivityGrouping(val label: String) { ByApp("By app"), ByPlugin("By plugin") }
+private enum class ActivityGrouping(val label: StringResource) {
+    ByApp(Res.string.activity_grouping_by_app),
+    ByPlugin(Res.string.activity_grouping_by_plugin),
+}
 
 @Composable
 fun AppActivityScreen(nav: NavBarNav, topBarParams: TopBarParams) {
@@ -101,7 +107,7 @@ fun AppActivityScreen(nav: NavBarNav, topBarParams: TopBarParams) {
             item {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(horizontal = 16.dp)) {
                     ActivityGrouping.entries.forEach {
-                        FilterChip(selected = grouping == it, onClick = { grouping = it }, label = { Text(it.label) })
+                        FilterChip(selected = grouping == it, onClick = { grouping = it }, label = { Text(stringResource(it.label)) })
                     }
                 }
             }

@@ -364,6 +364,23 @@ import coreapp.pebble.generated.resources.app_version_value
 import coreapp.pebble.generated.resources.override_default_on_watch
 import coreapp.pebble.generated.resources.default_value
 import coreapp.pebble.generated.resources.about_x
+import coreapp.pebble.generated.resources.settings_group_permissions
+import coreapp.pebble.generated.resources.settings_group_app_updates
+import coreapp.pebble.generated.resources.settings_group_menu_scrolling
+import coreapp.pebble.generated.resources.settings_group_backlight_color
+import coreapp.pebble.generated.resources.settings_group_backlight_motion
+import coreapp.pebble.generated.resources.settings_group_ambient_light_sensor
+import coreapp.pebble.generated.resources.settings_group_backlight
+import coreapp.pebble.generated.resources.settings_group_vibration
+import coreapp.pebble.generated.resources.settings_group_quick_view
+import coreapp.pebble.generated.resources.settings_group_heart_rate
+import coreapp.pebble.generated.resources.settings_group_insights
+import coreapp.pebble.generated.resources.settings_group_your_details
+import coreapp.pebble.generated.resources.settings_group_phone_effects
+import coreapp.pebble.generated.resources.settings_group_custom_vibration_patterns
+import coreapp.pebble.generated.resources.settings_group_advanced
+import coreapp.pebble.generated.resources.settings_group_automatic_updates
+import coreapp.pebble.generated.resources.settings_group_app_usage
 
 enum class TopLevelType(val displayName: StringResource) {
     Phone(PebbleRes.string.top_level_phone),
@@ -437,24 +454,24 @@ object SettingsIds {
     const val HrmActivityTracking = "HrmActivityTracking"
 }
 
-enum class SettingsGroup(val title: String) {
-    Permissions("Permissions"),
-    AppUpdates("App Updates"),
-    MenuScrolling("Menu Scrolling"),
-    BacklightColor("Backlight Color"),
-    BacklightMotion("Backlight Motion"),
-    BacklightAmbient("Ambient Light Sensor"),
-    Backlight("Backlight"),
-    Vibration("Vibration"),
-    QuickView("Quick View"),
-    HeartRate("Heart Rate"),
-    Insights("Insights"),
-    YourDetails("Your Details"),
-    PhoneEffects("Phone Effects"),
-    CustomVibration("Custom Vibration Patterns"),
-    Advanced("Advanced"),
-    AutomaticFirmwareUpdatess("Automatic Updates"),
-    AppUsage("App Usage"),
+enum class SettingsGroup(val title: StringResource) {
+    Permissions(Res.string.settings_group_permissions),
+    AppUpdates(Res.string.settings_group_app_updates),
+    MenuScrolling(Res.string.settings_group_menu_scrolling),
+    BacklightColor(Res.string.settings_group_backlight_color),
+    BacklightMotion(Res.string.settings_group_backlight_motion),
+    BacklightAmbient(Res.string.settings_group_ambient_light_sensor),
+    Backlight(Res.string.settings_group_backlight),
+    Vibration(Res.string.settings_group_vibration),
+    QuickView(Res.string.settings_group_quick_view),
+    HeartRate(Res.string.settings_group_heart_rate),
+    Insights(Res.string.settings_group_insights),
+    YourDetails(Res.string.settings_group_your_details),
+    PhoneEffects(Res.string.settings_group_phone_effects),
+    CustomVibration(Res.string.settings_group_custom_vibration_patterns),
+    Advanced(Res.string.settings_group_advanced),
+    AutomaticFirmwareUpdatess(Res.string.settings_group_automatic_updates),
+    AppUsage(Res.string.settings_group_app_usage),
 }
 
 data class SettingsItem(
@@ -473,9 +490,9 @@ data class SettingsItem(
 ) {
     val key: String get() = "${group?.name.orEmpty()}/$title"
 
-    /** Every word of [query] is somewhere in the title, keywords or group, so "activity insights" finds "Activity" in Insights. */
+    /** Every word of [query] is somewhere in the title or keywords, so "activity insights" finds "Activity" in Insights. */
     fun matches(query: String): Boolean {
-        val text = listOfNotNull(title, keywords, group?.title)
+        val text = listOfNotNull(title, keywords)
         return query.split(' ').filter { it.isNotBlank() }.all { word -> text.any { it.contains(word, ignoreCase = true) } }
     }
 
@@ -495,7 +512,7 @@ private fun LazyListScope.settingsItems(items: List<SettingsItem>) {
             return@forEach
         }
         item(key = "group:${group.name}") {
-            CardGroup(group.title, run, Modifier.padding(horizontal = 12.dp, vertical = 8.dp)) { it.Item() }
+            CardGroup(stringResource(group.title), run, Modifier.padding(horizontal = 12.dp, vertical = 8.dp)) { it.Item() }
         }
     }
 }

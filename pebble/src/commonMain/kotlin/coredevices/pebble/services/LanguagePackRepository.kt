@@ -30,6 +30,12 @@ import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.readByteArray
 import kotlinx.serialization.json.Json
+import coreapp.pebble.generated.resources.lang_group_translations
+import coreapp.pebble.generated.resources.lang_group_font_packs
+import coreapp.pebble.generated.resources.lang_group_older_community_packs
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res
 
 class LanguagePackRepository(
     private val json: Json,
@@ -149,10 +155,10 @@ fun LanguagePack.description(): String = when {
     else -> "From the Rebble archive"
 }
 
-enum class LanguagePackGroup(val title: String) {
-    Translations("Translations"),
-    FontPacks("Font packs"),
-    Community("Older community packs"),
+enum class LanguagePackGroup(val title: StringResource) {
+    Translations(Res.string.lang_group_translations),
+    FontPacks(Res.string.lang_group_font_packs),
+    Community(Res.string.lang_group_older_community_packs),
 }
 
 /** Built-in English makes the archived en_US pack redundant. */

@@ -49,14 +49,22 @@ import kotlin.time.Clock
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
+import coreapp.pebble.generated.resources.notification_tab_apps
+import coreapp.pebble.generated.resources.notification_tab_contacts
+import coreapp.pebble.generated.resources.enabled_filter_all
+import coreapp.pebble.generated.resources.enabled_filter_enabled
+import coreapp.pebble.generated.resources.enabled_filter_disabled
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res
 
 class NotificationScreenViewModel : ViewModel() {
     val tab = mutableStateOf(NotificationTab.Apps)
 }
 
-enum class NotificationTab(val title: String) {
-    Apps("Apps"),
-    Contacts("Contacts"),
+enum class NotificationTab(val title: StringResource) {
+    Apps(Res.string.notification_tab_apps),
+    Contacts(Res.string.notification_tab_contacts),
 //    Rules("Rules"),
 //    History("History"),
 }
@@ -67,10 +75,10 @@ enum class NotificationAppSort {
     Count,
 }
 
-enum class EnabledFilter(val label: String) {
-    All("All"),
-    EnabledOnly("Enabled"),
-    DisabledOnly("Disabled"),
+enum class EnabledFilter(val label: StringResource) {
+    All(Res.string.enabled_filter_all),
+    EnabledOnly(Res.string.enabled_filter_enabled),
+    DisabledOnly(Res.string.enabled_filter_disabled),
 }
 
 @Composable
@@ -106,7 +114,7 @@ fun NotificationsScreenContent(topBarParams: TopBarParams, nav: NavBarNav) {
                                 ),
                                 onClick = { viewModel.tab.value = tab },
                                 selected = viewModel.tab.value == tab,
-                                label = { Text(tab.title) },
+                                label = { Text(stringResource(tab.title)) },
                                 icon = {},
                             )
                         }

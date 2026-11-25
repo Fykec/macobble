@@ -75,6 +75,8 @@ import coreapp.pebble.generated.resources.built_in
 import coreapp.pebble.generated.resources.remove_x_title
 import coreapp.pebble.generated.resources.translation_and_fonts
 import coreapp.pebble.generated.resources.remove_x
+import org.jetbrains.compose.resources.StringResource
+import coreapp.pebble.generated.resources.Res
 
 private val logger = Logger.withTag("LanguagePackDialogs")
 
@@ -364,7 +366,7 @@ private fun LanguagePackPickerDialog(
                     groups.forEach { (group, packs) ->
                         item(key = group.name) {
                             Text(
-                                group.title,
+                                stringResource(group.title),
                                 style = MaterialTheme.typography.titleSmall,
                                 modifier = Modifier.padding(top = 12.dp, bottom = 4.dp),
                             )

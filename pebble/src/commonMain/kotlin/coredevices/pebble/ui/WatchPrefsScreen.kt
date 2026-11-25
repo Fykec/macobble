@@ -59,6 +59,10 @@ import coreapp.pebble.generated.resources.automatic_sunrise_sunset
 import coreapp.pebble.generated.resources.reset_all_settings_to_defaults
 import coreapp.pebble.generated.resources.reset_to_defaults_2
 import coreapp.pebble.generated.resources.reset_to_defaults_3
+import coreapp.pebble.generated.resources.schedule_edge_from
+import coreapp.pebble.generated.resources.schedule_edge_to
+import org.jetbrains.compose.resources.StringResource
+import coreapp.pebble.generated.resources.Res
 
 // Snap the notification timeout slider to 15-second increments (40 stops across 15..600s)
 // so the displayed MM:SS value is always a clean quarter minute.
@@ -378,9 +382,9 @@ private fun schedulePref(
     )
 }
 
-private enum class ScheduleEdge(val title: String) {
-    From("Start time"),
-    To("End time"),
+private enum class ScheduleEdge(val title: StringResource) {
+    From(Res.string.schedule_edge_from),
+    To(Res.string.schedule_edge_to),
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -407,7 +411,7 @@ internal fun SelectTimeRange(
     )
     TimePickerDialog(
         onDismissRequest = { editing = null },
-        title = { Text(edge.title) },
+        title = { Text(stringResource(edge.title)) },
         dismissButton = {
             TextButton(onClick = { editing = null }) {
                 Text(stringResource(PebbleRes.string.cancel))

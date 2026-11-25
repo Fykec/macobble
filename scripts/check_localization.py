@@ -43,6 +43,13 @@ UI_STRING_PATTERN = re.compile(
 # `when` branches also return identifiers and debug strings ("agent_running",
 # "transferring", "ios"). Those have no spaces and no capitals.
 WHEN_BRANCH_PATTERN = re.compile(r'->\s*"')
+
+# `enum class Foo(val title: String)` is how a whole set of labels once escaped the
+# scan: the entries look like ordinary constructor calls. Display fields should be
+# StringResource, so flag the declaration and let a human migrate the enum.
+ENUM_STRING_FIELD = re.compile(
+    r"enum class \w+\([^)]*\bval (?:title|label|name|displayName|description|text|subtitle): String\b[^)]*\)"
+)
 STRING_LITERAL = re.compile(r'"((?:[^"\\]|\\.)*)"')
 
 
@@ -140,6 +147,7 @@ def check_inline_strings() -> bool:
     print()
     print("== inline UI strings ==")
     ok = True
+    enum_hits: list[str] = []
     for module in MODULES:
         source = ROOT / module / "src/commonMain"
         if not source.is_dir():
@@ -176,12 +184,32 @@ def check_inline_strings() -> bool:
             if count:
                 per_file[str(path.relative_to(ROOT))] = count
 
+        for path in sorted(source.rglob("*.kt")):
+            relative = "/" + str(path.relative_to(ROOT))
+            if any(pattern in relative for pattern in EXCLUDED_PATHS):
+                continue
+            for number, line in enumerate(
+                path.read_text(encoding="utf-8").splitlines(), start=1
+            ):
+                if "not-localized" in line:
+                    continue
+                if ENUM_STRING_FIELD.search(line):
+                    enum_hits.append(f"{path.relative_to(ROOT)}:{number}: {line.strip()[:90]}")
+
         if per_file:
             total = sum(per_file.values())
             print(f"  {module}: {total} left in {len(per_file)} files")
             for name, count in sorted(per_file.items(), key=lambda item: -item[1])[:10]:
                 print(f"    {count:4d}  {name}")
             ok = False
+    print()
+    print("== enum classes holding display text ==")
+    if enum_hits:
+        for hit in enum_hits:
+            print(f"  ! {hit}")
+        ok = False
+    else:
+        print("  none")
     return ok
 
 

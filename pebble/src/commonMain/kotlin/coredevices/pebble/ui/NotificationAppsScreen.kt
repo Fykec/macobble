@@ -68,6 +68,8 @@ import coreapp.pebble.generated.resources.done_icon
 import coreapp.pebble.generated.resources.enable_all
 import coreapp.pebble.generated.resources.mute_all
 import coreapp.pebble.generated.resources.sort_options
+import org.jetbrains.compose.resources.StringResource
+import coreapp.pebble.generated.resources.Res
 
 class NotificationAppsScreenViewModel : ViewModel() {
     val onlyNotified = mutableStateOf(false)
@@ -229,7 +231,7 @@ fun NotificationAppsScreen(topBarParams: TopBarParams, nav: NavBarNav, gotoDefau
                         Box(modifier = Modifier.padding(horizontal = 4.dp)) {
                             ElevatedFilterChip(
                                 onClick = { filterExpanded.value = !filterExpanded.value },
-                                label = { Text(viewModel.enabledFilter.value.label) },
+                                label = { Text(stringResource(viewModel.enabledFilter.value.label)) },
                                 selected = viewModel.enabledFilter.value != EnabledFilter.All,
                                 trailingIcon = {
                                     Icon(
@@ -252,7 +254,7 @@ fun NotificationAppsScreen(topBarParams: TopBarParams, nav: NavBarNav, gotoDefau
                                             viewModel.enabledFilter.value = filterOption
                                             filterExpanded.value = false
                                         },
-                                        text = { Text(filterOption.label) },
+                                        text = { Text(stringResource(filterOption.label)) },
                                         leadingIcon = {
                                             if (viewModel.enabledFilter.value == filterOption) Icon(
                                                 imageVector = Icons.Filled.Done,

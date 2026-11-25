@@ -51,13 +51,16 @@ import org.jetbrains.compose.resources.stringResource
 import coreapp.pebble.generated.resources.Res as PebbleRes
 import coreapp.pebble.generated.resources.ok
 import coreapp.pebble.generated.resources.about_x
+import coreapp.pebble.generated.resources.data_usage_local_network
+import coreapp.pebble.generated.resources.data_usage_any_website
 
 private const val LEGACY_INFO = "This app was made before apps had to declare which websites they use, so it can " +
     "reach any website and its data usage can't be split up by website."
 
+@Composable
 private fun PermissionDataUsage.label(): String = domainOf(permission) ?: when (permission) {
-    PluginPermissions.LOCAL_NETWORK -> "Local network"
-    else -> "Any website"
+    PluginPermissions.LOCAL_NETWORK -> stringResource(PebbleRes.string.data_usage_local_network)
+    else -> stringResource(PebbleRes.string.data_usage_any_website)
 }
 
 @Composable

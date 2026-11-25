@@ -591,4 +591,9 @@
     <string name="lang_from_rebble_archive">来自 Rebble 归档</string>
     <string name="lang_no_source_strings">无源字符串</string>
     <string name="lang_percent_translated">已翻译 %1$s%%</string>
+    <string name="data_usage_local_network">本地网络</string>
+    <string name="data_usage_any_website">任意网站</string>
+    <string name="battery_impact_default">默认</string>
+    <string name="battery_impact_with_seconds">显示秒</string>
+    <string name="battery_impact_with_animations">显示动画</string>
 </resources>

@@ -33,6 +33,9 @@ import coreapp.pebble.generated.resources.Res as PebbleRes
 import coreapp.pebble.generated.resources.battery_impact
 import coreapp.pebble.generated.resources.dismiss
 import coreapp.pebble.generated.resources.selected
+import coreapp.pebble.generated.resources.battery_impact_default
+import coreapp.pebble.generated.resources.battery_impact_with_seconds
+import coreapp.pebble.generated.resources.battery_impact_with_animations
 
 internal fun String.capitalized() = replaceFirstChar { it.uppercase() }
 
@@ -47,10 +50,11 @@ private fun batteryLifeRange(level: String) = when (level) {
     else -> null
 }
 
+@Composable
 private fun batteryImpactModeName(mode: String) = when (mode) {
-    "default" -> "Default"
-    "seconds" -> "With seconds"
-    else -> "With animations"
+    "default" -> stringResource(PebbleRes.string.battery_impact_default)
+    "seconds" -> stringResource(PebbleRes.string.battery_impact_with_seconds)
+    else -> stringResource(PebbleRes.string.battery_impact_with_animations)
 }
 
 @Composable

@@ -280,7 +280,7 @@ private fun numberPref(item: WatchPreference<Long>, libPebble: LibPebble): Setti
                 pref = pref,
                 item = item,
                 libPebble = libPebble,
-                valueFormatter = { seconds -> "$seconds seconds" },
+                valueFormatter = { seconds -> "$seconds seconds" }, // not-localized
             )
         }
         NumberWatchPref.NotificationTimeoutMs -> {

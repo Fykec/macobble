@@ -63,6 +63,26 @@ import org.koin.compose.koinInject
 import rememberOpenDocumentLauncher
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.seconds
+import coreapp.pebble.generated.resources.debug_firmware_update
+import coreapp.pebble.generated.resources.fw_update_complete
+import coreapp.pebble.generated.resources.fw_unknown_error
+import coreapp.pebble.generated.resources.fw_state_idle
+import coreapp.pebble.generated.resources.fw_state_starting
+import coreapp.pebble.generated.resources.fw_state_in_progress
+import coreapp.pebble.generated.resources.fw_state_waiting_for_reboot
+import coreapp.pebble.generated.resources.fw_state_error
+import coreapp.pebble.generated.resources.fw_sideload
+import coreapp.pebble.generated.resources.fw_update_to_version
+import coreapp.pebble.generated.resources.fw_no_update_available
+import coreapp.pebble.generated.resources.fw_no_firmware_at_path
+import coreapp.pebble.generated.resources.fw_sideload_from_container
+import coreapp.pebble.generated.resources.fw_install_firmware
+import coreapp.pebble.generated.resources.fw_loop_test
+import coreapp.pebble.generated.resources.fw_loop_from_prf
+import coreapp.pebble.generated.resources.fw_cancel_update
+import coreapp.pebble.generated.resources.fw_loops_completed
+import org.jetbrains.compose.resources.getString
+import coreapp.pebble.generated.resources.Res as PebbleRes
 
 expect fun getTempFwPath(appContext: AppContext): Path
 
@@ -86,8 +106,8 @@ private sealed class UiFirmwareUpdateStatus {
                 is FirmwareUpdater.FirmwareUpdateStatus.InProgress -> InProgress(status.progress)
                 is FirmwareUpdater.FirmwareUpdateStatus.WaitingForReboot -> WaitingForReboot
                 is FirmwareUpdater.FirmwareUpdateStatus.NotInProgress.ErrorStarting -> Error(
-                    IllegalStateException("Couldn't start: ${status.error.message()}"),
-                    "Couldn't start: ${status.error.message()}"
+                    IllegalStateException("Couldn't start: ${status.error.message()}"), // not-localized
+                    "Couldn't start: ${status.error.message()}" // not-localized
                 )
 
                 is FirmwareUpdater.FirmwareUpdateStatus.NotInProgress.Idle -> Idle
@@ -129,7 +149,7 @@ fun DebugFirmwareSideload(watchIdentifier: String, coreNav: CoreNav) {
                             )
                         }
                     },
-                    title = { Text("Debug Firmware Update") }
+                    title = { Text(stringResource(PebbleRes.string.debug_firmware_update)) }
                 )
             },
             snackbarHost = { SnackbarHost(snackbarHostState) }
@@ -166,7 +186,7 @@ fun DebugFirmwareSideload(watchIdentifier: String, coreNav: CoreNav) {
                             val reconnectedWatch =
                                 libPebble.connectedWatchFor<ConnectedPebbleDevice>(identifier = identifier)
                             launch {
-                                snackbarHostState.showSnackbar("Update complete")
+                                snackbarHostState.showSnackbar(getString(PebbleRes.string.fw_update_complete))
                             }
                             loopCount.value++
                             if (!loop.value) break // stop if not looping
@@ -184,7 +204,7 @@ fun DebugFirmwareSideload(watchIdentifier: String, coreNav: CoreNav) {
                         setUpdateState(
                             UiFirmwareUpdateStatus.Error(
                                 e,
-                                e.message ?: "Unknown error"
+                                e.message ?: getString(PebbleRes.string.fw_unknown_error)
                             )
                         )
                     }
@@ -213,7 +233,7 @@ fun DebugFirmwareSideload(watchIdentifier: String, coreNav: CoreNav) {
                 when (updateState) {
                     is UiFirmwareUpdateStatus.Idle -> {
                         Text(
-                            "Idle",
+                            stringResource(PebbleRes.string.fw_state_idle),
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.titleMedium
                         )
@@ -221,7 +241,7 @@ fun DebugFirmwareSideload(watchIdentifier: String, coreNav: CoreNav) {
                             Button(onClick = {
                                 launchInstallFirmwareDialog(listOf("*/*"))
                             }, modifier = Modifier.padding(5.dp)) {
-                                Text("Sideload FW")
+                                Text(stringResource(PebbleRes.string.fw_sideload))
                             }
                             Button(
                                 onClick = {
@@ -239,8 +259,12 @@ fun DebugFirmwareSideload(watchIdentifier: String, coreNav: CoreNav) {
                                 modifier = Modifier.padding(5.dp)
                             ) {
                                 val text = when {
-                                    availableUpdate  is FirmwareUpdateCheckResult.FoundUpdate -> "Update FW to ${availableUpdate.version.stringVersion}"
-                                    else -> "No FW available"
+                                    availableUpdate  is FirmwareUpdateCheckResult.FoundUpdate ->
+                                        stringResource(
+                                            PebbleRes.string.fw_update_to_version,
+                                            availableUpdate.version.stringVersion,
+                                        )
+                                    else -> stringResource(PebbleRes.string.fw_no_update_available)
                                 }
                                 Text(text)
                             }
@@ -248,6 +272,10 @@ fun DebugFirmwareSideload(watchIdentifier: String, coreNav: CoreNav) {
                         // Sideload a .pbz dropped at the fixed container path (no picker). Used by
                         // automated QA (pushes over AFC/adb) and handy for developers. Its own row so
                         // the long label doesn't overflow the row above.
+                        val missingFirmwareText = stringResource(
+                            PebbleRes.string.fw_no_firmware_at_path,
+                            getSideloadDropPath(appContext).toString(),
+                        )
                         Button(onClick = {
                             val drop = getSideloadDropPath(appContext)
                             if (SystemFileSystem.exists(drop)) {
@@ -262,18 +290,18 @@ fun DebugFirmwareSideload(watchIdentifier: String, coreNav: CoreNav) {
                                 setUpdateState(
                                     UiFirmwareUpdateStatus.Error(
                                         IllegalStateException("missing"),
-                                        "No firmware at $drop"
+                                        missingFirmwareText
                                     )
                                 )
                             }
                         }, modifier = Modifier.padding(5.dp)) {
-                            Text("Sideload from container")
+                            Text(stringResource(PebbleRes.string.fw_sideload_from_container))
                         }
                     }
 
                     is UiFirmwareUpdateStatus.Starting -> {
                         Text(
-                            "Starting",
+                            stringResource(PebbleRes.string.fw_state_starting),
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.titleMedium
                         )
@@ -282,7 +310,7 @@ fun DebugFirmwareSideload(watchIdentifier: String, coreNav: CoreNav) {
                     is UiFirmwareUpdateStatus.InProgress -> {
                         val progress by updateState.progress.collectAsState()
                         Text(
-                            "In progress: ${(progress * 100).roundToInt()}%",
+                            stringResource(PebbleRes.string.fw_state_in_progress, (progress * 100).roundToInt().toString()),
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.titleMedium
                         )
@@ -293,7 +321,7 @@ fun DebugFirmwareSideload(watchIdentifier: String, coreNav: CoreNav) {
 
                     is UiFirmwareUpdateStatus.WaitingForReboot -> {
                         Text(
-                            "Waiting for reboot",
+                            stringResource(PebbleRes.string.fw_state_waiting_for_reboot),
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.titleMedium
                         )
@@ -301,12 +329,16 @@ fun DebugFirmwareSideload(watchIdentifier: String, coreNav: CoreNav) {
 
                     is UiFirmwareUpdateStatus.Error -> {
                         Text(
-                            "Error:\n${updateState.exception::class.simpleName}: ${updateState.message}",
+                            stringResource(
+                            PebbleRes.string.fw_state_error,
+                            updateState.exception::class.simpleName.orEmpty(),
+                            updateState.message,
+                        ),
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.titleMedium
                         )
                         Button(onClick = { launchInstallFirmwareDialog(listOf("*/*")) }) {
-                            Text("Install firmware")
+                            Text(stringResource(PebbleRes.string.fw_install_firmware))
                         }
                     }
                 }
@@ -316,7 +348,7 @@ fun DebugFirmwareSideload(watchIdentifier: String, coreNav: CoreNav) {
                         loopCount.value = 0
                     })
                     Text(
-                        "Loop Test",
+                        stringResource(PebbleRes.string.fw_loop_test),
                         modifier = Modifier
                             .clickable {
                                 loop.value = !loop.value
@@ -333,7 +365,7 @@ fun DebugFirmwareSideload(watchIdentifier: String, coreNav: CoreNav) {
                         loopCount.value = 0
                     })
                     Text(
-                        "Loop From PRF",
+                        stringResource(PebbleRes.string.fw_loop_from_prf),
                         modifier = Modifier
                             .clickable {
                                 loopPrf.value = !loopPrf.value
@@ -352,11 +384,11 @@ fun DebugFirmwareSideload(watchIdentifier: String, coreNav: CoreNav) {
                             setUpdateState(UiFirmwareUpdateStatus.Idle)
                         }
                     ) {
-                        Text("Cancel update")
+                        Text(stringResource(PebbleRes.string.fw_cancel_update))
                     }
                 }
                 if (loop.value) {
-                    Text("Loops completed: ${loopCount.value}")
+                    Text(stringResource(PebbleRes.string.fw_loops_completed, loopCount.value.toString()))
                 }
             }
         }

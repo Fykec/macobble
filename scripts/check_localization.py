@@ -24,7 +24,6 @@ EXCLUDED_PATHS = (
     "/ui/screens/settings/mcp/",
     "HttpServerEditDialog.kt",
     "AddIntegration.kt",
-    "DebugFirmwareSideload.kt",
     "DebugLogOverlay.kt",
     "DebugLogs.kt",
     "RawBleScan.kt",

@@ -596,4 +596,22 @@
     <string name="battery_impact_default">默认</string>
     <string name="battery_impact_with_seconds">显示秒</string>
     <string name="battery_impact_with_animations">显示动画</string>
+    <string name="debug_firmware_update">固件更新调试</string>
+    <string name="fw_update_complete">更新完成</string>
+    <string name="fw_unknown_error">未知错误</string>
+    <string name="fw_state_idle">空闲</string>
+    <string name="fw_state_starting">正在开始</string>
+    <string name="fw_state_in_progress">进行中：%1$s%%</string>
+    <string name="fw_state_waiting_for_reboot">等待手表重启</string>
+    <string name="fw_state_error">错误：%1$s：%2$s</string>
+    <string name="fw_sideload">侧载固件</string>
+    <string name="fw_update_to_version">更新固件到 %1$s</string>
+    <string name="fw_no_update_available">没有可用固件</string>
+    <string name="fw_no_firmware_at_path">%1$s 处没有固件</string>
+    <string name="fw_sideload_from_container">从投放目录侧载</string>
+    <string name="fw_install_firmware">安装固件</string>
+    <string name="fw_loop_test">循环测试</string>
+    <string name="fw_loop_from_prf">从 PRF 循环</string>
+    <string name="fw_cancel_update">取消更新</string>
+    <string name="fw_loops_completed">已完成 %1$s 次循环</string>
 </resources>

@@ -98,6 +98,12 @@ import coreapp.pebble.generated.resources.add_rule
 import coreapp.pebble.generated.resources.delete_rule
 import coreapp.pebble.generated.resources.done_icon
 import coreapp.pebble.generated.resources.edit_rule
+import coreapp.pebble.generated.resources.mute_status_always
+import coreapp.pebble.generated.resources.mute_status_weekdays
+import coreapp.pebble.generated.resources.mute_status_weekends
+import coreapp.pebble.generated.resources.match_field_title
+import coreapp.pebble.generated.resources.match_field_body
+import coreapp.pebble.generated.resources.match_field_title_and_body
 
 class NotificationAppScreenViewModel : ViewModel() {
     val onlyNotified = mutableStateOf(false)
@@ -348,9 +354,9 @@ fun NotificationAppScreen(
                                 "Status: Muted for 1 hour ($timeString left)"
                             }
                         }
-                        app.muteState == MuteState.Always -> "Status: Muted (Always)"
-                        app.muteState == MuteState.Weekdays -> "Status: Muted (Weekdays)"
-                        app.muteState == MuteState.Weekends -> "Status: Muted (Weekends)"
+                        app.muteState == MuteState.Always -> stringResource(PebbleRes.string.mute_status_always)
+                        app.muteState == MuteState.Weekdays -> stringResource(PebbleRes.string.mute_status_weekdays)
+                        app.muteState == MuteState.Weekends -> stringResource(PebbleRes.string.mute_status_weekends)
                         else -> null
                     }
 
@@ -410,9 +416,9 @@ private fun NotificationRulesSection(
                         Spacer(Modifier.height(2.dp))
                         val matchTypeLabel = if (rule.matchType == MatchType.Regex) "Regex" else "Text"
                         val fieldLabel = when (rule.matchField) {
-                            MatchField.Title -> "Title"
-                            MatchField.Body -> "Body"
-                            MatchField.Both -> "Title+Body"
+                            MatchField.Title -> stringResource(PebbleRes.string.match_field_title)
+                            MatchField.Body -> stringResource(PebbleRes.string.match_field_body)
+                            MatchField.Both -> stringResource(PebbleRes.string.match_field_title_and_body)
                         }
                         val caseLabel = if (rule.caseSensitive) "case-sensitive" else "case-insensitive"
                         Text(

@@ -570,4 +570,16 @@
     <string name="entry_type_watchface">表盘</string>
     <string name="entry_type_watchapp">手表应用</string>
     <string name="entry_type_plugin">插件</string>
+    <string name="hr_interval_5_min">每 5 分钟</string>
+    <string name="hr_interval_10_min">每 10 分钟</string>
+    <string name="hr_interval_30_min">每 30 分钟</string>
+    <string name="hr_interval_1_hour">每小时</string>
+    <string name="hr_interval_off">关闭</string>
+    <string name="weather_source_plugin">插件：%1$s</string>
+    <string name="mute_status_always">状态：已静音（始终）</string>
+    <string name="mute_status_weekdays">状态：已静音（工作日）</string>
+    <string name="mute_status_weekends">状态：已静音（周末）</string>
+    <string name="match_field_title">标题</string>
+    <string name="match_field_body">正文</string>
+    <string name="match_field_title_and_body">标题+正文</string>
 </resources>

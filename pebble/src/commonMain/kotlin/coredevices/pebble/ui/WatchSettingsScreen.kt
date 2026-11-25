@@ -381,6 +381,12 @@ import coreapp.pebble.generated.resources.settings_group_custom_vibration_patter
 import coreapp.pebble.generated.resources.settings_group_advanced
 import coreapp.pebble.generated.resources.settings_group_automatic_updates
 import coreapp.pebble.generated.resources.settings_group_app_usage
+import coreapp.pebble.generated.resources.hr_interval_5_min
+import coreapp.pebble.generated.resources.hr_interval_10_min
+import coreapp.pebble.generated.resources.hr_interval_30_min
+import coreapp.pebble.generated.resources.hr_interval_1_hour
+import coreapp.pebble.generated.resources.hr_interval_off
+import coreapp.pebble.generated.resources.weather_source_plugin
 
 enum class TopLevelType(val displayName: StringResource) {
     Phone(PebbleRes.string.top_level_phone),
@@ -1505,11 +1511,11 @@ fun rememberSettingsItemsState(navBarNav: NavBarNav?, snackbarDisplay: SnackbarD
                     },
                     itemText = {
                         when (it) {
-                            HRMonitoringInterval.FiveMin -> "Every 5 minutes"
-                            HRMonitoringInterval.TenMin -> "Every 10 minutes"
-                            HRMonitoringInterval.ThirtyMin -> "Every 30 minutes"
-                            HRMonitoringInterval.OneHour -> "Every hour"
-                            HRMonitoringInterval.Disabled -> "Off"
+                            HRMonitoringInterval.FiveMin -> stringResource(PebbleRes.string.hr_interval_5_min)
+                            HRMonitoringInterval.TenMin -> stringResource(PebbleRes.string.hr_interval_10_min)
+                            HRMonitoringInterval.ThirtyMin -> stringResource(PebbleRes.string.hr_interval_30_min)
+                            HRMonitoringInterval.OneHour -> stringResource(PebbleRes.string.hr_interval_1_hour)
+                            HRMonitoringInterval.Disabled -> stringResource(PebbleRes.string.hr_interval_off)
                         }
                     },
                     show = { healthSettings.trackingEnabled && healthSettings.hrmEnabled },
@@ -1742,7 +1748,11 @@ fun rememberSettingsItemsState(navBarNav: NavBarNav?, snackbarDisplay: SnackbarD
                             libPebble.setPreferredSourcePlugin(WeatherPlugin.CATEGORY, WeatherPlugin.ITEM_LOCATION, it?.pluginUuid)
                             GlobalScope.launch { weatherFetcher.fetchWeather(this) }
                         },
-                        itemText = { it?.let { plugin -> "Plugin: ${plugin.name}" } ?: "Pebble" },
+                        itemText = {
+                            it?.let { plugin ->
+                                stringResource(PebbleRes.string.weather_source_plugin, plugin.name)
+                            } ?: "Pebble"
+                        },
                         show = { coreConfig.fetchWeather && providers.isNotEmpty() },
                         selectorBelow = true,
                     )

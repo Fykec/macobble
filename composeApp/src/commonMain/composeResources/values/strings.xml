@@ -1,8 +1,9 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="add">Add</string>
     <string name="add_image">Add Image</string>
     <string name="add_images">Add Images</string>
+    <string name="agent_reply_prefix">Agent: %1$s</string>
     <string name="alpha_test_instructions">Alpha Test Instructions</string>
     <string name="app_permissions">App permissions</string>
     <string name="attach_an_image">Attach an image</string>
@@ -19,6 +20,7 @@
     <string name="configure_more_in_settings">Configure more in Settings</string>
     <string name="configure_your_watch">Configure your watch</string>
     <string name="connect_a_pebble">Connect a Pebble!</string>
+    <string name="currently_installed_language_pack">Currently installed: %1$s</string>
     <string name="description">description</string>
     <string name="download_required">Download Required</string>
     <string name="downloading_the_updated_model_this_may">Downloading the updated model. This may take a few minutes.</string>
@@ -33,6 +35,7 @@
     <string name="index_01">Index 01</string>
     <string name="index_bug">Index bug</string>
     <string name="install_a_language_pack">Install a language pack</string>
+    <string name="installing_language_pack">Installing %1$s</string>
     <string name="later">Later</string>
     <string name="my_bug_reports">My Bug Reports</string>
     <string name="no_bug_reports_found">No bug reports found</string>
@@ -43,7 +46,9 @@
     <string name="please_note_that_logs_device_info">Please note that logs + device info will be sent with this report</string>
     <string name="refresh">Refresh</string>
     <string name="remove">Remove</string>
+    <string name="remove_n_files">Remove %1$s file(s)</string>
     <string name="report_sent">Report Sent!</string>
+    <string name="report_title_with_subject">Report: %1$s</string>
     <string name="retry">Retry</string>
     <string name="send_report">Send Report</string>
     <string name="sign_in">Sign In</string>
@@ -68,4 +73,4 @@
     <string name="what_s_new_in_the_app">What's new in the app</string>
     <string name="you_can_follow_up_on_an">You can follow up on an existing bug report by adding more logs or information:</string>
     <string name="you_must_sign_in_to_submit">You must sign in to submit a bug report</string>
-<string name="remove_n_files">Remove %1$s file(s)</string><string name="installing_language_pack">Installing %1$s</string><string name="currently_installed_language_pack">Currently installed: %1$s</string><string name="agent_reply_prefix">Agent: %1$s</string><string name="report_title_with_subject">Report: %1$s</string></resources>
+</resources>

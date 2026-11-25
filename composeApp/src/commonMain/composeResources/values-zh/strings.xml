@@ -3,6 +3,7 @@
     <string name="add">添加</string>
     <string name="add_image">添加图片</string>
     <string name="add_images">添加图片</string>
+    <string name="agent_reply_prefix">助手：%1$s</string>
     <string name="alpha_test_instructions">Alpha 测试说明</string>
     <string name="app_permissions">应用权限</string>
     <string name="attach_an_image">附加图片</string>
@@ -19,6 +20,7 @@
     <string name="configure_more_in_settings">在设置中可配置更多选项</string>
     <string name="configure_your_watch">配置你的手表</string>
     <string name="connect_a_pebble">连接 Pebble！</string>
+    <string name="currently_installed_language_pack">当前已安装：%1$s</string>
     <string name="description">描述</string>
     <string name="download_required">需要下载</string>
     <string name="downloading_the_updated_model_this_may">正在下载更新后的模型，这可能需要几分钟。</string>
@@ -33,6 +35,7 @@
     <string name="index_01">Index 01</string>
     <string name="index_bug">Index 问题</string>
     <string name="install_a_language_pack">安装语言包</string>
+    <string name="installing_language_pack">正在安装 %1$s</string>
     <string name="later">稍后</string>
     <string name="my_bug_reports">我的问题报告</string>
     <string name="no_bug_reports_found">未找到问题报告</string>
@@ -43,7 +46,9 @@
     <string name="please_note_that_logs_device_info">请注意，此报告将附带日志和设备信息</string>
     <string name="refresh">刷新</string>
     <string name="remove">移除</string>
+    <string name="remove_n_files">移除 %1$s 个文件</string>
     <string name="report_sent">报告已发送！</string>
+    <string name="report_title_with_subject">报告：%1$s</string>
     <string name="retry">重试</string>
     <string name="send_report">发送报告</string>
     <string name="sign_in">登录</string>
@@ -68,9 +73,4 @@
     <string name="what_s_new_in_the_app">应用的新变化</string>
     <string name="you_can_follow_up_on_an">你可以通过追加日志或信息来跟进已有的问题报告：</string>
     <string name="you_must_sign_in_to_submit">你需要先登录才能提交问题报告</string>
-    <string name="remove_n_files">移除 %1$s 个文件</string>
-    <string name="installing_language_pack">正在安装 %1$s</string>
-    <string name="currently_installed_language_pack">当前已安装：%1$s</string>
-    <string name="agent_reply_prefix">助手：%1$s</string>
-    <string name="report_title_with_subject">报告：%1$s</string>
 </resources>

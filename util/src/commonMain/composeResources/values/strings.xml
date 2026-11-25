@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="account_exists_switch_explanation">This account already exists. Signing in will switch to it, and any apps or settings saved as a guest on this device won't carry over.</string>
     <string name="back">Back</string>
@@ -11,6 +11,7 @@
     <string name="downloading_models">Downloading Models</string>
     <string name="keep_sync_on">Keep sync on</string>
     <string name="light">Light</string>
+    <string name="login_disabled_in_build">%1$s login disabled within this build</string>
     <string name="models_download_explanation">This feature requires downloading additional machine learning models. Please avoid downloading over a metered connection.</string>
     <string name="report_a_bug">Report a bug</string>
     <string name="secondary_profile">Secondary Profile</string>
@@ -23,4 +24,4 @@
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="system">System</string>
     <string name="this_might_take_a_few_minutes">This might take a few minutes on a slow connection...</string>
-<string name="login_disabled_in_build">%1$s login disabled within this build</string></resources>
+</resources>

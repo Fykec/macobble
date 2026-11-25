@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="account">Account</string>
     <string name="action">Action</string>
@@ -74,9 +74,11 @@
     <string name="contacts_index_is_allowed_to_message">Contacts Index is allowed to message. Try saying "Message Alice - What's up?"</string>
     <string name="continue_label">Continue</string>
     <string name="convert_to_reminder">Convert to Reminder</string>
+    <string name="copy_from_x">Copy from %1$s</string>
     <string name="copy_key">Copy Key</string>
     <string name="couldn_t_export_recording">Couldn't export recording</string>
     <string name="couldn_t_find_that_address">Couldn't find that address.</string>
+    <string name="couldnt_add_x">Couldn't add %1$s</string>
     <string name="danger_zone">Danger Zone</string>
     <string name="date">Date</string>
     <string name="debug">Debug</string>
@@ -93,9 +95,12 @@
     <string name="delete_local_feed_2">Delete local feed</string>
     <string name="delete_recording">Delete recording</string>
     <string name="delete_recording_2">Delete recording?</string>
+    <string name="delete_recording_and_x">Delete recording and %1$s</string>
     <string name="delete_recording_only">Delete recording only</string>
     <string name="delete_reminders">Delete reminders</string>
     <string name="delete_saved_place">Delete Saved Place</string>
+    <string name="delete_x">Delete %1$s</string>
+    <string name="delete_x_title">Delete "%1$s"?</string>
     <string name="denied">Denied</string>
     <string name="description">Description</string>
     <string name="diagnostics">Diagnostics</string>
@@ -237,6 +242,7 @@
     <string name="pm">PM</string>
     <string name="processed_offline">Processed offline</string>
     <string name="processing">Processing</string>
+    <string name="provider_needs_relinking">%1$s needs relinking</string>
     <string name="ran_javascript">Ran JavaScript</string>
     <string name="re_pairing_required">Re-pairing required</string>
     <string name="read_key_from_google_password_manager">Read key from Google Password Manager or iCloud Keychain</string>
@@ -244,6 +250,7 @@
     <string name="recording">Recording</string>
     <string name="recording_timestamp_reveal">recording timestamp reveal</string>
     <string name="recordingprocessing">RecordingProcessing</string>
+    <string name="recordings_across_all_devices">%1$s recordings across all devices</string>
     <string name="recovering_your_index_01">Recovering your Index 01</string>
     <string name="reminder">Reminder</string>
     <string name="reminder_added">Reminder added</string>
@@ -292,6 +299,7 @@
     <string name="service_control">Service control</string>
     <string name="set_default">Set default</string>
     <string name="set_default_destination">Set default destination?</string>
+    <string name="set_default_destination_prompt">Do you want to set %1$s as your default destination for %2$s?</string>
     <string name="set_up_backup_encryption">Set up backup encryption</string>
     <string name="settings">Settings</string>
     <string name="shimmer">shimmer</string>
@@ -354,6 +362,7 @@
     <string name="used_when_index_can_t_tell">Used when Index can't tell what you meant.</string>
     <string name="validate_agent_choices">Validate agent choices</string>
     <string name="value">Value</string>
+    <string name="version_value">Version: %1$s</string>
     <string name="view_and_cancel_timers_and_alarms">View and cancel timers and alarms set by your Index</string>
     <string name="view_your_index_notes_and_reminders">View your Index notes and reminders in a browser at index.rePebble.com</string>
     <string name="webhook_settings">Webhook settings</string>
@@ -366,4 +375,4 @@
     <string name="you_can_add_more_from_settings">You can add more from Settings later</string>
     <string name="you_can_add_plugins_from_settings">You can add plugins from settings later</string>
     <string name="you_re_all_done">You're all done!</string>
-<string name="copy_from_x">Copy from %1$s</string><string name="delete_x">Delete %1$s</string><string name="delete_recording_and_x">Delete recording and %1$s</string><string name="provider_needs_relinking">%1$s needs relinking</string><string name="recordings_across_all_devices">%1$s recordings across all devices</string><string name="set_default_destination_prompt">Do you want to set %1$s as your default destination for %2$s?</string><string name="couldnt_add_x">Couldn't add %1$s</string><string name="delete_x_title">Delete "%1$s"?</string><string name="version_value">Version: %1$s</string></resources>
+</resources>

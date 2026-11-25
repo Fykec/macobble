@@ -2,6 +2,8 @@ package coredevices.pebble.firmware
 
 import co.touchlab.kermit.Logger
 import coredevices.analytics.CoreAnalytics
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.auth.auth
 import coredevices.pebble.services.EngDashOta
 import coredevices.pebble.services.Memfault
 import coredevices.util.CoreConfigFlow
@@ -97,7 +99,17 @@ class FirmwareUpdateCheck(
 
     private suspend fun doCheck(watch: WatchInfo): FirmwareUpdateCheckResult = when {
         watch.platform == UNKNOWN -> FirmwareUpdateCheckResult.UpdateCheckFailed("Unknown platform")
-        watch.platform.isCoreDevice() -> engDashOta.getLatestFirmware(watch)
+        watch.platform.isCoreDevice() -> {
+            // eng-dash only serves firmware for a signed-in account's release track, so asking
+            // without a session just yields a 401 that the UI shows as a failure. Report "no
+            // update" instead: nothing to show, nothing to retry.
+            if (Firebase.auth.currentUser == null) {
+                logger.i { "Skipping Core firmware check: not signed in" }
+                FirmwareUpdateCheckResult.FoundNoUpdate
+            } else {
+                engDashOta.getLatestFirmware(watch)
+            }
+        }
         else -> cohorts.getLatestFirmware(watch)
     }
 

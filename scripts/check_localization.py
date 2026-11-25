@@ -31,20 +31,34 @@ EXCLUDED_PATHS = (
     "WatchNotifications.kt",
 )
 
+# Call sites that render prose: composable arguments, named parameters, and
+# `when` branches that return a literal. The last one is how labels such as
+# "Faces" and "Most used" used to slip through.
 UI_STRING_PATTERN = re.compile(
     r'(?:Text\(\s*"'
-    r"|(?<![A-Za-z])(?:text|title|subtitle|subtext|label|contentDescription|placeholder|supportingText|message)\s*=\s*\")"
+    r"|(?<![A-Za-z])(?:text|title|subtitle|subtext|label|contentDescription|placeholder|supportingText|message)\s*=\s*\""
+    r'|->\s*")'
 )
+
+# `when` branches also return identifiers and debug strings ("agent_running",
+# "transferring", "ios"). Those have no spaces and no capitals.
+WHEN_BRANCH_PATTERN = re.compile(r'->\s*"')
 STRING_LITERAL = re.compile(r'"((?:[^"\\]|\\.)*)"')
 
 
-def is_prose(literal: str) -> bool:
-    """True when the literal is human text rather than a format, symbol or pure interpolation."""
+def is_prose(literal: str, when_branch: bool = False) -> bool:
+    """True when the literal is human text rather than a format, symbol or identifier."""
     # "${count}", "$batteryLevel%" and similar carry no translatable words.
     without_templates = re.sub(r"\$\{[^}]*\}|\$\w+", "", literal)
     if len(re.findall(r"[A-Za-z]", without_templates)) < 2:
         return False
     if literal.startswith("%") and " " not in literal:
+        return False
+    if when_branch and "_" not in literal and literal == literal.lower() and " " not in literal:
+        # "agent_running", "transferring", "ios": internal identifiers, not UI text.
+        return False
+    if re.fullmatch(r"(.)\1+", literal):
+        # "XXXXXXXXXXXX": a mask or placeholder, not prose.
         return False
     return True
 
@@ -145,11 +159,18 @@ def check_inline_strings() -> bool:
             for line in text.splitlines(keepends=True):
                 # `not-localized` marks a literal that must stay English: store names used as
                 # identifiers, or text the watch renders in its own language.
-                if UI_STRING_PATTERN.search(line) and "not-localized" not in line:
+                stripped = line.lstrip()
+                in_comment = stripped.startswith(("*", "/*", "//"))
+                if UI_STRING_PATTERN.search(line) and "not-localized" not in line and not in_comment:
                     position = offset + line.index('"') if '"' in line else offset
                     in_preview = any(start <= position <= end for start, end in skip_ranges)
                     literal_match = STRING_LITERAL.search(line)
-                    if not in_preview and literal_match and is_prose(literal_match.group(1)):
+                    when_branch = WHEN_BRANCH_PATTERN.search(line) is not None
+                    if (
+                        not in_preview
+                        and literal_match
+                        and is_prose(literal_match.group(1), when_branch)
+                    ):
                         count += 1
                 offset += len(line)
             if count:

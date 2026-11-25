@@ -82,6 +82,12 @@ import coreapp.pebble.generated.resources.manual_coordinates
 import coreapp.pebble.generated.resources.remove_location_title
 import coreapp.pebble.generated.resources.latitude_example
 import coreapp.pebble.generated.resources.longitude_example
+import coreapp.pebble.generated.resources.weather_current_location
+import coreapp.pebble.generated.resources.weather_manual_location
+import coreapp.pebble.generated.resources.weather_fixed_location
+import coreapp.pebble.generated.resources.weather_add_location
+import coreapp.pebble.generated.resources.weather_search_location
+import coreapp.pebble.generated.resources.weather_enter_coordinates
 
 private const val MAX_WEATHER_LOCATIONS = 5
 private val logger = Logger.withTag("WeatherScreen")
@@ -190,9 +196,9 @@ fun WeatherScreen(navBarNav: NavBarNav, topBarParams: TopBarParams) {
                                 supportingContent = {
                                     Text(
                                         when {
-                                            location.currentLocation -> "Current Location"
-                                            location.manual -> "Manual Location"
-                                            else -> "Fixed Location"
+                                            location.currentLocation -> stringResource(PebbleRes.string.weather_current_location)
+                                            location.manual -> stringResource(PebbleRes.string.weather_manual_location)
+                                            else -> stringResource(PebbleRes.string.weather_fixed_location)
                                         }
                                     )
                                 },
@@ -272,9 +278,9 @@ private fun AddWeatherLocationDialog(
         title = {
             Text(
                 when (mode) {
-                    AddLocationMode.Choose -> "Add Weather Location"
-                    AddLocationMode.Search -> "Search Location"
-                    AddLocationMode.Manual -> "Enter Coordinates"
+                    AddLocationMode.Choose -> stringResource(PebbleRes.string.weather_add_location)
+                    AddLocationMode.Search -> stringResource(PebbleRes.string.weather_search_location)
+                    AddLocationMode.Manual -> stringResource(PebbleRes.string.weather_enter_coordinates)
                 }
             )
         },

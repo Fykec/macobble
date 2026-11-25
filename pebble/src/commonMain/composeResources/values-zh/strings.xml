@@ -514,4 +514,10 @@
     <string name="enabled_filter_disabled">已禁用</string>
     <string name="activity_grouping_by_app">按应用</string>
     <string name="activity_grouping_by_plugin">按插件</string>
+    <string name="weather_current_location">当前位置</string>
+    <string name="weather_manual_location">手动位置</string>
+    <string name="weather_fixed_location">固定位置</string>
+    <string name="weather_add_location">添加天气位置</string>
+    <string name="weather_search_location">搜索位置</string>
+    <string name="weather_enter_coordinates">输入坐标</string>
 </resources>

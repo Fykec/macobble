@@ -113,6 +113,9 @@ import coreapp.pebble.generated.resources.not_compatible_with_this_watch
 import coreapp.pebble.generated.resources.not_natively_compatible_with_this_watch
 import coreapp.pebble.generated.resources.selected
 import coreapp.pebble.generated.resources.settings
+import coreapp.pebble.generated.resources.settings_needs_compatible_watch
+import coreapp.pebble.generated.resources.settings_needs_sync
+import coreapp.pebble.generated.resources.settings_needs_watch
 import coreapp.pebble.generated.resources.made_for_x
 import coreapp.pebble.generated.resources.app_type_faces
 import coreapp.pebble.generated.resources.app_type_apps
@@ -327,19 +330,38 @@ fun CommonApp.SettingsButton(
                     isCompatible && isSynced() && (connected || commonAppType is CommonAppType.System)
             }
 
-        PebbleElevatedButton(
-            text = stringResource(PebbleRes.string.settings),
-            onClick = {
-                scope.launch {
-                    showSettings(navBarNav, libPebble, topBarParams)
-                }
-            },
-            enabled = settingsEnabled,
-            icon = Icons.Default.Settings,
-            contentDescription = stringResource(PebbleRes.string.settings),
-            primaryColor = false,
-            modifier = Modifier.padding(5.dp),
-        )
+        // A disabled button with no explanation reads as a bug: right after launch the page is
+        // waiting for the watch to connect and for the app to sync.
+        val blockedReason = when {
+            settingsEnabled -> null
+            !isCompatible -> stringResource(PebbleRes.string.settings_needs_compatible_watch)
+            !isSynced() -> stringResource(PebbleRes.string.settings_needs_sync)
+            else -> stringResource(PebbleRes.string.settings_needs_watch)
+        }
+
+        Column {
+            PebbleElevatedButton(
+                text = stringResource(PebbleRes.string.settings),
+                onClick = {
+                    scope.launch {
+                        showSettings(navBarNav, libPebble, topBarParams)
+                    }
+                },
+                enabled = settingsEnabled,
+                icon = Icons.Default.Settings,
+                contentDescription = stringResource(PebbleRes.string.settings),
+                primaryColor = false,
+                modifier = Modifier.padding(5.dp),
+            )
+            blockedReason?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(start = 10.dp, end = 5.dp, bottom = 5.dp),
+                )
+            }
+        }
     }
 }
 

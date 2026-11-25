@@ -1168,7 +1168,11 @@ suspend fun CommonApp.showSettings(
             } else {
                 logger.d("Launching app $uuid for pkjs settings...")
                 libPebble.launchApp(this, topBarParams, watch.identifier)
-                watch.currentPKJSSession.first { it?.uuid == uuid }
+                // Bounded: a companion app that fails to start leaves this flow waiting forever,
+                // which looks to the user like the settings tap did nothing at all.
+                withTimeoutOrNull(15.seconds) {
+                    watch.currentPKJSSession.first { it?.uuid == uuid }
+                }
             }
             if (session?.uuid != uuid) {
                 logger.e("PKJS session UUID mismatch: expected $uuid, got ${session?.uuid}")

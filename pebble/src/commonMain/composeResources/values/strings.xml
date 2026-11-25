@@ -408,6 +408,8 @@
     <string name="test_success">Test Success</string>
     <string name="text">Text</string>
     <string name="these_settings_can_t_be_opened">These settings can't be opened safely on this device.</string>
+    <string name="config_page_load_failed">Couldn't load the settings page.</string>
+    <string name="config_page_close">Close</string>
     <string name="third_watchface">Third Watchface</string>
     <string name="this_app_s_settings_page_may">This app's settings page may not work any more</string>
     <string name="this_device_is_already_paired_to">This device is already paired to another phone.</string>

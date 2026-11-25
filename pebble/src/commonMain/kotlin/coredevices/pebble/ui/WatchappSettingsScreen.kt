@@ -105,6 +105,8 @@ import coreapp.pebble.generated.resources.open
 import coreapp.pebble.generated.resources.open_in_browser
 import coreapp.pebble.generated.resources.these_settings_can_t_be_opened
 import coreapp.pebble.generated.resources.wants_to_open_page
+import coreapp.pebble.generated.resources.config_page_close
+import coreapp.pebble.generated.resources.config_page_load_failed
 import coreapp.pebble.generated.resources.configuring_app
 import coreapp.pebble.generated.resources.wants_to_x
 
@@ -149,6 +151,29 @@ internal expect fun persistLocalStorage(webView: NativeWebView)
 
 @Composable
 internal expect fun rememberPlatformWebViewParams(mayLoad: (String) -> Boolean): PlatformWebViewParams?
+
+/**
+ * True on platforms that host config pages themselves instead of going through the webview library.
+ * macOS has no library target, so it draws the page in its own sheet.
+ */
+internal expect fun configPageHostedNatively(): Boolean
+
+/** Hosts [url] outside the Compose hierarchy; every callback runs on the main thread. */
+@Composable
+internal expect fun NativeConfigPageHost(
+    url: String,
+    title: String,
+    closeLabel: String,
+    network: ConfigPageNetwork,
+    bridge: ConfigPageBridge,
+    /** The `pebblejs://close` payload, or null when the page was dismissed without one. */
+    onClosed: (String?) -> Unit,
+    /** The page never loaded; the caller shows an error instead of a blank page. */
+    onLoadFailed: () -> Unit,
+    /** Returns true when [url] is a locker link and was opened, so the page must not follow it. */
+    openStoreAppLink: (String) -> Boolean,
+    modifier: Modifier,
+)
 
 private val logger = Logger.withTag("WatchappSettingsScreen")
 
@@ -201,6 +226,14 @@ fun WatchappSettingsScreen(
         }
         val deepLinks: PebbleDeepLinkHandler = koinInject()
         val scope = rememberCoroutineScope()
+        // One close path for both hosts: persist what the page stored, hand the payload back, leave.
+        suspend fun closePage(data: String?) {
+            runCatching { state.nativeWebView }.getOrNull()?.let { persistLocalStorage(it) }
+            if (data != null) session?.onPageClosed(data)
+            withContext(Dispatchers.Main) {
+                coreNav.goBack()
+            }
+        }
         // Leaves the page for the linked app's page in the locker. Called on the main thread, which
         // persistLocalStorage blocks on.
         val openStoreAppLink = { url: String ->
@@ -216,19 +249,8 @@ fun WatchappSettingsScreen(
         val interceptor = remember {
             SettingsRequestInterceptor(
                 openStoreAppLink = openStoreAppLink,
-                onSuccess = { data ->
-                    runCatching { state.nativeWebView }.getOrNull()?.let { persistLocalStorage(it) }
-                    session?.onPageClosed(data)
-                    withContext(Dispatchers.Main) {
-                        coreNav.goBack()
-                    }
-                },
-                onError = {
-                    runCatching { state.nativeWebView }.getOrNull()?.let { persistLocalStorage(it) }
-                    withContext(Dispatchers.Main) {
-                        coreNav.goBack()
-                    }
-                }
+                onSuccess = { data -> closePage(data) },
+                onError = { closePage(null) }
             )
         }
         val navigator = rememberWebViewNavigator(requestInterceptor = interceptor)
@@ -360,6 +382,10 @@ fun WatchappSettingsScreen(
             }
         }
 
+        // Only the natively hosted page reports failures; it replaces the web view with a message
+        // rather than leaving the user staring at a blank sheet.
+        var hostLoadFailed by remember(url) { mutableStateOf(false) }
+
         Scaffold(
             snackbarHost = { SnackbarHost(snackbarHostState) },
             topBar = {
@@ -408,6 +434,25 @@ fun WatchappSettingsScreen(
                         stringResource(PebbleRes.string.these_settings_can_t_be_opened),
                         modifier = Modifier.padding(paddingValues).padding(16.dp),
                     )
+                } else if (configPageHostedNatively()) {
+                    if (hostLoadFailed) {
+                        Text(
+                            stringResource(PebbleRes.string.config_page_load_failed),
+                            modifier = Modifier.padding(paddingValues).padding(16.dp),
+                        )
+                    } else {
+                        NativeConfigPageHost(
+                            url = url,
+                            title = title,
+                            closeLabel = stringResource(PebbleRes.string.config_page_close),
+                            network = pageNetwork,
+                            bridge = bridge,
+                            onClosed = { data -> scope.launch { closePage(data) } },
+                            onLoadFailed = { hostLoadFailed = true },
+                            openStoreAppLink = openStoreAppLink,
+                            modifier = Modifier.fillMaxSize().padding(paddingValues),
+                        )
+                    }
                 } else {
                     WebView(
                         state = state,

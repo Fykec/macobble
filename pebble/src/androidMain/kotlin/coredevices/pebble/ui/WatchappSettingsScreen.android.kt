@@ -13,6 +13,7 @@ import android.webkit.WebView
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.runtime.remember
 import com.multiplatform.webview.web.AccompanistWebChromeClient
 import com.multiplatform.webview.web.AccompanistWebViewClient
@@ -214,3 +215,19 @@ internal actual fun persistLocalStorage(webView: NativeWebView) {
         )
     }
 }
+
+/** Android renders config pages through the webview library, inside the Compose hierarchy. */
+internal actual fun configPageHostedNatively(): Boolean = false
+
+@Composable
+internal actual fun NativeConfigPageHost(
+    url: String,
+    title: String,
+    closeLabel: String,
+    network: ConfigPageNetwork,
+    bridge: ConfigPageBridge,
+    onClosed: (String?) -> Unit,
+    onLoadFailed: () -> Unit,
+    openStoreAppLink: (String) -> Boolean,
+    modifier: Modifier,
+) = Unit

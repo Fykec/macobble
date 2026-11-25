@@ -123,6 +123,23 @@ import com.russhwolf.settings.Settings
 import com.russhwolf.settings.serialization.decodeValue
 import com.russhwolf.settings.serialization.encodeValue
 import coreapp.pebble.generated.resources.Res
+import coreapp.pebble.generated.resources.state_connected
+import coreapp.pebble.generated.resources.state_connected_factory
+import coreapp.pebble.generated.resources.state_connecting
+import coreapp.pebble.generated.resources.state_disconnected
+import coreapp.pebble.generated.resources.state_disconnecting
+import coreapp.pebble.generated.resources.state_downloading_language_pack
+import coreapp.pebble.generated.resources.state_error_starting_update
+import coreapp.pebble.generated.resources.state_installing_language_pack
+import coreapp.pebble.generated.resources.state_negotiating
+import coreapp.pebble.generated.resources.state_rebooting_after_update
+import coreapp.pebble.generated.resources.state_rebooting_into_recovery_to_install
+import coreapp.pebble.generated.resources.state_rebooting_into_recovery_to_update
+import coreapp.pebble.generated.resources.state_rebooting_to_finish_update
+import coreapp.pebble.generated.resources.state_reverse_ppog
+import coreapp.pebble.generated.resources.state_updating_to_pebbleos
+import coreapp.pebble.generated.resources.state_updating_to_pebbleos_brief
+import coreapp.pebble.generated.resources.state_waiting
 import coreapp.pebble.generated.resources.battery
 import org.jetbrains.compose.resources.StringResource
 import coreapp.pebble.generated.resources.scan_action
@@ -1393,8 +1410,8 @@ object PebbleDeviceComparator : Comparator<PebbleDevice> {
 }
 
 fun FirmwareUpdateErrorStarting.message(): String = when (this) {
-    FirmwareUpdateErrorStarting.ErrorDownloading -> "Failed to download firmware"
-    FirmwareUpdateErrorStarting.ErrorParsingPbz -> "Failed to parse manifest"
+    FirmwareUpdateErrorStarting.ErrorDownloading -> "Failed to download firmware" // not-localized
+    FirmwareUpdateErrorStarting.ErrorParsingPbz -> "Failed to parse manifest" // not-localized
 }
 
 @Composable
@@ -1406,47 +1423,67 @@ fun PebbleDevice.stateText(
     val installingState = when (firmwareUpdateState) {
         is FirmwareUpdater.FirmwareUpdateStatus.InProgress -> {
             val progress by firmwareUpdateState.progress.collectAsState()
-            " - Updating to PebbleOS ${firmwareUpdateState.update.version.stringVersion} (${(progress * 100).toInt()}%)"
+            stringResource(
+                Res.string.state_updating_to_pebbleos,
+                firmwareUpdateState.update.version.stringVersion,
+                (progress * 100).toInt(),
+            )
         }
 
-        is FirmwareUpdater.FirmwareUpdateStatus.NotInProgress.ErrorStarting -> " - Error starting update: ${firmwareUpdateState.error.message()}"
+        is FirmwareUpdater.FirmwareUpdateStatus.NotInProgress.ErrorStarting -> stringResource(Res.string.state_error_starting_update, firmwareUpdateState.error.message())
         is FirmwareUpdater.FirmwareUpdateStatus.NotInProgress.Idle -> when (languagePackInstallState) {
-            is LanguagePackInstallState.Installing -> " - installing language pack: ${languagePackInstallState.language}"
+            is LanguagePackInstallState.Installing -> stringResource(Res.string.state_installing_language_pack, languagePackInstallState.language)
             is LanguagePackInstallState.Idle -> ""
-            is LanguagePackInstallState.Downloading -> " - downloading language pack: ${languagePackInstallState.language}"
+            is LanguagePackInstallState.Downloading -> stringResource(Res.string.state_downloading_language_pack, languagePackInstallState.language)
         }
         is FirmwareUpdater.FirmwareUpdateStatus.WaitingForReboot -> if (firmwareUpdateState.viaPrf) {
-            " - Rebooting watch into recovery to install ${firmwareUpdateState.update.version.stringVersion}"
+            stringResource(
+                Res.string.state_rebooting_into_recovery_to_install,
+                firmwareUpdateState.update.version.stringVersion,
+            )
         } else {
-            " - Rebooting watch to finish update to ${firmwareUpdateState.update.version.stringVersion}"
+            stringResource(
+                Res.string.state_rebooting_to_finish_update,
+                firmwareUpdateState.update.version.stringVersion,
+            )
         }
-        is FirmwareUpdater.FirmwareUpdateStatus.WaitingToStart -> " - Updating to PebbleOS ${firmwareUpdateState.update.version.stringVersion}"
+        is FirmwareUpdater.FirmwareUpdateStatus.WaitingToStart -> stringResource(Res.string.state_updating_to_pebbleos_brief, firmwareUpdateState.update.version.stringVersion)
     }
     val reversePpogState = when {
         !coreConfig.showWatchConnectionDebugInfo -> ""
-        reversePpogVersion() != null -> " (reverse PPOG: ${reversePpogVersion()})"
+        reversePpogVersion() != null -> stringResource(Res.string.state_reverse_ppog, reversePpogVersion().toString())
         else -> ""
     }
     val stateText = when (this) {
-        is ConnectedPebbleDevice -> "Connected$reversePpogState$installingState"
-        is ConnectedPebbleDeviceInRecovery -> "Connected (Factory)$reversePpogState$installingState"
+        is ConnectedPebbleDevice ->
+            stringResource(Res.string.state_connected) + reversePpogState + installingState
+        is ConnectedPebbleDeviceInRecovery ->
+            stringResource(Res.string.state_connected_factory) + reversePpogState + installingState
         is ConnectingPebbleDevice -> {
             val reboot = rebootingForFirmwareUpdate
             val connectingState =
                 when {
                 reboot != null -> {
-                    val rebooting = if (reboot.viaPrf) "Rebooting into recovery to update" else "Rebooting after update"
-                    "$rebooting - ${if (negotiating) "Negotiating" else "Waiting"}"
+                    val rebooting = stringResource(
+                        if (reboot.viaPrf) {
+                            Res.string.state_rebooting_into_recovery_to_update
+                        } else {
+                            Res.string.state_rebooting_after_update
+                        }
+                    )
+                    rebooting + " - " + stringResource(
+                        if (negotiating) Res.string.state_negotiating else Res.string.state_waiting
+                    )
                 }
 
-                negotiating -> "Negotiating"
-                else -> "Connecting"
+                negotiating -> stringResource(Res.string.state_negotiating)
+                else -> stringResource(Res.string.state_connecting)
             }
             "$connectingState$reversePpogState"
         }
 
-        is KnownPebbleDevice, is DiscoveredPebbleDevice -> "Disconnected"
-        is DisconnectingPebbleDevice -> "Disconnecting"
+        is KnownPebbleDevice, is DiscoveredPebbleDevice -> stringResource(Res.string.state_disconnected)
+        is DisconnectingPebbleDevice -> stringResource(Res.string.state_disconnecting)
     }
     return stateText
 }

@@ -50,6 +50,20 @@ import kotlin.math.roundToInt
 import org.jetbrains.compose.resources.stringResource
 import coreapp.pebble.generated.resources.Res as PebbleRes
 import coreapp.pebble.generated.resources.health_settings
+import coreapp.pebble.generated.resources.health_at_hour
+import coreapp.pebble.generated.resources.health_average
+import coreapp.pebble.generated.resources.health_average_bpm
+import coreapp.pebble.generated.resources.health_bpm_at
+import coreapp.pebble.generated.resources.health_daily_average_at
+import coreapp.pebble.generated.resources.health_latest_bpm
+import coreapp.pebble.generated.resources.health_no_data_at
+import coreapp.pebble.generated.resources.health_resting
+import coreapp.pebble.generated.resources.health_resting_at
+import coreapp.pebble.generated.resources.health_today
+import coreapp.pebble.generated.resources.health_total
+import coreapp.pebble.generated.resources.range_day
+import coreapp.pebble.generated.resources.range_month
+import coreapp.pebble.generated.resources.range_week
 
 @Composable
 fun HealthScreen(topBarParams: TopBarParams, nav: NavBarNav) {
@@ -104,7 +118,7 @@ private fun TimeRangeSelector(sel: HealthTimeRange, onSel: (HealthTimeRange) -> 
     SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
         HealthTimeRange.entries.forEachIndexed { i, r ->
             SegmentedButton(sel == r, { onSel(r) }, SegmentedButtonDefaults.itemShape(i, HealthTimeRange.entries.size),
-                label = { Text(when (r) { HealthTimeRange.Daily -> "Day"; HealthTimeRange.Weekly -> "Week"; HealthTimeRange.Monthly -> "Month" }) })
+                label = { Text(when (r) { HealthTimeRange.Daily -> stringResource(PebbleRes.string.range_day); HealthTimeRange.Weekly -> stringResource(PebbleRes.string.range_week); HealthTimeRange.Monthly -> stringResource(PebbleRes.string.range_month) }) })
         }
     }
 }
@@ -167,9 +181,9 @@ private fun ActivityCard(st: ActivityUiState, range: HealthTimeRange, imperial: 
     val sl = if (idx != null && idx < st.barLabels.size) st.barLabels[idx] else null
 
     val headerLabel = when (range) {
-        HealthTimeRange.Daily -> "Today"
-        HealthTimeRange.Weekly -> "Average"
-        HealthTimeRange.Monthly -> "Average"
+        HealthTimeRange.Daily -> stringResource(PebbleRes.string.health_today)
+        HealthTimeRange.Weekly -> stringResource(PebbleRes.string.health_average)
+        HealthTimeRange.Monthly -> stringResource(PebbleRes.string.health_average)
     }
     val headerVal = when {
         sv != null && range == HealthTimeRange.Monthly -> "${sv / 7}"
@@ -179,8 +193,10 @@ private fun ActivityCard(st: ActivityUiState, range: HealthTimeRange, imperial: 
         else -> "${st.averageSteps}"
     }
     val headerSub = when {
-        sl != null && range == HealthTimeRange.Daily -> "at $sl:00"
-        sl != null && range == HealthTimeRange.Monthly -> "daily avg · $sl"
+        sl != null && range == HealthTimeRange.Daily ->
+            stringResource(PebbleRes.string.health_at_hour, sl)
+        sl != null && range == HealthTimeRange.Monthly ->
+            stringResource(PebbleRes.string.health_daily_average_at, sl)
         sl != null -> sl
         else -> ""
     }
@@ -238,8 +254,8 @@ private fun SleepCard(st: SleepUiState, range: HealthTimeRange) {
     val dd = scrubEntry?.deepHours ?: st.deepSleepHours
 
     val sleepLabel = when (range) {
-        HealthTimeRange.Daily -> "Total"
-        else -> "Average"
+        HealthTimeRange.Daily -> stringResource(PebbleRes.string.health_total)
+        else -> stringResource(PebbleRes.string.health_average)
     }
     val sub = scrubEntry?.label ?: ""
     val typicalStr = if (st.typicalSleepHours > 0f) formatHours(st.typicalSleepHours) else null
@@ -298,18 +314,19 @@ private fun HeartRateCard(st: HeartRateUiState, range: HealthTimeRange) {
 
     val hv = when { sv != null -> "$sv"; st.latestHR != null -> "${st.latestHR}"; st.averageHR != null -> "${st.averageHR}"; else -> "--" }
     val hs = when {
-        sv != null && idx != null -> "bpm at $tStr"
-        idx != null -> "no data at $tStr"
-        st.latestHR != null -> "latest bpm"
-        else -> "avg bpm"
+        sv != null && idx != null -> stringResource(PebbleRes.string.health_bpm_at, tStr)
+        idx != null -> stringResource(PebbleRes.string.health_no_data_at, tStr)
+        st.latestHR != null -> stringResource(PebbleRes.string.health_latest_bpm)
+        else -> stringResource(PebbleRes.string.health_average_bpm)
     }
 
     val rhrIdx = rhrScrub.scrubIndex
         ?.takeIf { range == HealthTimeRange.Weekly && it < st.restingHRSeries.size }
     val rhrValue = if (rhrIdx != null) st.restingHRSeries[rhrIdx] else st.restingHR
     val rhrLabel = when {
-        rhrIdx != null && rhrIdx < st.restingHRLabels.size -> "Resting · ${st.restingHRLabels[rhrIdx]}"
-        rhrValue != null -> "Resting"
+        rhrIdx != null && rhrIdx < st.restingHRLabels.size ->
+            stringResource(PebbleRes.string.health_resting_at, st.restingHRLabels[rhrIdx])
+        rhrValue != null -> stringResource(PebbleRes.string.health_resting)
         else -> null
     }
     val rhrDisplayValue = when {

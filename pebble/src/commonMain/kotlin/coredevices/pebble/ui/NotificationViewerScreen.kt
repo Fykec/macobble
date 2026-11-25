@@ -36,6 +36,18 @@ import kotlinx.datetime.format.MonthNames
 import kotlinx.datetime.format.char
 import kotlinx.datetime.toLocalDateTime
 import org.koin.compose.koinInject
+import coreapp.pebble.generated.resources.notif_decision_sent
+import coreapp.pebble.generated.resources.notif_decision_local_only
+import coreapp.pebble.generated.resources.notif_decision_group_summary
+import coreapp.pebble.generated.resources.notif_decision_app_muted
+import coreapp.pebble.generated.resources.notif_decision_channel_muted
+import coreapp.pebble.generated.resources.notif_decision_duplicate
+import coreapp.pebble.generated.resources.notif_decision_contact_muted
+import coreapp.pebble.generated.resources.notif_decision_screen_on
+import coreapp.pebble.generated.resources.notif_decision_rule_filtered
+import coreapp.pebble.generated.resources.notif_decision_empty
+import org.jetbrains.compose.resources.stringResource
+import coreapp.pebble.generated.resources.Res as PebbleRes
 
 @Composable
 fun AppNotificationViewerScreen(
@@ -169,17 +181,18 @@ fun NotificationHistoryList(
     }
 }
 
+@Composable
 fun NotificationDecision.displayName(): String = when (this) {
-    NotificationDecision.SendToWatch -> "Sent"
-    NotificationDecision.NotSentLocalOnly -> "Local Only"
-    NotificationDecision.NotSentGroupSummary -> "Group Summary"
-    NotificationDecision.NotSentAppMuted -> "App Muted"
-    NotificationDecision.NotSendChannelMuted -> "Channel Muted"
-    NotificationDecision.NotSentDuplicate -> "Duplicate"
-    NotificationDecision.NotSendContactMuted -> "Contact Muted"
-    NotificationDecision.NotSentScreenOn -> "Screen On"
-    NotificationDecision.NotSentRuleFiltered -> "Rule Filtered"
-    NotificationDecision.NotSentEmpty -> "Empty"
+    NotificationDecision.SendToWatch -> stringResource(PebbleRes.string.notif_decision_sent)
+    NotificationDecision.NotSentLocalOnly -> stringResource(PebbleRes.string.notif_decision_local_only)
+    NotificationDecision.NotSentGroupSummary -> stringResource(PebbleRes.string.notif_decision_group_summary)
+    NotificationDecision.NotSentAppMuted -> stringResource(PebbleRes.string.notif_decision_app_muted)
+    NotificationDecision.NotSendChannelMuted -> stringResource(PebbleRes.string.notif_decision_channel_muted)
+    NotificationDecision.NotSentDuplicate -> stringResource(PebbleRes.string.notif_decision_duplicate)
+    NotificationDecision.NotSendContactMuted -> stringResource(PebbleRes.string.notif_decision_contact_muted)
+    NotificationDecision.NotSentScreenOn -> stringResource(PebbleRes.string.notif_decision_screen_on)
+    NotificationDecision.NotSentRuleFiltered -> stringResource(PebbleRes.string.notif_decision_rule_filtered)
+    NotificationDecision.NotSentEmpty -> stringResource(PebbleRes.string.notif_decision_empty)
 }
 
 private val FORMAT = LocalDateTime.Format {

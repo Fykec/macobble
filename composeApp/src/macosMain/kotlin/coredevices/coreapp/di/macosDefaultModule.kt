@@ -10,6 +10,7 @@ import coredevices.analytics.AnalyticsBackend
 import coredevices.coreapp.util.AppUpdate
 import coredevices.coreapp.util.MacosAppUpdate
 import coredevices.libindex.LibIndex
+import coredevices.pebble.config.ConfigPageClosedListener
 import coredevices.util.NoOpWatchNotifier
 import coredevices.util.NoopCompanionDevice
 import coredevices.util.PermissionRequester
@@ -76,6 +77,8 @@ val macosDefaultModule = module {
         )
     }
     singleOf(::ModelDownloadManager)
+    // macOS has no ring, so there is nothing to offer when a plugin's config page closes.
+    single { ConfigPageClosedListener { _ -> } }
     // macOS has no ring/local models; callers fall back to cloud transcription.
     single<CactusModelPathProvider> { NoopCactusModelPathProvider() }
     single<AnalyticsBackend> { NoopAnalyticsBackend }

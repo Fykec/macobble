@@ -68,8 +68,16 @@ val bundleApp by tasks.registering {
     val icon = iconPath.asFile
     val localizations = localizationDir.asFile
     val resourceDirs = assembledResourceDirs
+    // The JavascriptCore runner reads these from NSBundle.mainBundle, so they have to sit next to
+    // the other resources; the iOS target copies the same two files in its Xcode Resources phase.
+    // startup.js is shared with Android and iOS.
+    val pkjsScripts = listOf(
+        layout.projectDirectory.file("../libpebble3/src/appleMain/kotlin/io/rebble/libpebblecommon/js/JSTimeout.js").asFile,
+        layout.projectDirectory.file("../libpebble3/src/androidMain/assets/startup.js").asFile,
+    )
 
     inputs.files(binary, infoPlist, entitlements, icon)
+    inputs.files(pkjsScripts)
     inputs.files(resourceDirs)
     inputs.files(localizations)
     outputs.dir(app)
@@ -87,6 +95,7 @@ val bundleApp by tasks.registering {
         File(macos, "Pebble").setExecutable(true)
         infoPlist.copyTo(File(app, "Contents/Info.plist"), overwrite = true)
         icon.copyTo(File(resources, "AppIcon.icns"), overwrite = true)
+        pkjsScripts.forEach { it.copyTo(File(resources, it.name), overwrite = true) }
         // macOS reads permission-prompt text from <lang>.lproj/InfoPlist.strings in the bundle.
         localizations.copyRecursively(File(resources, localizations.name), overwrite = true)
         resourceDirs.forEach { src ->

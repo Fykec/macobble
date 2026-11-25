@@ -13,6 +13,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
@@ -277,6 +278,60 @@ class PPoGTest {
         assertOutboundPPoGData(sequence = 2, data = outboundBytes2)
         receivePacket(PPoGPacket.Ack(sequence = 2))
         testScheduler.advanceTimeBy(30.seconds)
+    }
+
+    @Test
+    fun inSessionResetResendsUnackedData() = runTest {
+        val scope = ConnectionCoroutineScope(backgroundScope.coroutineContext)
+        ppog = PPoG(ppStreams, ppogStreams, sender, bleConfigFlow, blePlatformConfig, scope)
+        ppog.run(false)
+        init()
+
+        val acked = randomBytes()
+        val unacked = randomBytes()
+        ppStreams.outboundPPBytes.send(acked)
+        assertOutboundPPoGData(sequence = 0, data = acked)
+        receivePacket(PPoGPacket.Ack(sequence = 0))
+        ppStreams.outboundPPBytes.send(unacked)
+        assertOutboundPPoGData(sequence = 1, data = unacked)
+
+        // Watch gave up on its own ack timeouts and reset the session mid-transfer.
+        receivePacket(PPoGPacket.ResetRequest(sequence = 0, ppogVersion = PPoGVersion.ONE))
+        runCurrent()
+        assertOutboundPPoGPacket(PPoGPacket.ResetComplete(sequence = 0, rxWindow = 19, txWindow = 20))
+        receivePacket(PPoGPacket.ResetComplete(sequence = 0, rxWindow = 19, txWindow = 20))
+
+        // Only the unacked packet goes again, under the new session's sequence numbers.
+        assertOutboundPPoGData(sequence = 0, data = unacked)
+
+        // The session carries on rather than the connection being torn down.
+        receivePacket(PPoGPacket.Data(sequence = 0, data = acked))
+        assertInboundPPBytes(acked)
+        testScheduler.advanceTimeBy(30.seconds)
+    }
+
+    @Test
+    fun ackProgressKeepsTimeoutAtBay() = runTest {
+        val scope = ConnectionCoroutineScope(backgroundScope.coroutineContext)
+        ppog = PPoG(ppStreams, ppogStreams, sender, bleConfigFlow, blePlatformConfig, scope)
+        ppog.run(false)
+        init()
+
+        val payloads = List(3) { randomBytes() }
+        payloads.forEach { ppStreams.outboundPPBytes.send(it) }
+        payloads.forEachIndexed { index, payload ->
+            assertOutboundPPoGData(sequence = index, data = payload)
+        }
+
+        // Acks keep trickling in, each well inside the 10s timeout: nothing to resend.
+        payloads.indices.forEach { index ->
+            testScheduler.advanceTimeBy(9.seconds)
+            receivePacket(PPoGPacket.Ack(sequence = index))
+            runCurrent()
+        }
+        assertTrue(outboundPPoGPackets.isEmpty)
+        testScheduler.advanceTimeBy(30.seconds)
+        assertTrue(outboundPPoGPackets.isEmpty)
     }
 
     private suspend fun assertOutboundPPoGData(sequence: Int, data: ByteArray) {

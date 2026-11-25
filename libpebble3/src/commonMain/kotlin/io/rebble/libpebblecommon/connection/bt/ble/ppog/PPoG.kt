@@ -179,10 +179,50 @@ class PPoG(
         pPoGversion = version,
     )
 
+    /**
+     * Runs PPoG sessions. The watch resets the session mid-transfer when its own ack timeouts run
+     * out, so renegotiate and resend the packets it never acked rather than dropping the connection:
+     * a reset then costs a round trip instead of the whole transfer.
+     */
+    private suspend fun runConnection(initialParams: PPoGConnectionParams) {
+        var params = initialParams
+        var resendAfterReset: List<ByteArray> = emptyList()
+        var resets = 0
+        while (true) {
+            when (val outcome = runSession(params, resendAfterReset)) {
+                is SessionOutcome.Closed -> return
+                is SessionOutcome.Reset -> {
+                    resets++
+                    if (resets > MAX_SESSION_RESETS) {
+                        logger.w("PPoG reset $resets times; giving up")
+                        throw IllegalStateException("Watch keeps resetting PPoG - disconnect and reconnect")
+                    }
+                    logger.w(
+                        "in-session ${outcome.packet} from watch; renegotiating and resending " +
+                                "${outcome.unackedPayloads.size} unacked packets"
+                    )
+                    resendAfterReset = outcome.unackedPayloads
+                    params = when (val packet = outcome.packet) {
+                        is PPoGPacket.ResetRequest -> respondToResetRequest(packet)
+                        is PPoGPacket.ResetComplete -> {
+                            sendResetComplete(params.pPoGversion)
+                            connectionParams(packet, params.pPoGversion)
+                        }
+
+                        else -> error("unexpected reset packet $packet")
+                    }
+                }
+            }
+        }
+    }
+
     // No need for any locking - state is only accessed/mutated within this method (except for mtu
     // which can only increase).
-    private suspend fun runConnection(params: PPoGConnectionParams) {
-        logger.d("runConnection: $params")
+    private suspend fun runSession(
+        params: PPoGConnectionParams,
+        resendAfterReset: List<ByteArray>,
+    ): SessionOutcome {
+        logger.d("runSession: $params")
 
         val outboundSequence = Sequence()
         val inboundSequence = Sequence()
@@ -192,6 +232,16 @@ class PPoG(
         var timeoutJob: Job? = null
         var lastSentAck: PPoGPacket.Ack? = null
         var lastReceivedAck: PPoGPacket.Ack? = null
+
+        // Data the watch never acked before it reset the session, already split into chunks.
+        resendAfterReset.forEach { payload ->
+            outboundDataQueue.addLast(
+                PacketToSend(
+                    packet = PPoGPacket.Data(sequence = outboundSequence.getThenIncrement(), data = payload),
+                    attemptCount = 0,
+                )
+            )
+        }
 
         fun cancelTimeout() {
             timeoutJob?.cancel()
@@ -208,14 +258,17 @@ class PPoG(
             }
         }
 
+        // Moves packets back to the queue in place (rather than copying) so that every payload is
+        // in exactly one of the queue and the in-flight list - that invariant is what lets a reset
+        // resend precisely the unacked data.
         fun resendInflightPackets() {
             inflightPackets.fastForEachReversed { packet ->
-                val resendPacket = packet.copy(attemptCount = packet.attemptCount + 1)
-                if (resendPacket.attemptCount > MAX_NUM_RETRIES) {
+                packet.attemptCount++
+                if (packet.attemptCount > MAX_NUM_RETRIES) {
                     logger.w("Exceeded max retries")
                     throw IllegalStateException("Exceeded max retries")
                 }
-                outboundDataQueue.addFirst(resendPacket)
+                outboundDataQueue.addFirst(packet)
             }
             inflightPackets.clear()
         }
@@ -231,7 +284,16 @@ class PPoG(
         }
 
         while (true) {
-            if (closed) return
+            // Drain send queue. Runs before waiting so a session that starts with packets to
+            // resend (after a watch-initiated reset) gets going immediately.
+            while (inflightPackets.size < params.txWindow && !outboundDataQueue.isEmpty()) {
+                if (closed) return SessionOutcome.Closed
+                val packet = outboundDataQueue.removeFirst()
+                sendPacketImmediately(packet.packet, params.pPoGversion)
+                rescheduleTimeout()
+                inflightPackets.add(packet)
+            }
+            var resetOutcome: SessionOutcome.Reset? = null
             select {
                 onTimeout.onReceive {
                     resendInflightPackets()
@@ -271,6 +333,10 @@ class PPoG(
                             }
                             if (inflightPackets.isEmpty()) {
                                 cancelTimeout()
+                            } else {
+                                // Measure the timeout from the last ack progress, not the last send:
+                                // a busy link keeps acking and must not look stalled.
+                                rescheduleTimeout()
                             }
                             lastReceivedAck = packet
                         }
@@ -289,29 +355,19 @@ class PPoG(
                             }
                         }
 
-                        // Always logged: the watch sends these when its ack timeouts have run out,
-                        // so they are the phone-side marker of a watch reset storm.
-                        is PPoGPacket.ResetComplete -> {
-                            logger.w("in-session $packet from watch; tearing down PPoG session")
-                            throw IllegalStateException("We don't handle resetting PPoG - disconnect and reconnect")
-                        }
-
-                        is PPoGPacket.ResetRequest -> {
-                            logger.w("in-session $packet from watch; tearing down PPoG session")
-                            throw IllegalStateException("We don't handle resetting PPoG - disconnect and reconnect")
+                        // The watch sends these when its ack timeouts have run out: it has dropped
+                        // its side of the session, so renegotiate and resend what it never acked.
+                        is PPoGPacket.ResetComplete, is PPoGPacket.ResetRequest -> {
+                            resetOutcome = SessionOutcome.Reset(
+                                packet = packet,
+                                unackedPayloads = inflightPackets.map { it.packet.data } +
+                                        outboundDataQueue.map { it.packet.data },
+                            )
                         }
                     }
                 }
             }
-
-            // Drain send queue
-            while (inflightPackets.size < params.txWindow && !outboundDataQueue.isEmpty()) {
-                if (closed) return
-                val packet = outboundDataQueue.removeFirst()
-                sendPacketImmediately(packet.packet, params.pPoGversion)
-                rescheduleTimeout()
-                inflightPackets.add(packet)
-            }
+            resetOutcome?.let { return it }
         }
     }
 
@@ -338,6 +394,9 @@ class PPoG(
 private const val DATA_HEADER_OVERHEAD_BYTES = 1 + 3
 private const val MAX_SEQUENCE = 32
 private const val MAX_NUM_RETRIES = 2
+
+// Renegotiations tolerated within one connection before giving up and letting the connection drop.
+private const val MAX_SESSION_RESETS = 3
 private val RESET_REQUEST_TIMEOUT = 10.seconds
 
 private data class PPoGConnectionParams(
@@ -348,8 +407,18 @@ private data class PPoGConnectionParams(
 
 private data class PacketToSend(
     val packet: PPoGPacket.Data,
-    val attemptCount: Int,
+    var attemptCount: Int,
 )
+
+private sealed class SessionOutcome {
+    object Closed : SessionOutcome()
+
+    /** The watch reset PPoG mid-session; [unackedPayloads] still have to reach it. */
+    data class Reset(
+        val packet: PPoGPacket,
+        val unackedPayloads: List<ByteArray>,
+    ) : SessionOutcome()
+}
 
 private class Sequence {
     private var sequence = 0

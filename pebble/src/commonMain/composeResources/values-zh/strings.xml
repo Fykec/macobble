@@ -396,7 +396,7 @@
     <string name="state_rebooting_into_recovery_to_update">正在重启进入恢复模式以更新</string>
     <string name="state_rebooting_to_finish_update"> - 正在重启手表以完成更新至 %1$s</string>
     <string name="state_reverse_ppog">（反向 PPOG：%1$s）</string>
-    <string name="state_updating_to_pebbleos"> - 正在更新至 PebbleOS %1$s（%2$s%%）</string>
+    <string name="state_updating_to_pebbleos"> - 正在更新至 PebbleOS %1$s（%2$s）</string>
     <string name="state_updating_to_pebbleos_brief"> - 正在更新至 PebbleOS %1$s</string>
     <string name="state_waiting">等待中</string>
     <string name="store_disabled_notifications">保留已关闭应用的通知</string>
@@ -590,7 +590,7 @@
     <string name="lang_english_with_fonts">英语（含额外字体）</string>
     <string name="lang_from_rebble_archive">来自 Rebble 归档</string>
     <string name="lang_no_source_strings">无源字符串</string>
-    <string name="lang_percent_translated">已翻译 %1$s%%</string>
+    <string name="lang_percent_translated">已翻译 %1$s</string>
     <string name="data_usage_local_network">本地网络</string>
     <string name="data_usage_any_website">任意网站</string>
     <string name="battery_impact_default">默认</string>
@@ -601,7 +601,7 @@
     <string name="fw_unknown_error">未知错误</string>
     <string name="fw_state_idle">空闲</string>
     <string name="fw_state_starting">正在开始</string>
-    <string name="fw_state_in_progress">进行中：%1$s%%</string>
+    <string name="fw_state_in_progress">进行中：%1$s</string>
     <string name="fw_state_waiting_for_reboot">等待手表重启</string>
     <string name="fw_state_error">错误：%1$s：%2$s</string>
     <string name="fw_sideload">侧载固件</string>

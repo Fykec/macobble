@@ -81,7 +81,7 @@ fun completionLabel(): String = when {
         totalStrings == 0 -> stringResource(PebbleRes.string.lang_no_source_strings)
         else -> stringResource(
             PebbleRes.string.lang_percent_translated,
-            translatedStrings.toLong() * 100 / totalStrings,
+            "${translatedStrings.toLong() * 100 / totalStrings}%",
         )
     }
 }

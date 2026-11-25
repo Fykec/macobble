@@ -310,7 +310,10 @@ fun DebugFirmwareSideload(watchIdentifier: String, coreNav: CoreNav) {
                     is UiFirmwareUpdateStatus.InProgress -> {
                         val progress by updateState.progress.collectAsState()
                         Text(
-                            stringResource(PebbleRes.string.fw_state_in_progress, (progress * 100).roundToInt().toString()),
+                            stringResource(
+                                PebbleRes.string.fw_state_in_progress,
+                                "${(progress * 100).roundToInt()}%",
+                            ),
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.titleMedium
                         )

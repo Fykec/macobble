@@ -1428,7 +1428,7 @@ fun PebbleDevice.stateText(
             stringResource(
                 Res.string.state_updating_to_pebbleos,
                 firmwareUpdateState.update.version.stringVersion,
-                (progress * 100).toInt(),
+                "${(progress * 100).toInt()}%",
             )
         }
 

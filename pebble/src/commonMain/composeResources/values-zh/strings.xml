@@ -520,4 +520,18 @@
     <string name="weather_add_location">添加天气位置</string>
     <string name="weather_search_location">搜索位置</string>
     <string name="weather_enter_coordinates">输入坐标</string>
+    <string name="lang_installing_x">正在安装 %1$s…</string>
+    <string name="lang_changing">正在切换语言…</string>
+    <string name="lang_loading_packs">正在加载已安装的语言包…</string>
+    <string name="lang_packs_installed">已安装 %1$s / %2$s 个语言包</string>
+    <string name="lang_unknown">未知</string>
+    <string name="lang_unreadable_pack">语言包无法读取</string>
+    <string name="policy_when_needed">需要时询问</string>
+    <string name="policy_always">始终询问</string>
+    <string name="policy_never">从不询问</string>
+    <string name="policy_always_desc">应用在使用任何权限前都会询问你。</string>
+    <string name="policy_never_desc">应用可以使用除读取通知以外的任何权限，除非你在该应用页面上明确关闭</string>
+    <string name="policy_askers_watch_and_index">表盘、手表应用和插件（包括 Index 用于保存笔记和提醒的插件）</string>
+    <string name="policy_askers_index">插件，包括 Index 用于保存笔记和提醒的插件，</string>
+    <string name="policy_askers_watch">表盘、手表应用和插件</string>
 </resources>

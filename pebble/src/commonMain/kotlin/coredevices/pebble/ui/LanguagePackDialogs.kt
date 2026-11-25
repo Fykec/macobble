@@ -77,6 +77,12 @@ import coreapp.pebble.generated.resources.translation_and_fonts
 import coreapp.pebble.generated.resources.remove_x
 import org.jetbrains.compose.resources.StringResource
 import coreapp.pebble.generated.resources.Res
+import coreapp.pebble.generated.resources.lang_installing_x
+import coreapp.pebble.generated.resources.lang_changing
+import coreapp.pebble.generated.resources.lang_loading_packs
+import coreapp.pebble.generated.resources.lang_packs_installed
+import coreapp.pebble.generated.resources.lang_unknown
+import coreapp.pebble.generated.resources.lang_unreadable_pack
 
 private val logger = Logger.withTag("LanguagePackDialogs")
 
@@ -176,10 +182,14 @@ private fun LanguagePacksDialog(watch: ConnectedPebbleDevice, onDismissRequest: 
                 item {
                     Column(modifier = Modifier.padding(top = 8.dp)) {
                         val status = when {
-                            installingName != null -> "Installing $installingName…"
-                            selecting -> "Changing language…"
-                            loading -> "Loading installed packs…"
-                            installedPacks != null -> "${packs.size} of $MAX_LANGUAGE_PACKS packs installed"
+                            installingName != null -> stringResource(PebbleRes.string.lang_installing_x, installingName)
+                            selecting -> stringResource(PebbleRes.string.lang_changing)
+                            loading -> stringResource(PebbleRes.string.lang_loading_packs)
+                            installedPacks != null -> stringResource(
+                                PebbleRes.string.lang_packs_installed,
+                                packs.size,
+                                MAX_LANGUAGE_PACKS,
+                            )
                             else -> null
                         }
                         status?.let { Text(it, style = MaterialTheme.typography.bodySmall) }
@@ -251,10 +261,11 @@ private fun LanguagePacksDialog(watch: ConnectedPebbleDevice, onDismissRequest: 
     }
 }
 
+@Composable
 private fun WatchLanguagePack.label(): String = when {
     hasTranslation -> name
-    readable -> "Unknown"
-    else -> "Unreadable pack"
+    readable -> stringResource(PebbleRes.string.lang_unknown)
+    else -> stringResource(PebbleRes.string.lang_unreadable_pack)
 }
 
 @Composable

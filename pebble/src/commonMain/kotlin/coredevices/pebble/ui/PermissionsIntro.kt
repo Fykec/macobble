@@ -26,25 +26,36 @@ import org.jetbrains.compose.resources.stringResource
 import coreapp.pebble.generated.resources.Res as PebbleRes
 import coreapp.pebble.generated.resources.app_permissions
 import coreapp.pebble.generated.resources.ok
+import coreapp.pebble.generated.resources.policy_when_needed
+import coreapp.pebble.generated.resources.policy_always
+import coreapp.pebble.generated.resources.policy_never
+import coreapp.pebble.generated.resources.policy_always_desc
+import coreapp.pebble.generated.resources.policy_never_desc
+import coreapp.pebble.generated.resources.policy_askers_watch_and_index
+import coreapp.pebble.generated.resources.policy_askers_index
+import coreapp.pebble.generated.resources.policy_askers_watch
 
 private const val HAS_SEEN_PERMISSIONS_INTRO_SETTINGS_KEY = "hasSeenPermissionsIntro"
 
 fun Settings.hasSeenPermissionsIntro() = getBoolean(HAS_SEEN_PERMISSIONS_INTRO_SETTINGS_KEY, false)
 fun Settings.setHasSeenPermissionsIntro(seen: Boolean) = set(HAS_SEEN_PERMISSIONS_INTRO_SETTINGS_KEY, seen)
 
+@Composable
 fun PermissionPolicy.displayName(): String = when (this) {
-    PermissionPolicy.AskIfExfiltrating -> "When needed"
-    PermissionPolicy.AlwaysAsk -> "Always"
-    PermissionPolicy.NeverAsk -> "Never"
+    PermissionPolicy.AskIfExfiltrating -> stringResource(PebbleRes.string.policy_when_needed)
+    PermissionPolicy.AlwaysAsk -> stringResource(PebbleRes.string.policy_always)
+    PermissionPolicy.NeverAsk -> stringResource(PebbleRes.string.policy_never)
 }
 
+@Composable
 fun PermissionPolicy.description(): String = when (this) {
     PermissionPolicy.AskIfExfiltrating ->
         "Apps ask before connecting to the internet or acting for you (e.g. controlling your music or ringing your phone)"
-    PermissionPolicy.AlwaysAsk -> "Apps ask before using any permission."
-    PermissionPolicy.NeverAsk -> "Apps can use any permission except reading notifications, unless you explicitly turn it off on the app's page"
+    PermissionPolicy.AlwaysAsk -> stringResource(PebbleRes.string.policy_always_desc)
+    PermissionPolicy.NeverAsk -> stringResource(PebbleRes.string.policy_never_desc)
 }
 
+@Composable
 private fun PermissionPolicy.details(): String = when (this) {
     PermissionPolicy.AskIfExfiltrating ->
         "Apps that can't send anything off your phone (no internet access and no phone companion app) can read your data, " +
@@ -92,9 +103,9 @@ fun PermissionsIntroContent(settings: SettingsItemsState?, modifier: Modifier = 
     val indexEnabled = koinInject<CoreConfigHolder>().config.collectAsState().value.enableIndex
     val askers = when {
         hasWatch && indexEnabled ->
-            "Watchfaces, watchapps and plugins (including the ones Index uses to save your notes and reminders)"
-        indexEnabled -> "Plugins, including the ones Index uses to save your notes and reminders,"
-        else -> "Watchfaces, watchapps and plugins"
+            stringResource(PebbleRes.string.policy_askers_watch_and_index)
+        indexEnabled -> stringResource(PebbleRes.string.policy_askers_index)
+        else -> stringResource(PebbleRes.string.policy_askers_watch)
     }
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(

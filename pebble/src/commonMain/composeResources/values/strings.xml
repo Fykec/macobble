@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="about_complications">About complications</string>
     <string name="about_x">About %1$s</string>
@@ -471,4 +471,4 @@
     <string name="you_need_to_sign_in_to">You need to sign in to contact the developer.</string>
     <string name="your_complication_slots_will_be_replaced">Your complication slots will be replaced with the default readings.</string>
     <string name="your_device_may_struggle_with_larger">Your device may struggle with larger models, a reduced accuracy model will be used.</string>
-</resources>
+<string name="app_type_faces">Faces</string><string name="app_type_apps">Apps</string><string name="app_type_plugins">Plugins</string><string name="collection_my_watchfaces">My Watchfaces</string><string name="collection_my_apps">My Apps</string><string name="collection_my_plugins">My Plugins</string><string name="sort_most_used">Most used</string><string name="sort_most_hearted">Most hearted</string><string name="period_since_oct_2025">since Oct 2025</string><string name="period_last_30_days">in the last 30 days</string><string name="period_last_7_days">in the last 7 days</string><string name="period_any_time">any time</string><string name="chart_verb_updated">Updated</string><string name="chart_verb_heated">Hearted</string></resources>

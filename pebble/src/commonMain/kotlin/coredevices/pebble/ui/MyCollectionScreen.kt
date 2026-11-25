@@ -64,9 +64,10 @@ fun MyCollectionScreen(
         }
     }
     val searchState = rememberSearchState()
-    LaunchedEffect(Unit) {
+    val collectionTitle = appType.myCollectionName()
+    LaunchedEffect(collectionTitle) {
         topBarParams.searchAvailable(searchState)
-        topBarParams.title(appType.myCollectionName())
+        topBarParams.title(collectionTitle)
         topBarParams.actions {}
     }
     val lockerEntries = loadLockerEntries(

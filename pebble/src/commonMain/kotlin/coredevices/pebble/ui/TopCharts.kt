@@ -69,20 +69,30 @@ import coreapp.pebble.generated.resources.nothing_here_yet
 import coreapp.pebble.generated.resources.top_charts
 import coreapp.pebble.generated.resources.see_all
 import coreapp.pebble.generated.resources.selected
+import coreapp.pebble.generated.resources.sort_most_used
+import coreapp.pebble.generated.resources.sort_most_hearted
+import coreapp.pebble.generated.resources.period_since_oct_2025
+import coreapp.pebble.generated.resources.period_last_30_days
+import coreapp.pebble.generated.resources.period_last_7_days
+import coreapp.pebble.generated.resources.period_any_time
+import coreapp.pebble.generated.resources.chart_verb_updated
+import coreapp.pebble.generated.resources.chart_verb_heated
+import org.jetbrains.compose.resources.StringResource
+import coreapp.pebble.generated.resources.Res
 
 private const val TOP_CHART_LIMIT = 50
 private const val TOP_CHART_CAROUSEL_SIZE = 10
 
-enum class TopChartSort(val slug: String, val label: String) {
-    MostUsed("top-used", "Most used"),
-    MostHearted("top-hearted", "Most hearted"),
+enum class TopChartSort(val slug: String, val label: StringResource) {
+    MostUsed("top-used", Res.string.sort_most_used),
+    MostHearted("top-hearted", Res.string.sort_most_hearted),
 }
 
-enum class TopChartPeriod(val value: String, val label: String) {
-    SinceOct2025("2025-10", "since Oct 2025"),
-    Last30Days("30d", "in the last 30 days"),
-    Last7Days("7d", "in the last 7 days"),
-    AllTime("all", "any time"),
+enum class TopChartPeriod(val value: String, val label: StringResource) {
+    SinceOct2025("2025-10", Res.string.period_since_oct_2025),
+    Last30Days("30d", Res.string.period_last_30_days),
+    Last7Days("7d", Res.string.period_last_7_days),
+    AllTime("all", Res.string.period_any_time),
 }
 
 /** Usage is only measured for watchfaces. */
@@ -90,7 +100,9 @@ private fun AppType.topChartSorts(): List<TopChartSort> =
     if (this == AppType.Watchface) TopChartSort.entries else listOf(TopChartSort.MostHearted)
 
 /** Faces are filtered by latest release; apps rank by hearts received in the period. */
-private fun AppType.topChartPeriodVerb(): String = if (this == AppType.Watchface) "Updated" else "Hearted"
+@Composable
+private fun AppType.topChartPeriodVerb(): String =
+    stringResource(if (this == AppType.Watchface) Res.string.chart_verb_updated else Res.string.chart_verb_heated)
 
 data class TopChartSelection(val sort: TopChartSort, val period: TopChartPeriod)
 
@@ -184,13 +196,13 @@ private fun TopChartControls(type: AppType, modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (sorts.size > 1) {
-            TopChartDropdown(selection.sort, sorts, { it.label }) {
+            TopChartDropdown(selection.sort, sorts, { stringResource(it.label) }) {
                 viewModel.select(type, selection.copy(sort = it))
             }
         } else {
-            Text(selection.sort.label, color = Color.Gray)
+            Text(stringResource(selection.sort.label), color = Color.Gray)
         }
-        TopChartDropdown(selection.period, TopChartPeriod.entries, { "${type.topChartPeriodVerb()} ${it.label}" }) {
+        TopChartDropdown(selection.period, TopChartPeriod.entries, { "${type.topChartPeriodVerb()} ${stringResource(it.label)}" }) {
             viewModel.select(type, selection.copy(period = it))
         }
     }
@@ -354,7 +366,7 @@ private fun RankedWatchfaceCard(
 private fun <T> TopChartDropdown(
     selected: T,
     options: List<T>,
-    label: (T) -> String,
+    label: @Composable (T) -> String,
     onSelect: (T) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }

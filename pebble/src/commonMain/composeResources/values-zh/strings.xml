@@ -471,4 +471,18 @@
     <string name="you_need_to_sign_in_to">你需要登录后才能联系开发者。</string>
     <string name="your_complication_slots_will_be_replaced">你的复杂功能位置将被替换为默认读数。</string>
     <string name="your_device_may_struggle_with_larger">此设备可能无法流畅运行较大的模型，将改用精度较低的模型。</string>
+    <string name="app_type_faces">表盘</string>
+    <string name="app_type_apps">应用</string>
+    <string name="app_type_plugins">插件</string>
+    <string name="collection_my_watchfaces">我的表盘</string>
+    <string name="collection_my_apps">我的应用</string>
+    <string name="collection_my_plugins">我的插件</string>
+    <string name="sort_most_used">最常使用</string>
+    <string name="sort_most_hearted">最多收藏</string>
+    <string name="period_since_oct_2025">自 2025 年 10 月起</string>
+    <string name="period_last_30_days">最近 30 天</string>
+    <string name="period_last_7_days">最近 7 天</string>
+    <string name="period_any_time">全部时间</string>
+    <string name="chart_verb_updated">更新于</string>
+    <string name="chart_verb_heated">收藏于</string>
 </resources>

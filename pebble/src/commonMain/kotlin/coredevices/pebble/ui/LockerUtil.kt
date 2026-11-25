@@ -114,6 +114,14 @@ import coreapp.pebble.generated.resources.not_natively_compatible_with_this_watc
 import coreapp.pebble.generated.resources.selected
 import coreapp.pebble.generated.resources.settings
 import coreapp.pebble.generated.resources.made_for_x
+import coreapp.pebble.generated.resources.app_type_faces
+import coreapp.pebble.generated.resources.app_type_apps
+import coreapp.pebble.generated.resources.app_type_plugins
+import coreapp.pebble.generated.resources.collection_my_watchfaces
+import coreapp.pebble.generated.resources.collection_my_apps
+import coreapp.pebble.generated.resources.collection_my_plugins
+import org.jetbrains.compose.resources.StringResource
+import coreapp.pebble.generated.resources.Res
 
 private val logger = Logger.withTag("LockerUtil")
 
@@ -887,16 +895,18 @@ fun LockerEntryCompanionApp.asCompanionApp(): CompanionApp = CompanionApp(
     pebblekitVersion = pebblekitVersion,
 )
 
+@Composable
 fun AppType.myCollectionName(): String = when (this) {
-    AppType.Watchface -> "My Watchfaces"
-    AppType.Watchapp -> "My Apps"
-    AppType.Plugin -> "My Plugins"
+    AppType.Watchface -> stringResource(Res.string.collection_my_watchfaces)
+    AppType.Watchapp -> stringResource(Res.string.collection_my_apps)
+    AppType.Plugin -> stringResource(Res.string.collection_my_plugins)
 }
 
+@Composable
 fun AppType.shortName(): String = when (this) {
-    AppType.Watchface -> "Faces"
-    AppType.Watchapp -> "Apps"
-    AppType.Plugin -> "Plugins"
+    AppType.Watchface -> stringResource(Res.string.app_type_faces)
+    AppType.Watchapp -> stringResource(Res.string.app_type_apps)
+    AppType.Plugin -> stringResource(Res.string.app_type_plugins)
 }
 
 private var hasShownScrollHint = false

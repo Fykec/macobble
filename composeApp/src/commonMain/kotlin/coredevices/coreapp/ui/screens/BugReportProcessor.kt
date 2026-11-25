@@ -67,6 +67,11 @@ import kotlin.time.Clock
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
+import coreapp.composeapp.generated.resources.bug_report_submit_failed
+import coreapp.composeapp.generated.resources.bug_report_upload_network_error
+import coreapp.composeapp.generated.resources.bug_report_upload_failed
+import org.jetbrains.compose.resources.getString
+import coreapp.composeapp.generated.resources.Res
 
 data class BugReportGenerationParams(
     val userMessage: String,
@@ -170,11 +175,11 @@ class BugReportProcessor(
             val configuredMode = transcriptionService.configuredMode
             val configuredLanguage = transcriptionService.configuredLanguage ?: "Auto/Not specified"
             val lastSuccessfulMode = when (transcriptionService.lastSuccessfulMode) {
-                CactusSTTMode.LocalOnly, CactusSTTMode.LocalFirst -> "Local"
-                CactusSTTMode.RemoteOnly, CactusSTTMode.RemoteFirst -> "Remote"
-                CactusSTTMode.RebbleOnly, CactusSTTMode.RebbleFirst, CactusSTTMode.RebbleFallback -> "Rebble"
-                CactusSTTMode.PlatformOnly -> "Platform"
-                null -> "None"
+                CactusSTTMode.LocalOnly, CactusSTTMode.LocalFirst -> "Local" // not-localized
+                CactusSTTMode.RemoteOnly, CactusSTTMode.RemoteFirst -> "Remote" // not-localized
+                CactusSTTMode.RebbleOnly, CactusSTTMode.RebbleFirst, CactusSTTMode.RebbleFallback -> "Rebble" // not-localized
+                CactusSTTMode.PlatformOnly -> "Platform" // not-localized
+                null -> "None" // not-localized
             }
             "\nSTT Summary\n" +
                     "Configured mode: $configuredMode\n" +
@@ -382,7 +387,7 @@ class BugReportProcessor(
                         e.message?.contains("Unable to submit") == true -> e.message!!
                         e.message?.contains("network") == true -> "Network error. Please check your connection and try again."
                         e.message?.contains("timeout") == true -> "Request timed out. Please try again."
-                        else -> "Unable to submit bug report. Please try again later."
+                        else -> getString(Res.string.bug_report_submit_failed)
                     }
                     state.tryEmit(BugReportState.BugReportResult.Failed(userMessage))
                     return@processBugReport
@@ -734,9 +739,10 @@ class BugReportProcessor(
             logger.e(e) { "Failed to upload attachments" }
             val userMessage = when {
                 e.message?.contains("Unable to prepare") == true -> e.message!!
-                e.message?.contains("Network") == true -> "Network error during file upload. Please check your connection and try again."
+                e.message?.contains("Network") == true ->
+                        getString(Res.string.bug_report_upload_network_error)
                 e.message?.contains("timeout") == true -> "File upload timed out. Please try again with a better connection."
-                else -> "Unable to upload attachments. Please try again later."
+                else -> getString(Res.string.bug_report_upload_failed)
             }
             Result.failure(Exception(userMessage))
         }
@@ -801,7 +807,7 @@ class BugReportProcessor(
         appendLine("Watch settings changed by apps (newest first):")
         if (changes.isEmpty()) appendLine("  none")
         changes.take(BUG_REPORT_WATCH_SETTINGS_CHANGES).forEach {
-            val outcome = it.error?.let { error -> " failed: $error" }.orEmpty()
+            val outcome = it.error?.let { error -> " failed: $error" }.orEmpty() // not-localized
             appendLine("  ${Instant.fromEpochMilliseconds(it.atMs)} ${titles[it.appUuid] ?: "Removed app"} (${it.appUuid}): ${it.action} ${it.args}$outcome")
         }
         if (changes.size > BUG_REPORT_WATCH_SETTINGS_CHANGES) appendLine("  …and ${changes.size - BUG_REPORT_WATCH_SETTINGS_CHANGES} more")

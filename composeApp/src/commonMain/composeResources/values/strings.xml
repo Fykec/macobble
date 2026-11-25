@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="add">Add</string>
     <string name="add_image">Add Image</string>
@@ -73,4 +73,4 @@
     <string name="what_s_new_in_the_app">What's new in the app</string>
     <string name="you_can_follow_up_on_an">You can follow up on an existing bug report by adding more logs or information:</string>
     <string name="you_must_sign_in_to_submit">You must sign in to submit a bug report</string>
-</resources>
+<string name="bug_report_submit_failed">Unable to submit bug report. Please try again later.</string><string name="bug_report_upload_network_error">Network error during file upload. Please check your connection and try again.</string><string name="bug_report_upload_failed">Unable to upload attachments. Please try again later.</string></resources>

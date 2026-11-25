@@ -73,4 +73,7 @@
     <string name="what_s_new_in_the_app">应用的新变化</string>
     <string name="you_can_follow_up_on_an">你可以通过追加日志或信息来跟进已有的问题报告：</string>
     <string name="you_must_sign_in_to_submit">你需要先登录才能提交问题报告</string>
+    <string name="bug_report_submit_failed">无法提交问题报告，请稍后重试。</string>
+    <string name="bug_report_upload_network_error">上传文件时出现网络错误，请检查网络连接后重试。</string>
+    <string name="bug_report_upload_failed">无法上传附件，请稍后重试。</string>
 </resources>

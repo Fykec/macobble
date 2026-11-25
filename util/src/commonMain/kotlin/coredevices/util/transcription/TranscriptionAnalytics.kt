@@ -15,13 +15,13 @@ fun CoreAnalytics.logTranscriptionFailure(service: String, reason: String, desc:
 }
 
 fun transcriptionFailureReason(e: Throwable): String = when (e) {
-    is TranscriptionException.NotEnoughMemory -> "not_enough_memory"
-    is TranscriptionException.TranscriptionServiceUnavailable -> "service_unavailable"
-    is TranscriptionException.TranscriptionNetworkError -> "network_error"
-    is TranscriptionException.TranscriptionRequiresDownload -> "requires_download"
-    is TranscriptionException.NoSupportedLanguage -> "no_supported_language"
-    is TranscriptionException.NoSpeechDetected -> "no_speech_${e.type}"
-    is TranscriptionException.TranscriptionServiceError -> "service_error"
+    is TranscriptionException.NotEnoughMemory -> "not_enough_memory" // not-localized
+    is TranscriptionException.TranscriptionServiceUnavailable -> "service_unavailable" // not-localized
+    is TranscriptionException.TranscriptionNetworkError -> "network_error" // not-localized
+    is TranscriptionException.TranscriptionRequiresDownload -> "requires_download" // not-localized
+    is TranscriptionException.NoSupportedLanguage -> "no_supported_language" // not-localized
+    is TranscriptionException.NoSpeechDetected -> "no_speech_${e.type}" // not-localized
+    is TranscriptionException.TranscriptionServiceError -> "service_error" // not-localized
     is TimeoutCancellationException -> "timeout"
     else -> e::class.simpleName ?: "unknown"
 }

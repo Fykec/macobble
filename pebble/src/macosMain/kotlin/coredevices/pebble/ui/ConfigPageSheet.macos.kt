@@ -5,12 +5,14 @@ import coredevices.pebble.config.CONFIG_NATIVE_NAMESPACE
 import coredevices.pebble.config.CONFIG_PAGE_SHIM_JS
 import coredevices.pebble.config.ConfigPageBridge
 import io.ktor.http.decodeURLPart
+import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCAction
 import kotlinx.cinterop.ObjCSignatureOverride
 import platform.AppKit.NSApplication
 import platform.AppKit.NSBackingStoreBuffered
 import platform.AppKit.NSButton
+import platform.AppKit.NSProgressIndicator
 import platform.AppKit.NSView
 import platform.AppKit.NSViewHeightSizable
 import platform.AppKit.NSViewMinXMargin
@@ -24,6 +26,7 @@ import platform.AppKit.NSWindowStyleMaskTitled
 import platform.CoreGraphics.CGRectMake
 import platform.Foundation.NSNotification
 import platform.Foundation.NSError
+import platform.Foundation.NSTimer
 import platform.Foundation.NSSelectorFromString
 import platform.Foundation.NSURL
 import platform.Foundation.NSURLRequest
@@ -45,8 +48,11 @@ private const val DATA_URL_PREFIX = "data:text/html;charset=utf-8,"
 private const val CLOSE_URL_PREFIX = "pebblejs://close"
 private const val CONTENT_WIDTH = 860.0
 private const val CONTENT_HEIGHT = 720.0
-// Room for the close button above the page.
+// Room for the close button above the page, plus the loading bar at its foot.
 private const val BAR_HEIGHT = 38.0
+private const val PROGRESS_HEIGHT = 3.0
+
+private const val ESTIMATED_PROGRESS_POLL_SECONDS = 0.1
 
 // Same shapes the in-page interceptor accepts on the other platforms.
 private val closeUrlRegex = Regex("""^pebblejs://close(?:#|/\?|/)(.*)$""")
@@ -75,6 +81,9 @@ internal class ConfigPageSheet(
     private val logger = Logger.withTag("ConfigPageSheet")
     private var sheet: NSWindow? = null
     private var parent: NSWindow? = null
+    private var webView: WKWebView? = null
+    private var progressBar: NSProgressIndicator? = null
+    private var progressTimer: NSTimer? = null
     private var closed = false
 
     fun show() {
@@ -112,14 +121,30 @@ internal class ConfigPageSheet(
             CONFIG_NATIVE_NAMESPACE,
         )
 
-        val webView = WKWebView(frame = CGRectMake(0.0, 0.0, CONTENT_WIDTH, CONTENT_HEIGHT - BAR_HEIGHT), configuration = configuration)
+        val webViewHeight = CONTENT_HEIGHT - BAR_HEIGHT - PROGRESS_HEIGHT
+        val webView = WKWebView(frame = CGRectMake(0.0, 0.0, CONTENT_WIDTH, webViewHeight), configuration = configuration)
         webView.navigationDelegate = this
         webView.setAutoresizingMask(NSViewWidthSizable or NSViewHeightSizable)
         bridge.attach { js -> webView.evaluateJavaScript(js, null) }
+        this.webView = webView
 
         // A sheet gets no traffic lights, so it carries its own way out.
         val content = NSView(frame = CGRectMake(0.0, 0.0, CONTENT_WIDTH, CONTENT_HEIGHT))
         content.addSubview(webView)
+
+        // Loading progress, WKWebView's own estimate, hidden once the page is up.
+        val progressBar = NSProgressIndicator()
+        progressBar.setIndeterminate(false)
+        progressBar.setMinValue(0.0)
+        progressBar.setMaxValue(1.0)
+        progressBar.setDoubleValue(0.0)
+        progressBar.setFrame(
+            CGRectMake(0.0, CONTENT_HEIGHT - BAR_HEIGHT - PROGRESS_HEIGHT, CONTENT_WIDTH, PROGRESS_HEIGHT)
+        )
+        progressBar.setAutoresizingMask(NSViewWidthSizable or NSViewMinYMargin)
+        progressBar.setHidden(true)
+        content.addSubview(progressBar)
+        this.progressBar = progressBar
         val closeButton = NSButton.buttonWithTitle(
             closeLabel,
             target = this,
@@ -196,6 +221,24 @@ internal class ConfigPageSheet(
     @ObjCSignatureOverride
     override fun webView(
         webView: WKWebView,
+        didStartProvisionalNavigation: WKNavigation?,
+    ) {
+        progressBar?.let {
+            it.setDoubleValue(0.0)
+            it.setHidden(false)
+        }
+        startProgressPolling()
+    }
+
+    @ObjCSignatureOverride
+    override fun webView(webView: WKWebView, didFinishNavigation: WKNavigation?) {
+        stopProgressPolling()
+        progressBar?.setHidden(true)
+    }
+
+    @ObjCSignatureOverride
+    override fun webView(
+        webView: WKWebView,
         didFailProvisionalNavigation: WKNavigation?,
         withError: NSError,
     ) = failed()
@@ -209,6 +252,28 @@ internal class ConfigPageSheet(
 
     override fun windowWillClose(notification: NSNotification) {
         closedByPage(null)
+    }
+
+    /** WKWebView only exposes its progress through KVO, which Kotlin/Native doesn't bind, so poll it. */
+    private fun startProgressPolling() {
+        progressTimer?.invalidate()
+        progressTimer = NSTimer.scheduledTimerWithTimeInterval(
+            ESTIMATED_PROGRESS_POLL_SECONDS,
+            repeats = true,
+        ) { _ ->
+            val loaded = webView?.estimatedProgress ?: 1.0
+            progressBar?.let {
+                it.setDoubleValue(loaded)
+                // It stays at 1.0 afterwards; the bar is only interesting while it climbs.
+                it.setHidden(loaded >= 1.0)
+            }
+            if (loaded >= 1.0) stopProgressPolling()
+        }
+    }
+
+    private fun stopProgressPolling() {
+        progressTimer?.invalidate()
+        progressTimer = null
     }
 
     /** The page handed back its configuration. */
@@ -227,6 +292,9 @@ internal class ConfigPageSheet(
     }
 
     private fun detachSheet() {
+        stopProgressPolling()
+        webView = null
+        progressBar = null
         val sheetWindow = sheet ?: return
         sheet = null
         sheetWindow.delegate = null

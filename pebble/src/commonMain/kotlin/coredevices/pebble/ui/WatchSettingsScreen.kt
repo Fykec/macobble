@@ -195,6 +195,8 @@ import coredevices.util.models.ModelManager
 import coredevices.util.models.RecommendedModel
 import coredevices.util.models.inProgress
 import coredevices.util.rememberUiContext
+import coredevices.util.Platform as UtilPlatform
+import coredevices.util.isMacos
 import coredevices.util.transcription.PlatformSpeechRecognizer
 import coredevices.util.transcription.SpeechModelAvailability
 import coredevices.util.transcription.SpokenLanguageOptions
@@ -328,6 +330,7 @@ import coreapp.pebble.generated.resources.show_legacy_watches_in_ble_scan
 import coreapp.pebble.generated.resources.show_notifications_in_phone_logs
 import coreapp.pebble.generated.resources.show_ring_onboarding
 import coreapp.pebble.generated.resources.show_sensitive_content_in_phone_logs
+import coreapp.pebble.generated.resources.show_debug_log_overlay
 import coreapp.pebble.generated.resources.show_watch_connection_debug_info
 import coreapp.pebble.generated.resources.show_watch_onboarding
 import coreapp.pebble.generated.resources.sign_in_pebble_account
@@ -635,6 +638,7 @@ fun rememberSettingsItemsState(navBarNav: NavBarNav?, snackbarDisplay: SnackbarD
     val libPebbleConfig by libPebble.config.collectAsState()
     val coreConfigHolder: CoreConfigHolder = koinInject()
     val coreConfig by coreConfigHolder.config.collectAsState()
+    val appPlatform: UtilPlatform = koinInject()
     val themeProvider: ThemeProvider = koinInject()
     val settings: Settings = koinInject()
     val currentTheme by themeProvider.theme.collectAsState()
@@ -2580,6 +2584,18 @@ fun rememberSettingsItemsState(navBarNav: NavBarNav?, snackbarDisplay: SnackbarD
                     onCheckChanged = {
                         coreConfigHolder.update(coreConfig.copy(interceptPKJSWeather = it))
                     },
+                ),
+                basicSettingsToggleItem(
+                    title = stringResource(Res.string.show_debug_log_overlay),
+                    description = "Log panel over the app window (macOS)",
+                    topLevelType = TopLevelType.Phone,
+                    section = Section.Debug,
+                    checked = coreConfig.showDebugLogOverlay,
+                    onCheckChanged = {
+                        coreConfigHolder.update(coreConfig.copy(showDebugLogOverlay = it))
+                    },
+                    show = { appPlatform.isMacos },
+                    isDebugSetting = true,
                 ),
                 basicSettingsToggleItem(
                     title = stringResource(Res.string.show_watch_connection_debug_info),

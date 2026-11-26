@@ -31,4 +31,5 @@ interface Platform {
 }
 
 inline val Platform.isIOS get() = name.contains("iOS", ignoreCase = true)
+inline val Platform.isMacos get() = name.contains("macOS", ignoreCase = true)
 inline val Platform.isAndroid get() = name.contains("Android", ignoreCase = true)

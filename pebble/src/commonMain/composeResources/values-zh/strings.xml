@@ -413,6 +413,7 @@
     <string name="settings_needs_sync">等待应用同步到手表</string>
     <string name="settings_needs_watch">请先连接手表再修改这些设置</string>
     <string name="settings_needs_compatible_watch">该应用不支持当前连接的手表</string>
+    <string name="show_debug_log_overlay">显示调试日志面板</string>
     <string name="third_watchface">第三个表盘</string>
     <string name="this_app_s_settings_page_may">此应用的设置页面可能已无法使用</string>
     <string name="this_device_is_already_paired_to">此设备已与另一部手机配对。</string>

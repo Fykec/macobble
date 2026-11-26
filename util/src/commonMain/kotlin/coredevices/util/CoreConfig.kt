@@ -117,6 +117,8 @@ data class CoreConfig(
     val showAppUpdatedBadge: Boolean = true,
     val androidForegroundServiceForWatchConnectionV2: Boolean = true,
     val showWatchConnectionDebugInfo: Boolean = false,
+    /** On-screen log panel over the app; the log file itself is always written. */
+    val showDebugLogOverlay: Boolean = false,
     val showIndexBatteryLife: Boolean = true,
     /** Stops the ring scan/sync loop, for when another profile's app instance owns the ring. */
     val disableRingBluetoothSync: Boolean = false,

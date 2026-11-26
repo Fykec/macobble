@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +22,8 @@ import coredevices.coreapp.ui.DebugLogOverlay
 import coredevices.coreapp.util.initLogging
 import coredevices.pebble.PebbleAppDelegate
 import coredevices.pebble.watchModule
+import coredevices.util.CoreConfigHolder
+import org.koin.compose.koinInject
 import org.koin.core.Koin
 import org.koin.core.context.startKoin
 import org.koin.mp.KoinPlatform
@@ -49,9 +53,15 @@ fun MacosApp() {
         }
     }
     CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
+        // Off by default; the log panel is a debugging aid, toggled in Settings > Debug. The log file
+        // is written either way (see DebugLogs.startWriting).
+        val coreConfigHolder: CoreConfigHolder = koinInject()
+        val coreConfig by coreConfigHolder.config.collectAsState()
         Box(Modifier.fillMaxSize()) {
             App()
-            DebugLogOverlay(Modifier.align(Alignment.BottomCenter))
+            if (coreConfig.showDebugLogOverlay) {
+                DebugLogOverlay(Modifier.align(Alignment.BottomCenter))
+            }
         }
     }
 }

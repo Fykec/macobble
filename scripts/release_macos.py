@@ -165,7 +165,7 @@ def make_dmg(version: str, workdir: Path) -> tuple[Path, str]:
             "-ov", "-format", "UDZO", "-fs", "HFS+", str(dmg),
         ]
     )
-    run(["hdiutil", "verify", str(dmg)])
+    run(["hdiutil", "verify", str(dmg)], capture=True)
     digest = hashlib.sha256(dmg.read_bytes()).hexdigest()
     print(f"  {dmg_name}: {dmg.stat().st_size / 1e6:.1f} MB, sha256 {digest}")
     return dmg, digest
@@ -257,9 +257,14 @@ def main() -> int:
         notes = render_notes(version, dmg.name, digest, workdir)
 
         if args.dry_run:
+            # Keep the artifacts somewhere the caller can inspect; the scratch dir is about to go.
+            keep = REPO_ROOT / "macosApp/build/release"
+            keep.mkdir(parents=True, exist_ok=True)
+            kept_dmg = Path(shutil.copy2(dmg, keep / dmg.name))
+            kept_notes = Path(shutil.copy2(notes, keep / notes.name))
             print("\nDry run: stopping before commit/tag/push/release. Artifacts:")
-            print(f"  DMG:   {dmg}")
-            print(f"  notes: {notes}")
+            print(f"  DMG:   {kept_dmg}")
+            print(f"  notes: {kept_notes}")
             print(f"  would tag v{version} and publish to {args.repo or release_repo()}")
             return 0
 

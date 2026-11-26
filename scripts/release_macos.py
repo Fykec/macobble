@@ -163,7 +163,8 @@ def make_dmg(version: str, workdir: Path) -> tuple[Path, str]:
         [
             "hdiutil", "create", "-volname", f"Pebble {version}", "-srcfolder", str(stage),
             "-ov", "-format", "UDZO", "-fs", "HFS+", str(dmg),
-        ]
+        ],
+        capture=True,
     )
     run(["hdiutil", "verify", str(dmg)], capture=True)
     digest = hashlib.sha256(dmg.read_bytes()).hexdigest()

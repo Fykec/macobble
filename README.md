@@ -225,6 +225,26 @@ git tag to build.
 - **Stubbed:** Firebase and some other Apple/Android-only dependencies are replaced by `macos-stubs`,
   so bug reporting, analytics and cloud-backed features are unavailable.
 
+#### Releasing
+
+One command builds, versions, tags and publishes. It refuses to start on a dirty tree, and
+re-release with the same version is blocked by the tag check:
+
+```bash
+scripts/release_macos.py 0.0.10            # build, commit the version bump, tag, push, publish
+scripts/release_macos.py 0.0.10 --dry-run  # stop once the DMG is built, for inspection
+```
+
+The script sets `CFBundleShortVersionString`/`CFBundleVersion` from the version you pass, builds
+`Pebble.app`, ad-hoc signs it, packs `Pebble-<version>-macos-arm64.dmg` (with the code of the commit
+it tags), renders `macosApp/release-notes.md`, then commits, tags `v<version>`, pushes and uploads
+the DMG to the GitHub release. `--no-upload` stops after the push; `--dry-run` keeps the DMG and notes
+in `macosApp/build/release/` for you to try out.
+
+Requirements: Java 17+, Xcode command line tools, and `gh auth login` with `repo` scope (only needed
+when uploading) — the repo is taken from `origin`. Nothing is notarized, so releases are ad-hoc signed
+and the notes tell testers how to get past Gatekeeper.
+
 #### Debugging
 
 - Log file (always written): `~/Library/Logs/CoreApp/macos.log`. `latest.log` in the same directory

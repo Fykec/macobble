@@ -1,6 +1,6 @@
-# Pebble Mobile app
+# Pebble App
 
-Welcome to the official source code for the Pebble mobile app. Download the app from the [iOS Appstore](https://apps.apple.com/us/app/pebble-core/id6743771967) or [Google Play](https://play.google.com/store/apps/details?id=coredevices.coreapp&hl=en_US). The app is entirely open source. 
+Welcome to the official source code for the Pebble app. Download the mobile app from the [iOS Appstore](https://apps.apple.com/us/app/pebble-core/id6743771967) or [Google Play](https://play.google.com/store/apps/details?id=coredevices.coreapp&hl=en_US). The app is entirely open source. 
 
 This app supports ALL Pebble watches, and Pebble Index 01 rings.
 
@@ -40,9 +40,9 @@ Module map:
 
 Stack at a glance: Koin (DI), Ktor (HTTP), Room (storage), Kermit (logging), coroutines/Flow throughout.
 
-# Mobile App
+# The app
 
-The cross-platform Pebble mobile app is located in `composeApp`.
+The cross-platform Pebble app is located in `composeApp`, and is built for Android, iOS and macOS.
 
 Several features (e.g. bug reporting, google login, memfault, online transcription, github developer connection) will not work without tokens configured in `gradle.properties` (but all core features do work).
 

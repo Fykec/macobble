@@ -10,7 +10,7 @@ This app supports ALL Pebble watches, and Pebble Index 01 rings.
 
 **New to Pebble?** A Pebble watch runs its own firmware and its own apps/watchfaces, but has no internet connection of its own. This app is the watch's companion and gateway to the world: it holds a persistent Bluetooth connection (BLE, or Bluetooth Classic on older watches) to relay notifications, sync data (time, weather, calendar, contacts, health), install watchapps, and proxy network requests on the watch's behalf. Much of the app's job is to be a reliable background service that stays connected and answers the watch quickly.
 
-The codebase is **Kotlin Multiplatform + Compose Multiplatform**: one shared codebase — including the UI — builds both the Android and iOS apps. Almost everything lives in `commonMain`; platform-specific pieces (BLE stack, notification access, background execution) sit behind `expect`/`actual` interfaces. On iOS, `iosApp` is a thin Swift shell that embeds the shared Kotlin code as a framework via CocoaPods.
+The codebase is **Kotlin Multiplatform + Compose Multiplatform**: one shared codebase — including the UI — builds the Android, iOS and macOS apps. Almost everything lives in `commonMain`; platform-specific pieces (BLE stack, notification access, background execution) sit behind `expect`/`actual` interfaces. On iOS, `iosApp` is a thin Swift shell that embeds the shared Kotlin code as a framework via CocoaPods. On macOS, `macosApp` is a small Kotlin/Native executable around the same Compose UI, sharing the Apple BLE stack with iOS through `appleMain`.
 
 Watch communication lives in `libpebble3` and follows a few core concepts:
 
@@ -24,6 +24,10 @@ Module map:
 | Module | What it is |
 |---|---|
 | `composeApp` | App entry point: Compose UI, navigation, DI wiring (Koin), Firebase |
+| `androidApp` | Android application shell: manifest, launcher resources, signing |
+| `iosApp` | iOS application shell: Swift entry point, Xcode project, pods |
+| `macosApp` | macOS application shell: Kotlin/Native executable, `Info.plist`, and the `bundleApp` task that assembles `Pebble.app` |
+| `macos-stubs` | No-op implementations of Android/iOS-only dependencies (Firebase, compass geocoder/autocomplete, haversine, health) so the shared code links for macOS |
 | `libpebble3` | Everything needed to talk to a Pebble watch: BLE transport, protocol, services, BlobDB sync. Also usable as a standalone library |
 | `pebble` | Pebble app features shared between platforms, above the library layer |
 | `experimental` | Pebble Index 01 (ring) support: continuous BLE scanning, voice-note recording and ingestion |
@@ -175,8 +179,64 @@ Several features (e.g. bug reporting, google login, memfault, online transcripti
    > Until then, run on a physical device. Note the simulator has no
    > Bluetooth in any case, so connecting a watch requires a device.
 
+### macOS
 
+The macOS app is the same shared UI (`composeApp`) wrapped in a small Kotlin/Native executable in
+`macosApp`. It is a `macosArm64` target built entirely with Gradle — there is no Xcode project to
+open, and the Apple BLE stack is shared with iOS through the `appleMain` source set.
 
+#### Prerequisites
+
+1. **Install Java 17** for Gradle, as described for iOS above.
+2. **Install Xcode command line tools** (`xcode-select --install`), which provide the macOS SDK and
+the toolchain Kotlin/Native links against.
+
+No Android SDK, CocoaPods or `google-services.json` is needed for this target.
+
+#### Build and Run
+
+```bash
+# Compile only (a quick check while iterating)
+./gradlew :macosApp:compileKotlinMacosArm64
+
+# Link the binary and assemble Pebble.app (ad-hoc signed)
+./gradlew :macosApp:bundleApp
+
+# Launch it
+open macosApp/build/macosApp/Pebble.app
+```
+
+`bundleApp` copies everything the app reads out of its own bundle: `Info.plist`, the icon,
+localizations, the merged Compose resources, and the two scripts the PebbleKit JS runner loads from
+`NSBundle` (`JSTimeout.js` and `startup.js`) — a missing script there is what makes watchapp
+companion apps fail to start.
+
+Versions come from `CFBundleShortVersionString` in
+`macosApp/src/macosMain/resources/Info.plist`, so unlike Android and iOS this target does not need a
+git tag to build.
+
+#### What works, and what doesn't yet
+
+- **Works:** connecting a watch over BLE, notifications, sync (time, weather, calendar, health),
+  installing watchapps and watchfaces from the store, watchapp config pages (embedded `WKWebView`
+  in a sheet), permissions, settings.
+- **Not included:** the Pebble Index 01 ring (`experimental` is built for Android and iOS only),
+  plugins, and anything that depends on the ring.
+- **Stubbed:** Firebase and some other Apple/Android-only dependencies are replaced by `macos-stubs`,
+  so bug reporting, analytics and cloud-backed features are unavailable.
+
+#### Debugging
+
+- Log file (always written): `~/Library/Logs/CoreApp/macos.log`. `latest.log` in the same directory
+  holds the current session.
+- On-screen log overlay: `Settings → Debug → Show debug log panel` (off by default).
+- Verbose connection logging (e.g. per-packet PPoG traces): `Settings → Diagnostics`.
+- Crashes are written to `~/Library/Logs/DiagnosticReports/`, but those reports do not contain the
+  Kotlin exception. To see it, run the binary from a terminal so stderr is captured:
+
+  ```bash
+  macosApp/build/macosApp/Pebble.app/Contents/MacOS/Pebble
+  ```
 
 # Naming your project
 
@@ -189,6 +249,8 @@ Pebble employs several (extremely busy) full time mobile developers to work on t
 # Reporting bugs
 
 Please use the built-in bug report feature in the Pebble app by going to Settings > Get Help > New Bug Report instead of Github issues, as the internal bug reports contain more information for us to debug most issues. 
+
+On macOS the in-app bug report is not available yet (it lives behind the Index/ring screens, which this build does not include); attach `~/Library/Logs/CoreApp/macos.log` to a Github issue instead.
 
 # Development Guidelines
 
